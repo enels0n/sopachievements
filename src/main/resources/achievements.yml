@@ -445,3 +445,44 @@ achievements:
             type: break_block
             value: COAL_ORE
             amount: 12
+
+  furnace_worker:
+    category: main
+    title: "&6Furnace Worker"
+    description: "&7Take 32 iron ingots out of a furnace."
+    icon: FURNACE
+    frame: task
+    x: 20
+    y: 0
+    parent: bread_maker
+    trigger:
+      type: smelt_item
+      value: IRON_INGOT
+      amount: 32
+
+  collector_cache:
+    category: main
+    title: "&eStockpile"
+    description: "&7Hold 64 cobblestone in your inventory at once."
+    icon: BARREL
+    frame: task
+    x: 20
+    y: 2
+    parent: collector
+    trigger:
+      type: inventory_contains
+      value: COBBLESTONE
+      amount: 64
+
+  vanilla_story:
+    category: main
+    title: "&5Storyline Link"
+    description: "&7Complete the vanilla Nether advancement."
+    icon: CRYING_OBSIDIAN
+    frame: goal
+    x: 20
+    y: 4
+    parent: dimension_traveler
+    trigger:
+      type: player_advancement
+      value: minecraft:story/enter_the_nether

@@ -26,7 +26,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
     private AchievementConditionService conditionService;
     private AchievementRewardService rewardService;
     private AchievementTriggerService triggerService;
-    private int statisticTaskId = -1;
+    private int syncTaskId = -1;
 
     @Override
     public void onEnable() {
@@ -52,7 +52,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
     public boolean reloadPlugin() {
         reloadConfig();
         try {
-            stopStatisticTask();
+            stopSyncTask();
             AchievementRegistryModel loaded = new AchievementConfigLoader(this).load();
             this.registryModel = loaded;
             this.triggerService.reload(loaded);
@@ -62,7 +62,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
                     progressService.ensureAwardConsistency(definition, Collections.unmodifiableMap(loaded.getAchievements()));
                 }
             }
-            startStatisticTask();
+            startSyncTask();
             return true;
         } catch (Exception exception) {
             getLogger().severe("Failed to reload SopAchievements: " + exception.getMessage());
@@ -73,7 +73,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        stopStatisticTask();
+        stopSyncTask();
     }
 
     public MessageService getMessageService() {
@@ -111,22 +111,24 @@ public final class SopAchievementsPlugin extends JavaPlugin {
         }
     }
 
-    private void startStatisticTask() {
-        int interval = Math.max(20, getConfig().getInt("settings.statistic-check-interval-ticks", 100));
-        this.statisticTaskId = getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+    private void startSyncTask() {
+        int interval = Math.max(20, getConfig().getInt("settings.sync-check-interval-ticks",
+                getConfig().getInt("settings.statistic-check-interval-ticks", 100)));
+        this.syncTaskId = getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             @Override
             public void run() {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     triggerService.onStatisticSync(player);
+                    triggerService.onInventorySync(player);
                 }
             }
         }, interval, interval);
     }
 
-    private void stopStatisticTask() {
-        if (statisticTaskId != -1) {
-            getServer().getScheduler().cancelTask(statisticTaskId);
-            statisticTaskId = -1;
+    private void stopSyncTask() {
+        if (syncTaskId != -1) {
+            getServer().getScheduler().cancelTask(syncTaskId);
+            syncTaskId = -1;
         }
     }
 }

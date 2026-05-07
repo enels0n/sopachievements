@@ -44,6 +44,9 @@ The first working layer includes:
 - `fish_item`
 - `harvest`
 - `statistic`
+- `smelt_item`
+- `player_advancement`
+- `inventory_contains`
 
 ## Optional Conditions
 
@@ -203,6 +206,19 @@ hunter_training:
 ```
 
 If `requirements.criteria` is omitted, the old single `trigger` format still works unchanged.
+
+## Additional Trigger Notes
+
+`smelt_item`
+- increments when a player extracts items from a furnace
+
+`player_advancement`
+- reacts to a completed vanilla or external advancement key
+- example value: `minecraft:story/enter_the_nether`
+
+`inventory_contains`
+- checked by the periodic sync task
+- completes when the player holds at least the configured amount of an item at once
 
 ## Output
 

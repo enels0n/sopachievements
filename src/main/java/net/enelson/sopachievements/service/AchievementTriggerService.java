@@ -12,6 +12,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.World;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -55,6 +56,15 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onAdvancementDone(Player player, String advancementKey) {
+        for (CriterionBinding binding : get(TriggerType.PLAYER_ADVANCEMENT)) {
+            if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(advancementKey)) {
+                Map<String, String> context = with(baseContext(player, "player_advancement"), "advancement", advancementKey);
+                incrementIfMatches(player, binding, 1, context);
+            }
+        }
+    }
+
     public void onBlockBreak(Player player, Material material) {
         for (CriterionBinding binding : get(TriggerType.BREAK_BLOCK)) {
             if (materialMatches(binding.criterion, material)) {
@@ -87,6 +97,15 @@ public final class AchievementTriggerService {
             if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "craft_item"), "material", material.name());
                 incrementIfMatches(player, binding, 1, context);
+            }
+        }
+    }
+
+    public void onSmeltItem(Player player, Material material, int amount) {
+        for (CriterionBinding binding : get(TriggerType.SMELT_ITEM)) {
+            if (materialMatches(binding.criterion, material)) {
+                Map<String, String> context = with(baseContext(player, "smelt_item"), "material", material.name(), "amount", String.valueOf(amount));
+                incrementIfMatches(player, binding, Math.max(1, amount), context);
             }
         }
     }
@@ -256,6 +275,22 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onInventorySync(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        for (CriterionBinding binding : get(TriggerType.INVENTORY_CONTAINS)) {
+            Material material = materialFrom(binding.criterion.getTrigger().getString("material", binding.criterion.getTrigger().getString("value", "")));
+            if (material == null) {
+                continue;
+            }
+            int count = countItems(inventory, material);
+            if (count <= 0) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "inventory_contains"), "material", material.name(), "amount", String.valueOf(count));
+            syncAbsoluteIfMatches(player, binding, count, context);
+        }
+    }
+
     public void onMove(Player player, double fromY, double toY, boolean onGroundNow) {
         if (get(TriggerType.FALL_RANGE).isEmpty()) {
             return;
@@ -385,6 +420,24 @@ public final class AchievementTriggerService {
         }
     }
 
+    private Material materialFrom(String raw) {
+        if (raw == null || raw.trim().isEmpty()) {
+            return null;
+        }
+        return Material.matchMaterial(raw.trim());
+    }
+
+    private int countItems(PlayerInventory inventory, Material material) {
+        int total = 0;
+        for (ItemStack itemStack : inventory.getContents()) {
+            if (itemStack == null || itemStack.getType() != material) {
+                continue;
+            }
+            total += Math.max(0, itemStack.getAmount());
+        }
+        return total;
+    }
+
     private Map<String, String> baseContext(Player player, String eventType) {
         return plugin.getConditionService().baseContext(player, eventType);
     }
@@ -445,7 +498,10 @@ public final class AchievementTriggerService {
         TRAVEL_DISTANCE,
         FISH_ITEM,
         HARVEST,
-        STATISTIC;
+        STATISTIC,
+        SMELT_ITEM,
+        PLAYER_ADVANCEMENT,
+        INVENTORY_CONTAINS;
 
         static TriggerType from(String raw) {
             if (raw == null) {

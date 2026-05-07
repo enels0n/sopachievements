@@ -19,7 +19,9 @@ import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -41,6 +43,8 @@ public final class AchievementEventListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         plugin.getTriggerService().onJoin(event.getPlayer());
         plugin.getTriggerService().onEnterWorld(event.getPlayer(), event.getPlayer().getWorld());
+        plugin.getTriggerService().onStatisticSync(event.getPlayer());
+        plugin.getTriggerService().onInventorySync(event.getPlayer());
     }
 
     @EventHandler
@@ -78,6 +82,11 @@ public final class AchievementEventListener implements Listener {
             return;
         }
         plugin.getTriggerService().onCraft((Player) event.getWhoClicked(), item.getType());
+    }
+
+    @EventHandler
+    public void onSmelt(FurnaceExtractEvent event) {
+        plugin.getTriggerService().onSmeltItem(event.getPlayer(), event.getItemType(), event.getItemAmount());
     }
 
     @EventHandler
@@ -120,6 +129,11 @@ public final class AchievementEventListener implements Listener {
     public void onWorldChange(PlayerChangedWorldEvent event) {
         plugin.getTriggerService().onEnterWorld(event.getPlayer(), event.getPlayer().getWorld());
         plugin.getTriggerService().resetTransientState(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onAdvancement(PlayerAdvancementDoneEvent event) {
+        plugin.getTriggerService().onAdvancementDone(event.getPlayer(), event.getAdvancement().getKey().toString());
     }
 
     @EventHandler
