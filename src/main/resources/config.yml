@@ -1,0 +1,10 @@
+messages:
+  prefix: "&6SopAchievements &8| &r"
+  no-permission: "&cYou do not have permission to do this."
+  reload-success: "&aSopAchievements reloaded."
+  reload-failed: "&cFailed to reload SopAchievements. Check the console."
+  advancement-load-failed: "&cFailed to register advancement %id%."
+
+settings:
+  namespace: "sopachievements"
+  remove-missing-on-reload: true

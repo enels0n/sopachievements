@@ -1,0 +1,79 @@
+categories:
+  main:
+    title: "&6SopAchievements"
+    description: "&7Main achievement tab"
+    icon: GRASS_BLOCK
+    background: minecraft:textures/gui/advancements/backgrounds/stone.png
+
+achievements:
+  first_join:
+    category: main
+    title: "&aFirst Steps"
+    description: "&7Join the server once."
+    icon: OAK_DOOR
+    frame: task
+    x: 0
+    y: 0
+    trigger:
+      type: join
+      amount: 1
+
+  stone_miner:
+    category: main
+    title: "&7Stone Miner"
+    description: "&7Break 16 stone blocks."
+    icon: STONE_PICKAXE
+    frame: task
+    x: 2
+    y: 0
+    parent: first_join
+    trigger:
+      type: break_block
+      material: STONE
+      amount: 16
+
+  zombie_slayer:
+    category: main
+    title: "&2Zombie Slayer"
+    description: "&7Kill 5 zombies."
+    icon: IRON_SWORD
+    frame: goal
+    x: 4
+    y: 0
+    parent: stone_miner
+    trigger:
+      type: kill_entity
+      entity-type: ZOMBIE
+      amount: 5
+
+  bread_maker:
+    category: main
+    title: "&6Bread Maker"
+    description: "&7Craft bread once."
+    icon: BREAD
+    frame: task
+    x: 2
+    y: 2
+    parent: first_join
+    trigger:
+      type: craft_item
+      material: BREAD
+      amount: 1
+
+  sky_to_bottom:
+    category: main
+    title: "&cFrom Sky To Bedrock"
+    description: "&7Fall from high in the sky to near bedrock in one drop."
+    icon: FEATHER
+    frame: challenge
+    x: 6
+    y: 0
+    parent: zombie_slayer
+    trigger:
+      type: fall_range
+      start-y-min: 250
+      end-y-max: 5
+      same-world-only: true
+      deny-flight: true
+      deny-vehicles: true
+      deny-elytra: true

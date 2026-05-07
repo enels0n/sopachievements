@@ -1,0 +1,13 @@
+name: ${project.name}
+main: net.enelson.sopachievements.SopAchievementsPlugin
+version: ${project.version}
+authors: [E_NeLsOn]
+api-version: 1.16
+depend: [SopLib]
+softdepend: [PlaceholderAPI]
+commands:
+  sopachievements:
+    aliases: [achievementsadmin]
+permissions:
+  sopachievements.admin:
+    default: op
