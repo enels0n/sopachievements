@@ -120,6 +120,8 @@ public final class SopAchievementsPlugin extends JavaPlugin {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     triggerService.onStatisticSync(player);
                     triggerService.onInventorySync(player);
+                    triggerService.onEquipSync(player);
+                    triggerService.onLocationRangeSync(player);
                 }
             }
         }, interval, interval);

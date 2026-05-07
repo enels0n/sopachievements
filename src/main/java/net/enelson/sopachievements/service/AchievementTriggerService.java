@@ -7,6 +7,7 @@ import net.enelson.sopachievements.model.AchievementRegistryModel;
 import net.enelson.sopachievements.util.ValueMatcher;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -30,6 +31,7 @@ public final class AchievementTriggerService {
     private final SopAchievementsPlugin plugin;
     private final Map<TriggerType, List<CriterionBinding>> indexed = new EnumMap<TriggerType, List<CriterionBinding>>(TriggerType.class);
     private final Map<String, FallSession> fallSessions = new HashMap<String, FallSession>();
+    private final Map<String, BiomeStaySession> biomeStaySessions = new HashMap<String, BiomeStaySession>();
 
     public AchievementTriggerService(SopAchievementsPlugin plugin) {
         this.plugin = plugin;
@@ -49,6 +51,7 @@ public final class AchievementTriggerService {
             }
         }
         fallSessions.clear();
+        biomeStaySessions.clear();
     }
 
     public void onJoin(Player player) {
@@ -93,6 +96,24 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onVillagerTrade(Player player, Material result, int amount) {
+        for (CriterionBinding binding : get(TriggerType.VILLAGER_TRADE)) {
+            if (materialMatches(binding.criterion, result)) {
+                Map<String, String> context = with(baseContext(player, "villager_trade"), "material", result.name(), "amount", String.valueOf(amount));
+                incrementIfMatches(player, binding, Math.max(1, amount), context);
+            }
+        }
+    }
+
+    public void onLootContainer(Player player, String inventoryType) {
+        for (CriterionBinding binding : get(TriggerType.LOOT_CONTAINER)) {
+            if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(inventoryType)) {
+                Map<String, String> context = with(baseContext(player, "loot_container"), "inventory_type", inventoryType);
+                incrementIfMatches(player, binding, 1, context);
+            }
+        }
+    }
+
     public void onPotionEffect(Player player, PotionEffectType effectType, int amplifier) {
         if (effectType == null) {
             return;
@@ -105,6 +126,21 @@ public final class AchievementTriggerService {
                     "effect_type", effectType.getName(),
                     "effect_level", String.valueOf(amplifier + 1));
             incrementIfMatches(player, binding, 1, context);
+        }
+    }
+
+    public void onEquipSync(Player player) {
+        for (CriterionBinding binding : get(TriggerType.EQUIP)) {
+            Material material = materialFrom(binding.criterion.getTrigger().getString("material", binding.criterion.getTrigger().getString("value", "")));
+            if (material == null) {
+                continue;
+            }
+            int count = countEquipped(player.getInventory(), material);
+            if (count <= 0) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "equip"), "material", material.name(), "amount", String.valueOf(count));
+            syncAbsoluteIfMatches(player, binding, count, context);
         }
     }
 
@@ -368,7 +404,18 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onLocationRangeSync(Player player) {
+        for (CriterionBinding binding : get(TriggerType.LOCATION_RANGE)) {
+            if (!isWithinRange(player, binding.criterion)) {
+                continue;
+            }
+            Map<String, String> context = baseContext(player, "location_range");
+            incrementIfMatches(player, binding, 1, context);
+        }
+    }
+
     public void onMove(Player player, double fromY, double toY, boolean onGroundNow) {
+        tickBiomeStay(player);
         if (get(TriggerType.FALL_RANGE).isEmpty()) {
             return;
         }
@@ -436,6 +483,7 @@ public final class AchievementTriggerService {
 
     public void resetTransientState(Player player) {
         fallSessions.remove(player.getUniqueId().toString());
+        biomeStaySessions.remove(player.getUniqueId().toString());
     }
 
     private List<CriterionBinding> get(TriggerType type) {
@@ -515,6 +563,89 @@ public final class AchievementTriggerService {
         return total;
     }
 
+    private int countEquipped(PlayerInventory inventory, Material material) {
+        int total = 0;
+        ItemStack helmet = inventory.getHelmet();
+        ItemStack chestplate = inventory.getChestplate();
+        ItemStack leggings = inventory.getLeggings();
+        ItemStack boots = inventory.getBoots();
+        ItemStack mainHand = inventory.getItemInMainHand();
+        ItemStack offHand = inventory.getItemInOffHand();
+        total += matchesItem(helmet, material);
+        total += matchesItem(chestplate, material);
+        total += matchesItem(leggings, material);
+        total += matchesItem(boots, material);
+        total += matchesItem(mainHand, material);
+        total += matchesItem(offHand, material);
+        return total;
+    }
+
+    private int matchesItem(ItemStack itemStack, Material material) {
+        return itemStack != null && itemStack.getType() == material ? Math.max(1, itemStack.getAmount()) : 0;
+    }
+
+    private boolean isWithinRange(Player player, AchievementCriterion criterion) {
+        String world = criterion.getTrigger().getString("world", "");
+        if (!world.trim().isEmpty() && !player.getWorld().getName().equalsIgnoreCase(world)) {
+            return false;
+        }
+        double x = player.getLocation().getX();
+        double y = player.getLocation().getY();
+        double z = player.getLocation().getZ();
+        return inRange(x, criterion.getTrigger().getString("x-min", ""), criterion.getTrigger().getString("x-max", ""))
+                && inRange(y, criterion.getTrigger().getString("y-min", ""), criterion.getTrigger().getString("y-max", ""))
+                && inRange(z, criterion.getTrigger().getString("z-min", ""), criterion.getTrigger().getString("z-max", ""));
+    }
+
+    private boolean inRange(double value, String minRaw, String maxRaw) {
+        Double min = toDouble(minRaw);
+        Double max = toDouble(maxRaw);
+        if (min != null && value < min.doubleValue()) {
+            return false;
+        }
+        if (max != null && value > max.doubleValue()) {
+            return false;
+        }
+        return true;
+    }
+
+    private Double toDouble(String raw) {
+        if (raw == null || raw.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            return Double.valueOf(raw.trim().replace(',', '.'));
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    private void tickBiomeStay(Player player) {
+        List<CriterionBinding> bindings = get(TriggerType.BIOME_STAY);
+        if (bindings.isEmpty()) {
+            return;
+        }
+        String key = player.getUniqueId().toString();
+        Biome biome = player.getLocation().getBlock().getBiome();
+        BiomeStaySession session = biomeStaySessions.get(key);
+        if (session == null || session.biome != biome || !session.worldName.equalsIgnoreCase(player.getWorld().getName())) {
+            session = new BiomeStaySession(player.getWorld().getName(), biome);
+            biomeStaySessions.put(key, session);
+        } else {
+            session.ticks++;
+        }
+        for (CriterionBinding binding : bindings) {
+            if (!ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(biome.name())) {
+                continue;
+            }
+            int seconds = Math.max(1, session.ticks / 20);
+            Map<String, String> context = with(baseContext(player, "biome_stay"),
+                    "biome", biome.name(),
+                    "time_seconds", String.valueOf(seconds));
+            syncAbsoluteIfMatches(player, binding, seconds, context);
+        }
+    }
+
     private Map<String, String> baseContext(Player player, String eventType) {
         return plugin.getConditionService().baseContext(player, eventType);
     }
@@ -563,6 +694,7 @@ public final class AchievementTriggerService {
         RAID_WIN,
         BUCKET,
         POTION_EFFECT,
+        VILLAGER_TRADE,
         BREAK_BLOCK,
         BLOCK_PLACE,
         KILL_ENTITY,
@@ -586,7 +718,11 @@ public final class AchievementTriggerService {
         STATISTIC,
         SMELT_ITEM,
         PLAYER_ADVANCEMENT,
-        INVENTORY_CONTAINS;
+        INVENTORY_CONTAINS,
+        EQUIP,
+        LOOT_CONTAINER,
+        BIOME_STAY,
+        LOCATION_RANGE;
 
         static TriggerType from(String raw) {
             if (raw == null) {
@@ -643,6 +779,18 @@ public final class AchievementTriggerService {
             this.worldName = worldName;
             this.startY = startY;
             this.lowestY = startY;
+        }
+    }
+
+    private static final class BiomeStaySession {
+        private final String worldName;
+        private final Biome biome;
+        private int ticks;
+
+        private BiomeStaySession(String worldName, Biome biome) {
+            this.worldName = worldName;
+            this.biome = biome;
+            this.ticks = 0;
         }
     }
 }

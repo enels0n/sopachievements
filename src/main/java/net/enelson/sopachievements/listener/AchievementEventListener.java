@@ -25,8 +25,12 @@ import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.BrewerInventory;
+import org.bukkit.inventory.MerchantInventory;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
@@ -127,6 +131,36 @@ public final class AchievementEventListener implements Listener {
             return;
         }
         plugin.getTriggerService().onCraft((Player) event.getWhoClicked(), item.getType());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onInventoryOpen(InventoryOpenEvent event) {
+        if (!(event.getPlayer() instanceof Player)) {
+            return;
+        }
+        InventoryType type = event.getInventory().getType();
+        if (type == null) {
+            return;
+        }
+        plugin.getTriggerService().onLootContainer((Player) event.getPlayer(), type.name());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onMerchantTrade(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player)) {
+            return;
+        }
+        if (!(event.getInventory() instanceof MerchantInventory)) {
+            return;
+        }
+        if (event.getSlotType() != org.bukkit.event.inventory.InventoryType.SlotType.RESULT) {
+            return;
+        }
+        ItemStack current = event.getCurrentItem();
+        if (current == null) {
+            return;
+        }
+        plugin.getTriggerService().onVillagerTrade((Player) event.getWhoClicked(), current.getType(), Math.max(1, current.getAmount()));
     }
 
     @EventHandler

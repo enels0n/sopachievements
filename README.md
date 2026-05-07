@@ -55,6 +55,11 @@ The first working layer includes:
 - `potion_effect`
 - `brew_item`
 - `raid_win`
+- `villager_trade`
+- `equip`
+- `loot_container`
+- `biome_stay`
+- `location_range`
 
 ## Optional Conditions
 
@@ -258,6 +263,26 @@ If `requirements.criteria` is omitted, the old single `trigger` format still wor
 
 `raid_win`
 - reacts when the player is listed among raid winners
+
+`villager_trade`
+- reacts when a player takes the result item from a villager trade
+- use `value` for the traded result item, for example `EMERALD`
+
+`equip`
+- checked by the periodic sync task
+- completes when the player has the target item equipped in armor or hands
+
+`loot_container`
+- reacts when a player opens an inventory
+- use values like `CHEST`, `BARREL`, `SHULKER_BOX`
+
+`biome_stay`
+- measured in seconds while the player remains in the same biome
+- use `value` for the biome name, for example `SWAMP`
+
+`location_range`
+- checked by the periodic sync task
+- supports `world`, `x-min`, `x-max`, `y-min`, `y-max`, `z-min`, `z-max`
 
 ## Output
 

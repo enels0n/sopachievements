@@ -605,3 +605,88 @@ achievements:
     trigger:
       type: raid_win
       amount: 1
+
+  emerald_client:
+    category: main
+    title: "&aEmerald Client"
+    description: "&7Trade with a villager for 16 emeralds."
+    icon: EMERALD
+    frame: goal
+    x: 28
+    y: 0
+    parent: village_dealer
+    trigger:
+      type: villager_trade
+      value: EMERALD
+      amount: 16
+
+  armored:
+    category: main
+    title: "&7Armored"
+    description: "&7Equip a diamond chestplate."
+    icon: DIAMOND_CHESTPLATE
+    frame: task
+    x: 28
+    y: 2
+    parent: hunter_force
+    trigger:
+      type: equip
+      value: DIAMOND_CHESTPLATE
+      amount: 1
+
+  treasure_room:
+    category: main
+    title: "&6Treasure Room"
+    description: "&7Open a chest or barrel."
+    icon: TRIPWIRE_HOOK
+    frame: task
+    x: 28
+    y: 4
+    parent: chest_looter
+    requirements:
+      type: any
+      criteria:
+        chest:
+          trigger:
+            type: loot_container
+            value: CHEST
+            amount: 1
+        barrel:
+          trigger:
+            type: loot_container
+            value: BARREL
+            amount: 1
+
+  swamp_resident:
+    category: main
+    title: "&2Swamp Resident"
+    description: "&7Stay in a swamp biome for 30 seconds."
+    icon: LILY_PAD
+    frame: goal
+    x: 30
+    y: 0
+    parent: walker
+    trigger:
+      type: biome_stay
+      value: SWAMP
+      amount: 30
+
+  spawn_arrival:
+    category: main
+    title: "&fSpawn Arrival"
+    description: "&7Reach the spawn square."
+    icon: MAP
+    frame: task
+    x: 30
+    y: 2
+    parent: command_user
+    trigger:
+      type: location_range
+      world: world
+      x-min: -10
+      x-max: 10
+      y-min: 60
+      y-max: 80
+      z-min: -10
+      z-max: 10
+      amount: 1
