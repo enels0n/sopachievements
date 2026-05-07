@@ -98,6 +98,40 @@ Built-in context values currently available in conditions include:
 
 If PlaceholderAPI is installed, `%...%` values are also resolved through PAPI for the current player.
 
+## Rewards
+
+Achievements can also execute reward actions on first completion only.
+
+Example:
+
+```yml
+sky_to_bottom:
+  trigger:
+    type: fall_range
+    start-y-min: 250
+    end-y-max: 5
+  rewards:
+    message: "&6Challenge complete: %achievement_title%"
+    commands:
+      - "[console] give %player_name% diamond 3"
+      - "[player] me just survived the abyss"
+```
+
+Supported reward placeholders currently include:
+
+- `%player_name%`
+- `%player_uuid%`
+- `%achievement_id%`
+- `%achievement_title%`
+- `%achievement_description%`
+- `%achievement_category%`
+
+Reward commands support:
+
+- `[console] ...`
+- `[player] ...`
+- or plain commands, which default to console execution
+
 ## Output
 
 Final jar:

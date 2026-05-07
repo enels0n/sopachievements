@@ -39,10 +39,15 @@ public final class AchievementProgressService {
             return;
         }
         AdvancementProgress progress = player.getAdvancementProgress(advancement);
+        if (progress.isDone()) {
+            setProgress(player, definition, definition.getTrigger().getInt("amount", 1));
+            return;
+        }
         for (String criteria : progress.getRemainingCriteria()) {
             progress.awardCriteria(criteria);
         }
         setProgress(player, definition, definition.getTrigger().getInt("amount", 1));
+        plugin.getRewardService().give(player, definition);
     }
 
     public boolean isAwarded(Player player, AchievementDefinition definition) {

@@ -8,6 +8,7 @@ import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
 import net.enelson.sopachievements.service.AchievementProgressService;
 import net.enelson.sopachievements.service.AchievementConditionService;
+import net.enelson.sopachievements.service.AchievementRewardService;
 import net.enelson.sopachievements.service.AchievementTriggerService;
 import net.enelson.sopachievements.service.MessageService;
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
     private AdvancementRegistry advancementRegistry;
     private AchievementProgressService progressService;
     private AchievementConditionService conditionService;
+    private AchievementRewardService rewardService;
     private AchievementTriggerService triggerService;
 
     @Override
@@ -33,6 +35,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
         this.advancementRegistry = new AdvancementRegistry(this);
         this.progressService = new AchievementProgressService(this);
         this.conditionService = new AchievementConditionService(this);
+        this.rewardService = new AchievementRewardService(this);
         this.triggerService = new AchievementTriggerService(this);
 
         if (!reloadPlugin()) {
@@ -82,6 +85,10 @@ public final class SopAchievementsPlugin extends JavaPlugin {
 
     public AchievementConditionService getConditionService() {
         return conditionService;
+    }
+
+    public AchievementRewardService getRewardService() {
+        return rewardService;
     }
 
     public AchievementTriggerService getTriggerService() {

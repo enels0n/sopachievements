@@ -6,6 +6,7 @@ import net.enelson.sopachievements.model.AchievementConditionCheck;
 import net.enelson.sopachievements.model.AchievementConditions;
 import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
+import net.enelson.sopachievements.model.AchievementRewards;
 import net.enelson.sopachievements.model.AchievementTrigger;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -66,6 +67,7 @@ public final class AchievementConfigLoader {
                         settings
                 );
                 AchievementConditions conditions = loadConditions(section.getConfigurationSection("conditions"));
+                AchievementRewards rewards = loadRewards(section.getConfigurationSection("rewards"));
                 achievements.put(id, new AchievementDefinition(
                         id,
                         section.getString("category", "main"),
@@ -80,7 +82,8 @@ public final class AchievementConfigLoader {
                         section.getBoolean("toast", true),
                         section.getBoolean("hidden", false),
                         trigger,
-                        conditions
+                        conditions,
+                        rewards
                 ));
             }
         }
@@ -109,5 +112,12 @@ public final class AchievementConfigLoader {
 
     private String stringValue(Object value, String defaultValue) {
         return value == null ? defaultValue : String.valueOf(value);
+    }
+
+    private AchievementRewards loadRewards(ConfigurationSection section) {
+        if (section == null) {
+            return new AchievementRewards(java.util.Collections.<String>emptyList(), "");
+        }
+        return new AchievementRewards(section.getStringList("commands"), section.getString("message", ""));
     }
 }

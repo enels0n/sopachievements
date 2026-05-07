@@ -16,6 +16,7 @@ public final class AchievementDefinition {
     private final boolean hidden;
     private final AchievementTrigger trigger;
     private final AchievementConditions conditions;
+    private final AchievementRewards rewards;
 
     public AchievementDefinition(String id,
                                  String categoryId,
@@ -30,7 +31,8 @@ public final class AchievementDefinition {
                                  boolean showToast,
                                  boolean hidden,
                                  AchievementTrigger trigger,
-                                 AchievementConditions conditions) {
+                                 AchievementConditions conditions,
+                                 AchievementRewards rewards) {
         this.id = id;
         this.categoryId = categoryId;
         this.title = title;
@@ -45,6 +47,7 @@ public final class AchievementDefinition {
         this.hidden = hidden;
         this.trigger = trigger;
         this.conditions = conditions;
+        this.rewards = rewards;
     }
 
     public String getId() {
@@ -101,6 +104,10 @@ public final class AchievementDefinition {
 
     public AchievementConditions getConditions() {
         return conditions;
+    }
+
+    public AchievementRewards getRewards() {
+        return rewards;
     }
 
     public boolean isRoot() {

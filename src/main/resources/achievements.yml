@@ -17,6 +17,8 @@ achievements:
     trigger:
       type: join
       amount: 1
+    rewards:
+      message: "&aYou unlocked %achievement_title%&a."
 
   stone_miner:
     category: main
@@ -77,6 +79,11 @@ achievements:
       deny-flight: true
       deny-vehicles: true
       deny-elytra: true
+    rewards:
+      message: "&6Challenge complete: %achievement_title%"
+      commands:
+        - "[console] give %player_name% diamond 3"
+        - "[console] xp add %player_name% 10 levels"
 
   apple_taste:
     category: main
@@ -309,6 +316,8 @@ achievements:
         - type: "string equals"
           input: "%player_biome%"
           output: "NETHER_WASTES"
+    rewards:
+      message: "&cNether work approved."
 
   command_sprinter:
     category: main
@@ -329,3 +338,6 @@ achievements:
         - type: "number <="
           input: "%player_y%"
           output: "40"
+    rewards:
+      commands:
+        - "[player] me speedran /spawn underground"
