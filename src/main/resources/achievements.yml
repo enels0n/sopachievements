@@ -341,3 +341,59 @@ achievements:
     rewards:
       commands:
         - "[player] me speedran /spawn underground"
+
+  jumper:
+    category: main
+    title: "&eJumping Bean"
+    description: "&7Jump 250 times."
+    icon: RABBIT_FOOT
+    frame: task
+    x: 16
+    y: 0
+    parent: first_join
+    trigger:
+      type: statistic
+      statistic: JUMP
+      amount: 250
+
+  sleeper:
+    category: main
+    title: "&9Heavy Sleeper"
+    description: "&7Sleep through 5 nights."
+    icon: RED_BED
+    frame: goal
+    x: 16
+    y: 2
+    parent: command_user
+    trigger:
+      type: statistic
+      statistic: SLEEP_IN_BED
+      amount: 5
+
+  walker:
+    category: main
+    title: "&fRoad Walker"
+    description: "&7Walk 5000 centimeters on land."
+    icon: IRON_BOOTS
+    frame: task
+    x: 16
+    y: 4
+    parent: marathon
+    trigger:
+      type: statistic
+      statistic: WALK_ONE_CM
+      amount: 5000
+
+  chest_looter:
+    category: main
+    title: "&6Treasure Fingers"
+    description: "&7Open 25 chests."
+    icon: CHEST
+    frame: goal
+    x: 18
+    y: 2
+    parent: collector
+    trigger:
+      type: statistic
+      statistic: CHEST_OPENED
+      amount: 25

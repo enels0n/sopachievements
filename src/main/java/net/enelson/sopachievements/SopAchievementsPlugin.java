@@ -12,6 +12,7 @@ import net.enelson.sopachievements.service.AchievementRewardService;
 import net.enelson.sopachievements.service.AchievementTriggerService;
 import net.enelson.sopachievements.service.MessageService;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
@@ -25,6 +26,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
     private AchievementConditionService conditionService;
     private AchievementRewardService rewardService;
     private AchievementTriggerService triggerService;
+    private int statisticTaskId = -1;
 
     @Override
     public void onEnable() {
@@ -50,6 +52,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
     public boolean reloadPlugin() {
         reloadConfig();
         try {
+            stopStatisticTask();
             AchievementRegistryModel loaded = new AchievementConfigLoader(this).load();
             this.registryModel = loaded;
             this.triggerService.reload(loaded);
@@ -59,12 +62,18 @@ public final class SopAchievementsPlugin extends JavaPlugin {
                     progressService.ensureAwardConsistency(definition, Collections.unmodifiableMap(loaded.getAchievements()));
                 }
             }
+            startStatisticTask();
             return true;
         } catch (Exception exception) {
             getLogger().severe("Failed to reload SopAchievements: " + exception.getMessage());
             exception.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public void onDisable() {
+        stopStatisticTask();
     }
 
     public MessageService getMessageService() {
@@ -99,6 +108,25 @@ public final class SopAchievementsPlugin extends JavaPlugin {
         java.io.File file = new java.io.File(getDataFolder(), path);
         if (!file.exists()) {
             saveResource(path, false);
+        }
+    }
+
+    private void startStatisticTask() {
+        int interval = Math.max(20, getConfig().getInt("settings.statistic-check-interval-ticks", 100));
+        this.statisticTaskId = getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    triggerService.onStatisticSync(player);
+                }
+            }
+        }, interval, interval);
+    }
+
+    private void stopStatisticTask() {
+        if (statisticTaskId != -1) {
+            getServer().getScheduler().cancelTask(statisticTaskId);
+            statisticTaskId = -1;
         }
     }
 }

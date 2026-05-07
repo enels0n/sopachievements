@@ -43,6 +43,7 @@ The first working layer includes:
 - `travel_distance`
 - `fish_item`
 - `harvest`
+- `statistic`
 
 ## Optional Conditions
 
@@ -131,6 +132,43 @@ Reward commands support:
 - `[console] ...`
 - `[player] ...`
 - or plain commands, which default to console execution
+
+## Statistic Trigger
+
+`statistic` achievements read vanilla Bukkit statistics on a configurable interval instead of listening to a dedicated event.
+
+Example:
+
+```yml
+jumper:
+  category: main
+  title: "&eJumping Bean"
+  icon: RABBIT_FOOT
+  trigger:
+    type: statistic
+    statistic: JUMP
+    amount: 250
+```
+
+Typed statistics are also supported with extra keys when Bukkit requires them:
+
+```yml
+zombie_hunter:
+  trigger:
+    type: statistic
+    statistic: KILL_ENTITY
+    entity-type: ZOMBIE
+    amount: 25
+```
+
+```yml
+diamond_digger:
+  trigger:
+    type: statistic
+    statistic: MINE_BLOCK
+    material: DIAMOND_ORE
+    amount: 12
+```
 
 ## Output
 

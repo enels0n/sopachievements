@@ -5,6 +5,7 @@ import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
 import net.enelson.sopachievements.util.ValueMatcher;
 import org.bukkit.Material;
+import org.bukkit.Statistic;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -235,6 +236,23 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onStatisticSync(Player player) {
+        for (AchievementDefinition definition : get(TriggerType.STATISTIC)) {
+            Statistic statistic = resolveStatistic(definition);
+            if (statistic == null) {
+                continue;
+            }
+            Integer progress = resolveStatisticValue(player, definition, statistic);
+            if (progress == null || progress.intValue() <= 0) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "statistic"),
+                    "statistic", statistic.name(),
+                    "amount", String.valueOf(progress.intValue()));
+            syncAbsoluteIfMatches(player, definition, progress.intValue(), context);
+        }
+    }
+
     public void onMove(Player player, double fromY, double toY, boolean onGroundNow) {
         if (get(TriggerType.FALL_RANGE).isEmpty()) {
             return;
@@ -320,6 +338,50 @@ public final class AchievementTriggerService {
         return ValueMatcher.parse(raw).matches(entityType.name());
     }
 
+    private Statistic resolveStatistic(AchievementDefinition definition) {
+        String raw = definition.getTrigger().getString("statistic", definition.getTrigger().getString("value", ""));
+        if (raw.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            return Statistic.valueOf(raw.trim().toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ignored) {
+            return null;
+        }
+    }
+
+    private Integer resolveStatisticValue(Player player, AchievementDefinition definition, Statistic statistic) {
+        try {
+            Type statisticType = Type.fromName(statistic.getType().name());
+            if (statisticType == Type.BLOCK) {
+                Material material = Material.matchMaterial(definition.getTrigger().getString("material", ""));
+                return material == null ? null : Integer.valueOf(player.getStatistic(statistic, material));
+            }
+            if (statisticType == Type.ITEM) {
+                Material material = Material.matchMaterial(definition.getTrigger().getString("material", ""));
+                return material == null ? null : Integer.valueOf(player.getStatistic(statistic, material));
+            }
+            if (statisticType == Type.ENTITY) {
+                EntityType entityType = entityTypeFrom(definition.getTrigger().getString("entity-type", ""));
+                return entityType == null ? null : Integer.valueOf(player.getStatistic(statistic, entityType));
+            }
+            return Integer.valueOf(player.getStatistic(statistic));
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
+
+    private EntityType entityTypeFrom(String raw) {
+        if (raw == null || raw.trim().isEmpty()) {
+            return null;
+        }
+        try {
+            return EntityType.valueOf(raw.trim().toUpperCase(Locale.ROOT));
+        } catch (IllegalArgumentException ignored) {
+            return null;
+        }
+    }
+
     private Map<String, String> baseContext(Player player, String eventType) {
         return plugin.getConditionService().baseContext(player, eventType);
     }
@@ -348,6 +410,18 @@ public final class AchievementTriggerService {
         }
     }
 
+    private void syncAbsoluteIfMatches(Player player, AchievementDefinition definition, int value, Map<String, String> context) {
+        if (!plugin.getConditionService().matches(player, definition, context)) {
+            return;
+        }
+        int target = definition.getTrigger().getInt("amount", 1);
+        int bounded = Math.max(0, value);
+        plugin.getProgressService().setProgress(player, definition, bounded);
+        if (bounded >= target) {
+            plugin.getProgressService().award(player, definition);
+        }
+    }
+
     private enum TriggerType {
         JOIN,
         BREAK_BLOCK,
@@ -367,7 +441,8 @@ public final class AchievementTriggerService {
         DAMAGE_DEALT,
         TRAVEL_DISTANCE,
         FISH_ITEM,
-        HARVEST;
+        HARVEST,
+        STATISTIC;
 
         static TriggerType from(String raw) {
             if (raw == null) {
@@ -379,6 +454,29 @@ public final class AchievementTriggerService {
             } catch (IllegalArgumentException ignored) {
                 return null;
             }
+        }
+    }
+
+    private enum Type {
+        UNTYPED,
+        ITEM,
+        BLOCK,
+        ENTITY;
+
+        static Type fromName(String raw) {
+            if (raw == null) {
+                return UNTYPED;
+            }
+            if ("ITEM".equalsIgnoreCase(raw)) {
+                return ITEM;
+            }
+            if ("BLOCK".equalsIgnoreCase(raw)) {
+                return BLOCK;
+            }
+            if ("ENTITY".equalsIgnoreCase(raw) || "ENTITY_TYPE".equalsIgnoreCase(raw)) {
+                return ENTITY;
+            }
+            return UNTYPED;
         }
     }
 

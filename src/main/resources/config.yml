@@ -8,3 +8,4 @@ messages:
 settings:
   namespace: "sopachievements"
   remove-missing-on-reload: true
+  statistic-check-interval-ticks: 100
