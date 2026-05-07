@@ -170,6 +170,40 @@ diamond_digger:
     amount: 12
 ```
 
+## Multi-Criteria Requirements
+
+Achievements can also define multiple criteria under `requirements.criteria`.
+
+`type: all`
+- every criterion must be completed
+
+`type: any`
+- any one criterion is enough
+
+Example:
+
+```yml
+hunter_training:
+  category: main
+  title: "&6Hunter Training"
+  icon: CROSSBOW
+  requirements:
+    type: all
+    criteria:
+      zombies:
+        trigger:
+          type: kill_entity
+          value: ZOMBIE
+          amount: 10
+      skeletons:
+        trigger:
+          type: kill_entity
+          value: SKELETON
+          amount: 5
+```
+
+If `requirements.criteria` is omitted, the old single `trigger` format still works unchanged.
+
 ## Output
 
 Final jar:

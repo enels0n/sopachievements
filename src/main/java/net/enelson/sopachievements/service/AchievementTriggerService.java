@@ -1,6 +1,7 @@
 package net.enelson.sopachievements.service;
 
 import net.enelson.sopachievements.SopAchievementsPlugin;
+import net.enelson.sopachievements.model.AchievementCriterion;
 import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
 import net.enelson.sopachievements.util.ValueMatcher;
@@ -25,7 +26,7 @@ import java.util.Map;
 public final class AchievementTriggerService {
 
     private final SopAchievementsPlugin plugin;
-    private final Map<TriggerType, List<AchievementDefinition>> indexed = new EnumMap<TriggerType, List<AchievementDefinition>>(TriggerType.class);
+    private final Map<TriggerType, List<CriterionBinding>> indexed = new EnumMap<TriggerType, List<CriterionBinding>>(TriggerType.class);
     private final Map<String, FallSession> fallSessions = new HashMap<String, FallSession>();
 
     public AchievementTriggerService(SopAchievementsPlugin plugin) {
@@ -35,106 +36,108 @@ public final class AchievementTriggerService {
     public void reload(AchievementRegistryModel model) {
         indexed.clear();
         for (TriggerType type : TriggerType.values()) {
-            indexed.put(type, new ArrayList<AchievementDefinition>());
+            indexed.put(type, new ArrayList<CriterionBinding>());
         }
         for (AchievementDefinition definition : model.getAchievements().values()) {
-            TriggerType type = TriggerType.from(definition.getTrigger().getType());
-            if (type != null) {
-                indexed.get(type).add(definition);
+            for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
+                TriggerType type = TriggerType.from(criterion.getTrigger().getType());
+                if (type != null) {
+                    indexed.get(type).add(new CriterionBinding(definition, criterion));
+                }
             }
         }
         fallSessions.clear();
     }
 
     public void onJoin(Player player) {
-        for (AchievementDefinition definition : get(TriggerType.JOIN)) {
-            incrementIfMatches(player, definition, 1, baseContext(player, "join"));
+        for (CriterionBinding binding : get(TriggerType.JOIN)) {
+            incrementIfMatches(player, binding, 1, baseContext(player, "join"));
         }
     }
 
     public void onBlockBreak(Player player, Material material) {
-        for (AchievementDefinition definition : get(TriggerType.BREAK_BLOCK)) {
-            if (materialMatches(definition, material)) {
+        for (CriterionBinding binding : get(TriggerType.BREAK_BLOCK)) {
+            if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "break_block"), "material", material.name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onBlockPlace(Player player, Material material) {
-        for (AchievementDefinition definition : get(TriggerType.BLOCK_PLACE)) {
-            if (materialMatches(definition, material)) {
+        for (CriterionBinding binding : get(TriggerType.BLOCK_PLACE)) {
+            if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "block_place"), "material", material.name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onEntityKill(Player player, EntityType entityType) {
-        for (AchievementDefinition definition : get(TriggerType.KILL_ENTITY)) {
-            if (entityMatches(definition, entityType)) {
+        for (CriterionBinding binding : get(TriggerType.KILL_ENTITY)) {
+            if (entityMatches(binding.criterion, entityType)) {
                 Map<String, String> context = with(baseContext(player, "kill_entity"), "entity_type", entityType.name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onCraft(Player player, Material material) {
-        for (AchievementDefinition definition : get(TriggerType.CRAFT_ITEM)) {
-            if (materialMatches(definition, material)) {
+        for (CriterionBinding binding : get(TriggerType.CRAFT_ITEM)) {
+            if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "craft_item"), "material", material.name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onPickupItem(Player player, Material material, int amount) {
-        for (AchievementDefinition definition : get(TriggerType.PICKUP_ITEM)) {
-            if (materialMatches(definition, material)) {
+        for (CriterionBinding binding : get(TriggerType.PICKUP_ITEM)) {
+            if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "pickup_item"), "material", material.name(), "amount", String.valueOf(amount));
-                incrementIfMatches(player, definition, Math.max(1, amount), context);
+                incrementIfMatches(player, binding, Math.max(1, amount), context);
             }
         }
     }
 
     public void onConsumeItem(Player player, Material material) {
-        for (AchievementDefinition definition : get(TriggerType.CONSUME_ITEM)) {
-            if (materialMatches(definition, material)) {
+        for (CriterionBinding binding : get(TriggerType.CONSUME_ITEM)) {
+            if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "consume_item"), "material", material.name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onEnchantItem(Player player, int amount) {
-        for (AchievementDefinition definition : get(TriggerType.ENCHANT_ITEM)) {
+        for (CriterionBinding binding : get(TriggerType.ENCHANT_ITEM)) {
             Map<String, String> context = with(baseContext(player, "enchant_item"), "amount", String.valueOf(amount));
-            incrementIfMatches(player, definition, Math.max(1, amount), context);
+            incrementIfMatches(player, binding, Math.max(1, amount), context);
         }
     }
 
     public void onTameEntity(Player player, EntityType entityType) {
-        for (AchievementDefinition definition : get(TriggerType.TAME_ENTITY)) {
-            if (entityMatches(definition, entityType)) {
+        for (CriterionBinding binding : get(TriggerType.TAME_ENTITY)) {
+            if (entityMatches(binding.criterion, entityType)) {
                 Map<String, String> context = with(baseContext(player, "tame_entity"), "entity_type", entityType.name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onBreedEntity(Player player, EntityType entityType) {
-        for (AchievementDefinition definition : get(TriggerType.BREED_ENTITY)) {
-            if (entityMatches(definition, entityType)) {
+        for (CriterionBinding binding : get(TriggerType.BREED_ENTITY)) {
+            if (entityMatches(binding.criterion, entityType)) {
                 Map<String, String> context = with(baseContext(player, "breed_entity"), "entity_type", entityType.name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onEnterWorld(Player player, World world) {
-        for (AchievementDefinition definition : get(TriggerType.ENTER_WORLD)) {
-            String expectedWorld = definition.getTrigger().getString("world", definition.getTrigger().getString("value", ""));
-            String expectedEnvironment = definition.getTrigger().getString("environment", definition.getTrigger().getString("value", ""));
+        for (CriterionBinding binding : get(TriggerType.ENTER_WORLD)) {
+            String expectedWorld = binding.criterion.getTrigger().getString("world", binding.criterion.getTrigger().getString("value", ""));
+            String expectedEnvironment = binding.criterion.getTrigger().getString("environment", binding.criterion.getTrigger().getString("value", ""));
             boolean matched = false;
             if (!expectedWorld.isEmpty() && ValueMatcher.parse(expectedWorld).matches(world.getName())) {
                 matched = true;
@@ -144,26 +147,26 @@ public final class AchievementTriggerService {
             }
             if (matched) {
                 Map<String, String> context = with(baseContext(player, "enter_world"), "world", world.getName(), "environment", world.getEnvironment().name());
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onChat(Player player, String message) {
-        for (AchievementDefinition definition : get(TriggerType.CHAT)) {
-            String value = definition.getTrigger().getString("value", "any");
+        for (CriterionBinding binding : get(TriggerType.CHAT)) {
+            String value = binding.criterion.getTrigger().getString("value", "any");
             if ("any".equalsIgnoreCase(value) || message.toLowerCase(Locale.ROOT).contains(value.toLowerCase(Locale.ROOT))) {
                 Map<String, String> context = with(baseContext(player, "chat"), "message", message);
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
 
     public void onExecuteCommand(Player player, String commandLabelWithSlash) {
-        for (AchievementDefinition definition : get(TriggerType.EXECUTE_COMMAND)) {
-            if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(commandLabelWithSlash)) {
+        for (CriterionBinding binding : get(TriggerType.EXECUTE_COMMAND)) {
+            if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(commandLabelWithSlash)) {
                 Map<String, String> context = with(baseContext(player, "execute_command"), "command", commandLabelWithSlash);
-                incrementIfMatches(player, definition, 1, context);
+                incrementIfMatches(player, binding, 1, context);
             }
         }
     }
@@ -173,10 +176,10 @@ public final class AchievementTriggerService {
         if (amount <= 0) {
             return;
         }
-        for (AchievementDefinition definition : get(TriggerType.DAMAGE_TAKEN)) {
-            if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(cause.name())) {
+        for (CriterionBinding binding : get(TriggerType.DAMAGE_TAKEN)) {
+            if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(cause.name())) {
                 Map<String, String> context = with(baseContext(player, "damage_taken"), "damage_cause", cause.name(), "damage_amount", String.valueOf(amount));
-                incrementIfMatches(player, definition, amount, context);
+                incrementIfMatches(player, binding, amount, context);
             }
         }
     }
@@ -186,10 +189,10 @@ public final class AchievementTriggerService {
         if (amount <= 0 || target == null) {
             return;
         }
-        for (AchievementDefinition definition : get(TriggerType.DAMAGE_DEALT)) {
-            if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(target.getType().name())) {
+        for (CriterionBinding binding : get(TriggerType.DAMAGE_DEALT)) {
+            if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(target.getType().name())) {
                 Map<String, String> context = with(baseContext(player, "damage_dealt"), "entity_type", target.getType().name(), "damage_amount", String.valueOf(amount));
-                incrementIfMatches(player, definition, amount, context);
+                incrementIfMatches(player, binding, amount, context);
             }
         }
     }
@@ -199,9 +202,9 @@ public final class AchievementTriggerService {
         if (amount <= 0) {
             return;
         }
-        for (AchievementDefinition definition : get(TriggerType.TRAVEL_DISTANCE)) {
+        for (CriterionBinding binding : get(TriggerType.TRAVEL_DISTANCE)) {
             Map<String, String> context = with(baseContext(player, "travel_distance"), "distance", String.valueOf(amount));
-            incrementIfMatches(player, definition, amount, context);
+            incrementIfMatches(player, binding, amount, context);
         }
     }
 
@@ -209,10 +212,10 @@ public final class AchievementTriggerService {
         if (material == null) {
             return;
         }
-        for (AchievementDefinition definition : get(TriggerType.FISH_ITEM)) {
-            if (materialMatches(definition, material)) {
+        for (CriterionBinding binding : get(TriggerType.FISH_ITEM)) {
+            if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "fish_item"), "material", material.name(), "amount", String.valueOf(amount));
-                incrementIfMatches(player, definition, Math.max(1, amount), context);
+                incrementIfMatches(player, binding, Math.max(1, amount), context);
             }
         }
     }
@@ -227,29 +230,29 @@ public final class AchievementTriggerService {
             }
             Material material = itemStack.getType();
             int amount = Math.max(1, itemStack.getAmount());
-            for (AchievementDefinition definition : get(TriggerType.HARVEST)) {
-                if (materialMatches(definition, material)) {
+            for (CriterionBinding binding : get(TriggerType.HARVEST)) {
+                if (materialMatches(binding.criterion, material)) {
                     Map<String, String> context = with(baseContext(player, "harvest"), "material", material.name(), "amount", String.valueOf(amount));
-                    incrementIfMatches(player, definition, amount, context);
+                    incrementIfMatches(player, binding, amount, context);
                 }
             }
         }
     }
 
     public void onStatisticSync(Player player) {
-        for (AchievementDefinition definition : get(TriggerType.STATISTIC)) {
-            Statistic statistic = resolveStatistic(definition);
+        for (CriterionBinding binding : get(TriggerType.STATISTIC)) {
+            Statistic statistic = resolveStatistic(binding.criterion);
             if (statistic == null) {
                 continue;
             }
-            Integer progress = resolveStatisticValue(player, definition, statistic);
+            Integer progress = resolveStatisticValue(player, binding.criterion, statistic);
             if (progress == null || progress.intValue() <= 0) {
                 continue;
             }
             Map<String, String> context = with(baseContext(player, "statistic"),
                     "statistic", statistic.name(),
                     "amount", String.valueOf(progress.intValue()));
-            syncAbsoluteIfMatches(player, definition, progress.intValue(), context);
+            syncAbsoluteIfMatches(player, binding, progress.intValue(), context);
         }
     }
 
@@ -288,13 +291,13 @@ public final class AchievementTriggerService {
         }
 
         if (onGroundNow) {
-            for (AchievementDefinition definition : get(TriggerType.FALL_RANGE)) {
-                int startMin = definition.getTrigger().getInt("start-y-min", 255);
-                int endMax = definition.getTrigger().getInt("end-y-max", 5);
-                boolean sameWorldOnly = definition.getTrigger().getBoolean("same-world-only", true);
-                boolean denyFlight = definition.getTrigger().getBoolean("deny-flight", true);
-                boolean denyVehicles = definition.getTrigger().getBoolean("deny-vehicles", true);
-                boolean denyElytra = definition.getTrigger().getBoolean("deny-elytra", true);
+            for (CriterionBinding binding : get(TriggerType.FALL_RANGE)) {
+                int startMin = binding.criterion.getTrigger().getInt("start-y-min", 255);
+                int endMax = binding.criterion.getTrigger().getInt("end-y-max", 5);
+                boolean sameWorldOnly = binding.criterion.getTrigger().getBoolean("same-world-only", true);
+                boolean denyFlight = binding.criterion.getTrigger().getBoolean("deny-flight", true);
+                boolean denyVehicles = binding.criterion.getTrigger().getBoolean("deny-vehicles", true);
+                boolean denyElytra = binding.criterion.getTrigger().getBoolean("deny-elytra", true);
 
                 if (sameWorldOnly && !player.getWorld().getName().equalsIgnoreCase(session.worldName)) {
                     continue;
@@ -312,7 +315,7 @@ public final class AchievementTriggerService {
                     Map<String, String> context = with(baseContext(player, "fall_range"),
                             "fall_start_y", String.valueOf(session.startY),
                             "fall_lowest_y", String.valueOf(session.lowestY));
-                    awardIfMatches(player, definition, context);
+                    awardIfMatches(player, binding, context);
                 }
             }
             fallSessions.remove(key);
@@ -323,23 +326,23 @@ public final class AchievementTriggerService {
         fallSessions.remove(player.getUniqueId().toString());
     }
 
-    private List<AchievementDefinition> get(TriggerType type) {
-        List<AchievementDefinition> list = indexed.get(type);
-        return list == null ? Collections.<AchievementDefinition>emptyList() : list;
+    private List<CriterionBinding> get(TriggerType type) {
+        List<CriterionBinding> list = indexed.get(type);
+        return list == null ? Collections.<CriterionBinding>emptyList() : list;
     }
 
-    private boolean materialMatches(AchievementDefinition definition, Material material) {
-        String raw = definition.getTrigger().getString("value", definition.getTrigger().getString("material", "any"));
+    private boolean materialMatches(AchievementCriterion criterion, Material material) {
+        String raw = criterion.getTrigger().getString("value", criterion.getTrigger().getString("material", "any"));
         return ValueMatcher.parse(raw).matches(material.name());
     }
 
-    private boolean entityMatches(AchievementDefinition definition, EntityType entityType) {
-        String raw = definition.getTrigger().getString("value", definition.getTrigger().getString("entity-type", "any"));
+    private boolean entityMatches(AchievementCriterion criterion, EntityType entityType) {
+        String raw = criterion.getTrigger().getString("value", criterion.getTrigger().getString("entity-type", "any"));
         return ValueMatcher.parse(raw).matches(entityType.name());
     }
 
-    private Statistic resolveStatistic(AchievementDefinition definition) {
-        String raw = definition.getTrigger().getString("statistic", definition.getTrigger().getString("value", ""));
+    private Statistic resolveStatistic(AchievementCriterion criterion) {
+        String raw = criterion.getTrigger().getString("statistic", criterion.getTrigger().getString("value", ""));
         if (raw.trim().isEmpty()) {
             return null;
         }
@@ -350,19 +353,19 @@ public final class AchievementTriggerService {
         }
     }
 
-    private Integer resolveStatisticValue(Player player, AchievementDefinition definition, Statistic statistic) {
+    private Integer resolveStatisticValue(Player player, AchievementCriterion criterion, Statistic statistic) {
         try {
             Type statisticType = Type.fromName(statistic.getType().name());
             if (statisticType == Type.BLOCK) {
-                Material material = Material.matchMaterial(definition.getTrigger().getString("material", ""));
+                Material material = Material.matchMaterial(criterion.getTrigger().getString("material", ""));
                 return material == null ? null : Integer.valueOf(player.getStatistic(statistic, material));
             }
             if (statisticType == Type.ITEM) {
-                Material material = Material.matchMaterial(definition.getTrigger().getString("material", ""));
+                Material material = Material.matchMaterial(criterion.getTrigger().getString("material", ""));
                 return material == null ? null : Integer.valueOf(player.getStatistic(statistic, material));
             }
             if (statisticType == Type.ENTITY) {
-                EntityType entityType = entityTypeFrom(definition.getTrigger().getString("entity-type", ""));
+                EntityType entityType = entityTypeFrom(criterion.getTrigger().getString("entity-type", ""));
                 return entityType == null ? null : Integer.valueOf(player.getStatistic(statistic, entityType));
             }
             return Integer.valueOf(player.getStatistic(statistic));
@@ -398,27 +401,27 @@ public final class AchievementTriggerService {
         return context;
     }
 
-    private void incrementIfMatches(Player player, AchievementDefinition definition, int amount, Map<String, String> context) {
-        if (plugin.getConditionService().matches(player, definition, context)) {
-            plugin.getProgressService().increment(player, definition, amount);
+    private void incrementIfMatches(Player player, CriterionBinding binding, int amount, Map<String, String> context) {
+        if (plugin.getConditionService().matches(player, binding.criterion.getConditions(), context)) {
+            plugin.getProgressService().increment(player, binding.definition, binding.criterion.getId(), amount);
         }
     }
 
-    private void awardIfMatches(Player player, AchievementDefinition definition, Map<String, String> context) {
-        if (plugin.getConditionService().matches(player, definition, context)) {
-            plugin.getProgressService().award(player, definition);
+    private void awardIfMatches(Player player, CriterionBinding binding, Map<String, String> context) {
+        if (plugin.getConditionService().matches(player, binding.criterion.getConditions(), context)) {
+            plugin.getProgressService().increment(player, binding.definition, binding.criterion.getId(), binding.criterion.getTrigger().getInt("amount", 1));
         }
     }
 
-    private void syncAbsoluteIfMatches(Player player, AchievementDefinition definition, int value, Map<String, String> context) {
-        if (!plugin.getConditionService().matches(player, definition, context)) {
+    private void syncAbsoluteIfMatches(Player player, CriterionBinding binding, int value, Map<String, String> context) {
+        if (!plugin.getConditionService().matches(player, binding.criterion.getConditions(), context)) {
             return;
         }
-        int target = definition.getTrigger().getInt("amount", 1);
+        int target = binding.criterion.getTrigger().getInt("amount", 1);
         int bounded = Math.max(0, value);
-        plugin.getProgressService().setProgress(player, definition, bounded);
+        plugin.getProgressService().setProgress(player, binding.definition, binding.criterion.getId(), bounded);
         if (bounded >= target) {
-            plugin.getProgressService().award(player, definition);
+            plugin.getProgressService().increment(player, binding.definition, binding.criterion.getId(), 0);
         }
     }
 
@@ -454,6 +457,16 @@ public final class AchievementTriggerService {
             } catch (IllegalArgumentException ignored) {
                 return null;
             }
+        }
+    }
+
+    private static final class CriterionBinding {
+        private final AchievementDefinition definition;
+        private final AchievementCriterion criterion;
+
+        private CriterionBinding(AchievementDefinition definition, AchievementCriterion criterion) {
+            this.definition = definition;
+            this.criterion = criterion;
         }
     }
 

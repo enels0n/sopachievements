@@ -397,3 +397,51 @@ achievements:
       type: statistic
       statistic: CHEST_OPENED
       amount: 25
+
+  hunter_training:
+    category: main
+    title: "&6Hunter Training"
+    description: "&7Kill 10 zombies and 5 skeletons."
+    icon: CROSSBOW
+    frame: challenge
+    x: 18
+    y: 0
+    parent: zombie_slayer
+    requirements:
+      type: all
+      criteria:
+        zombies:
+          trigger:
+            type: kill_entity
+            value: ZOMBIE
+            amount: 10
+        skeletons:
+          trigger:
+            type: kill_entity
+            value: SKELETON
+            amount: 5
+    rewards:
+      message: "&6Combat training complete."
+
+  resource_sampler:
+    category: main
+    title: "&bResource Sampler"
+    description: "&7Break stone or mine coal ore."
+    icon: COAL_ORE
+    frame: goal
+    x: 18
+    y: 4
+    parent: stone_miner
+    requirements:
+      type: any
+      criteria:
+        stone:
+          trigger:
+            type: break_block
+            value: STONE
+            amount: 32
+        coal:
+          trigger:
+            type: break_block
+            value: COAL_ORE
+            amount: 12

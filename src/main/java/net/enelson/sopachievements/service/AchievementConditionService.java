@@ -23,7 +23,10 @@ public final class AchievementConditionService {
     }
 
     public boolean matches(Player player, AchievementDefinition definition, Map<String, String> context) {
-        AchievementConditions conditions = definition.getConditions();
+        return matches(player, definition.getConditions(), context);
+    }
+
+    public boolean matches(Player player, AchievementConditions conditions, Map<String, String> context) {
         if (conditions == null || conditions.isEmpty()) {
             return true;
         }

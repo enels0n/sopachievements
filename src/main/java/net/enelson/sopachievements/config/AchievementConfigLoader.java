@@ -4,8 +4,10 @@ import net.enelson.sopachievements.SopAchievementsPlugin;
 import net.enelson.sopachievements.model.AchievementCategory;
 import net.enelson.sopachievements.model.AchievementConditionCheck;
 import net.enelson.sopachievements.model.AchievementConditions;
+import net.enelson.sopachievements.model.AchievementCriterion;
 import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
+import net.enelson.sopachievements.model.AchievementRequirements;
 import net.enelson.sopachievements.model.AchievementRewards;
 import net.enelson.sopachievements.model.AchievementTrigger;
 import org.bukkit.configuration.ConfigurationSection;
@@ -68,6 +70,7 @@ public final class AchievementConfigLoader {
                 );
                 AchievementConditions conditions = loadConditions(section.getConfigurationSection("conditions"));
                 AchievementRewards rewards = loadRewards(section.getConfigurationSection("rewards"));
+                AchievementRequirements requirements = loadRequirements(section.getConfigurationSection("requirements"));
                 achievements.put(id, new AchievementDefinition(
                         id,
                         section.getString("category", "main"),
@@ -84,6 +87,8 @@ public final class AchievementConfigLoader {
                         trigger,
                         conditions,
                         rewards
+                        ,
+                        requirements
                 ));
             }
         }
@@ -119,5 +124,35 @@ public final class AchievementConfigLoader {
             return new AchievementRewards(java.util.Collections.<String>emptyList(), "");
         }
         return new AchievementRewards(section.getStringList("commands"), section.getString("message", ""));
+    }
+
+    private AchievementRequirements loadRequirements(ConfigurationSection section) {
+        if (section == null) {
+            return new AchievementRequirements("all", java.util.Collections.<AchievementCriterion>emptyList());
+        }
+        List<AchievementCriterion> criteria = new ArrayList<AchievementCriterion>();
+        ConfigurationSection criteriaSection = section.getConfigurationSection("criteria");
+        if (criteriaSection != null) {
+            for (String id : criteriaSection.getKeys(false)) {
+                ConfigurationSection criterionSection = criteriaSection.getConfigurationSection(id);
+                if (criterionSection == null) {
+                    continue;
+                }
+                ConfigurationSection triggerSection = criterionSection.getConfigurationSection("trigger");
+                Map<String, Object> settings = new LinkedHashMap<String, Object>();
+                if (triggerSection != null) {
+                    for (String key : triggerSection.getKeys(false)) {
+                        settings.put(key, triggerSection.get(key));
+                    }
+                }
+                AchievementTrigger trigger = new AchievementTrigger(
+                        triggerSection == null ? "join" : triggerSection.getString("type", "join"),
+                        settings
+                );
+                AchievementConditions conditions = loadConditions(criterionSection.getConfigurationSection("conditions"));
+                criteria.add(new AchievementCriterion(id, trigger, conditions));
+            }
+        }
+        return new AchievementRequirements(section.getString("type", "all"), criteria);
     }
 }

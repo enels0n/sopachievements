@@ -1,6 +1,11 @@
 package net.enelson.sopachievements.model;
 
+import java.util.Collections;
+import java.util.List;
+
 public final class AchievementDefinition {
+
+    public static final String DEFAULT_CRITERION_ID = "default";
 
     private final String id;
     private final String categoryId;
@@ -17,6 +22,7 @@ public final class AchievementDefinition {
     private final AchievementTrigger trigger;
     private final AchievementConditions conditions;
     private final AchievementRewards rewards;
+    private final AchievementRequirements requirements;
 
     public AchievementDefinition(String id,
                                  String categoryId,
@@ -32,7 +38,8 @@ public final class AchievementDefinition {
                                  boolean hidden,
                                  AchievementTrigger trigger,
                                  AchievementConditions conditions,
-                                 AchievementRewards rewards) {
+                                 AchievementRewards rewards,
+                                 AchievementRequirements requirements) {
         this.id = id;
         this.categoryId = categoryId;
         this.title = title;
@@ -48,6 +55,7 @@ public final class AchievementDefinition {
         this.trigger = trigger;
         this.conditions = conditions;
         this.rewards = rewards;
+        this.requirements = requirements;
     }
 
     public String getId() {
@@ -108,6 +116,21 @@ public final class AchievementDefinition {
 
     public AchievementRewards getRewards() {
         return rewards;
+    }
+
+    public AchievementRequirements getRequirements() {
+        return requirements;
+    }
+
+    public List<AchievementCriterion> getEffectiveCriteria() {
+        if (requirements != null && !requirements.isEmpty()) {
+            return requirements.getCriteria();
+        }
+        return Collections.singletonList(new AchievementCriterion(DEFAULT_CRITERION_ID, trigger, conditions));
+    }
+
+    public boolean isAnyCriteriaMode() {
+        return requirements != null && requirements.isAnyMode();
     }
 
     public boolean isRoot() {
