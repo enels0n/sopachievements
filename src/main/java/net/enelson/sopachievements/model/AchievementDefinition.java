@@ -15,6 +15,7 @@ public final class AchievementDefinition {
     private final boolean showToast;
     private final boolean hidden;
     private final AchievementTrigger trigger;
+    private final AchievementConditions conditions;
 
     public AchievementDefinition(String id,
                                  String categoryId,
@@ -28,7 +29,8 @@ public final class AchievementDefinition {
                                  boolean announceToChat,
                                  boolean showToast,
                                  boolean hidden,
-                                 AchievementTrigger trigger) {
+                                 AchievementTrigger trigger,
+                                 AchievementConditions conditions) {
         this.id = id;
         this.categoryId = categoryId;
         this.title = title;
@@ -42,6 +44,7 @@ public final class AchievementDefinition {
         this.showToast = showToast;
         this.hidden = hidden;
         this.trigger = trigger;
+        this.conditions = conditions;
     }
 
     public String getId() {
@@ -94,6 +97,10 @@ public final class AchievementDefinition {
 
     public AchievementTrigger getTrigger() {
         return trigger;
+    }
+
+    public AchievementConditions getConditions() {
+        return conditions;
     }
 
     public boolean isRoot() {

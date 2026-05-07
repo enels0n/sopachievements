@@ -160,6 +160,12 @@ achievements:
       type: enter_world
       environment: NETHER
       amount: 1
+    conditions:
+      type: all
+      checks:
+        - type: "string not equals"
+          input: "%player_gamemode%"
+          output: "SPECTATOR"
 
   builder:
     category: main
@@ -243,6 +249,15 @@ achievements:
       type: damage_dealt
       value: ZOMBIE,SKELETON,CREEPER,SPIDER
       amount: 50
+    conditions:
+      type: all
+      checks:
+        - type: "number >="
+          input: "%damage_amount%"
+          output: "1"
+        - type: "string equals"
+          input: "%player_world%"
+          output: "world"
 
   lucky_fisher:
     category: main
@@ -271,3 +286,46 @@ achievements:
       type: harvest
       value: SWEET_BERRIES
       amount: 8
+
+  nether_builder:
+    category: main
+    title: "&cNether Contractor"
+    description: "&7Place 16 nether blocks while in the Nether."
+    icon: NETHER_BRICKS
+    frame: goal
+    x: 14
+    y: 4
+    parent: dimension_traveler
+    trigger:
+      type: block_place
+      value: NETHERRACK,NETHER_BRICKS,NETHER_BRICK_FENCE
+      amount: 16
+    conditions:
+      type: all
+      checks:
+        - type: "string equals"
+          input: "%player_world%"
+          output: "world_nether"
+        - type: "string equals"
+          input: "%player_biome%"
+          output: "NETHER_WASTES"
+
+  command_sprinter:
+    category: main
+    title: "&aFast Travel Clerk"
+    description: "&7Use /spawn while standing below Y 40."
+    icon: CLOCK
+    frame: task
+    x: 14
+    y: 2
+    parent: command_user
+    trigger:
+      type: execute_command
+      value: /spawn
+      amount: 1
+    conditions:
+      type: all
+      checks:
+        - type: "number <="
+          input: "%player_y%"
+          output: "40"

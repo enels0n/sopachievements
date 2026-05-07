@@ -44,6 +44,60 @@ The first working layer includes:
 - `fish_item`
 - `harvest`
 
+## Optional Conditions
+
+Each achievement can also define an optional `conditions` block. Conditions are checked before progress is granted, so one trigger can be reused in different worlds, biomes, command flows, or PlaceholderAPI contexts.
+
+Example:
+
+```yml
+command_sprinter:
+  category: main
+  title: "&aFast Travel Clerk"
+  icon: CLOCK
+  frame: task
+  x: 14
+  y: 2
+  trigger:
+    type: execute_command
+    value: /spawn
+    amount: 1
+  conditions:
+    type: all
+    checks:
+      - type: "number <="
+        input: "%player_y%"
+        output: "40"
+```
+
+Built-in context values currently available in conditions include:
+
+- `%event_type%`
+- `%player_name%`
+- `%player_uuid%`
+- `%player_world%`
+- `%player_biome%`
+- `%player_gamemode%`
+- `%player_level%`
+- `%player_food%`
+- `%player_health%`
+- `%player_x%`
+- `%player_y%`
+- `%player_z%`
+- `%material%`
+- `%entity_type%`
+- `%command%`
+- `%message%`
+- `%environment%`
+- `%damage_cause%`
+- `%damage_amount%`
+- `%distance%`
+- `%amount%`
+- `%fall_start_y%`
+- `%fall_lowest_y%`
+
+If PlaceholderAPI is installed, `%...%` values are also resolved through PAPI for the current player.
+
 ## Output
 
 Final jar:

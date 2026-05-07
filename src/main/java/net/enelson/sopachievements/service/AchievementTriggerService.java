@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -46,14 +47,15 @@ public final class AchievementTriggerService {
 
     public void onJoin(Player player) {
         for (AchievementDefinition definition : get(TriggerType.JOIN)) {
-            plugin.getProgressService().increment(player, definition, 1);
+            incrementIfMatches(player, definition, 1, baseContext(player, "join"));
         }
     }
 
     public void onBlockBreak(Player player, Material material) {
         for (AchievementDefinition definition : get(TriggerType.BREAK_BLOCK)) {
             if (materialMatches(definition, material)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "break_block"), "material", material.name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -61,7 +63,8 @@ public final class AchievementTriggerService {
     public void onBlockPlace(Player player, Material material) {
         for (AchievementDefinition definition : get(TriggerType.BLOCK_PLACE)) {
             if (materialMatches(definition, material)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "block_place"), "material", material.name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -69,7 +72,8 @@ public final class AchievementTriggerService {
     public void onEntityKill(Player player, EntityType entityType) {
         for (AchievementDefinition definition : get(TriggerType.KILL_ENTITY)) {
             if (entityMatches(definition, entityType)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "kill_entity"), "entity_type", entityType.name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -77,7 +81,8 @@ public final class AchievementTriggerService {
     public void onCraft(Player player, Material material) {
         for (AchievementDefinition definition : get(TriggerType.CRAFT_ITEM)) {
             if (materialMatches(definition, material)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "craft_item"), "material", material.name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -85,7 +90,8 @@ public final class AchievementTriggerService {
     public void onPickupItem(Player player, Material material, int amount) {
         for (AchievementDefinition definition : get(TriggerType.PICKUP_ITEM)) {
             if (materialMatches(definition, material)) {
-                plugin.getProgressService().increment(player, definition, Math.max(1, amount));
+                Map<String, String> context = with(baseContext(player, "pickup_item"), "material", material.name(), "amount", String.valueOf(amount));
+                incrementIfMatches(player, definition, Math.max(1, amount), context);
             }
         }
     }
@@ -93,21 +99,24 @@ public final class AchievementTriggerService {
     public void onConsumeItem(Player player, Material material) {
         for (AchievementDefinition definition : get(TriggerType.CONSUME_ITEM)) {
             if (materialMatches(definition, material)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "consume_item"), "material", material.name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
 
     public void onEnchantItem(Player player, int amount) {
         for (AchievementDefinition definition : get(TriggerType.ENCHANT_ITEM)) {
-            plugin.getProgressService().increment(player, definition, Math.max(1, amount));
+            Map<String, String> context = with(baseContext(player, "enchant_item"), "amount", String.valueOf(amount));
+            incrementIfMatches(player, definition, Math.max(1, amount), context);
         }
     }
 
     public void onTameEntity(Player player, EntityType entityType) {
         for (AchievementDefinition definition : get(TriggerType.TAME_ENTITY)) {
             if (entityMatches(definition, entityType)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "tame_entity"), "entity_type", entityType.name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -115,7 +124,8 @@ public final class AchievementTriggerService {
     public void onBreedEntity(Player player, EntityType entityType) {
         for (AchievementDefinition definition : get(TriggerType.BREED_ENTITY)) {
             if (entityMatches(definition, entityType)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "breed_entity"), "entity_type", entityType.name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -132,7 +142,8 @@ public final class AchievementTriggerService {
                 matched = true;
             }
             if (matched) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "enter_world"), "world", world.getName(), "environment", world.getEnvironment().name());
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -141,7 +152,8 @@ public final class AchievementTriggerService {
         for (AchievementDefinition definition : get(TriggerType.CHAT)) {
             String value = definition.getTrigger().getString("value", "any");
             if ("any".equalsIgnoreCase(value) || message.toLowerCase(Locale.ROOT).contains(value.toLowerCase(Locale.ROOT))) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "chat"), "message", message);
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -149,7 +161,8 @@ public final class AchievementTriggerService {
     public void onExecuteCommand(Player player, String commandLabelWithSlash) {
         for (AchievementDefinition definition : get(TriggerType.EXECUTE_COMMAND)) {
             if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(commandLabelWithSlash)) {
-                plugin.getProgressService().increment(player, definition, 1);
+                Map<String, String> context = with(baseContext(player, "execute_command"), "command", commandLabelWithSlash);
+                incrementIfMatches(player, definition, 1, context);
             }
         }
     }
@@ -161,7 +174,8 @@ public final class AchievementTriggerService {
         }
         for (AchievementDefinition definition : get(TriggerType.DAMAGE_TAKEN)) {
             if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(cause.name())) {
-                plugin.getProgressService().increment(player, definition, amount);
+                Map<String, String> context = with(baseContext(player, "damage_taken"), "damage_cause", cause.name(), "damage_amount", String.valueOf(amount));
+                incrementIfMatches(player, definition, amount, context);
             }
         }
     }
@@ -173,7 +187,8 @@ public final class AchievementTriggerService {
         }
         for (AchievementDefinition definition : get(TriggerType.DAMAGE_DEALT)) {
             if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(target.getType().name())) {
-                plugin.getProgressService().increment(player, definition, amount);
+                Map<String, String> context = with(baseContext(player, "damage_dealt"), "entity_type", target.getType().name(), "damage_amount", String.valueOf(amount));
+                incrementIfMatches(player, definition, amount, context);
             }
         }
     }
@@ -184,7 +199,8 @@ public final class AchievementTriggerService {
             return;
         }
         for (AchievementDefinition definition : get(TriggerType.TRAVEL_DISTANCE)) {
-            plugin.getProgressService().increment(player, definition, amount);
+            Map<String, String> context = with(baseContext(player, "travel_distance"), "distance", String.valueOf(amount));
+            incrementIfMatches(player, definition, amount, context);
         }
     }
 
@@ -194,7 +210,8 @@ public final class AchievementTriggerService {
         }
         for (AchievementDefinition definition : get(TriggerType.FISH_ITEM)) {
             if (materialMatches(definition, material)) {
-                plugin.getProgressService().increment(player, definition, Math.max(1, amount));
+                Map<String, String> context = with(baseContext(player, "fish_item"), "material", material.name(), "amount", String.valueOf(amount));
+                incrementIfMatches(player, definition, Math.max(1, amount), context);
             }
         }
     }
@@ -211,7 +228,8 @@ public final class AchievementTriggerService {
             int amount = Math.max(1, itemStack.getAmount());
             for (AchievementDefinition definition : get(TriggerType.HARVEST)) {
                 if (materialMatches(definition, material)) {
-                    plugin.getProgressService().increment(player, definition, amount);
+                    Map<String, String> context = with(baseContext(player, "harvest"), "material", material.name(), "amount", String.valueOf(amount));
+                    incrementIfMatches(player, definition, amount, context);
                 }
             }
         }
@@ -273,7 +291,10 @@ public final class AchievementTriggerService {
                     continue;
                 }
                 if (session.startY >= startMin && session.lowestY <= endMax) {
-                    plugin.getProgressService().award(player, definition);
+                    Map<String, String> context = with(baseContext(player, "fall_range"),
+                            "fall_start_y", String.valueOf(session.startY),
+                            "fall_lowest_y", String.valueOf(session.lowestY));
+                    awardIfMatches(player, definition, context);
                 }
             }
             fallSessions.remove(key);
@@ -297,6 +318,34 @@ public final class AchievementTriggerService {
     private boolean entityMatches(AchievementDefinition definition, EntityType entityType) {
         String raw = definition.getTrigger().getString("value", definition.getTrigger().getString("entity-type", "any"));
         return ValueMatcher.parse(raw).matches(entityType.name());
+    }
+
+    private Map<String, String> baseContext(Player player, String eventType) {
+        return plugin.getConditionService().baseContext(player, eventType);
+    }
+
+    private Map<String, String> with(Map<String, String> original, String key, String value) {
+        Map<String, String> context = new LinkedHashMap<String, String>(original);
+        context.put(key, value);
+        return context;
+    }
+
+    private Map<String, String> with(Map<String, String> original, String key1, String value1, String key2, String value2) {
+        Map<String, String> context = with(original, key1, value1);
+        context.put(key2, value2);
+        return context;
+    }
+
+    private void incrementIfMatches(Player player, AchievementDefinition definition, int amount, Map<String, String> context) {
+        if (plugin.getConditionService().matches(player, definition, context)) {
+            plugin.getProgressService().increment(player, definition, amount);
+        }
+    }
+
+    private void awardIfMatches(Player player, AchievementDefinition definition, Map<String, String> context) {
+        if (plugin.getConditionService().matches(player, definition, context)) {
+            plugin.getProgressService().award(player, definition);
+        }
     }
 
     private enum TriggerType {

@@ -2,6 +2,8 @@ package net.enelson.sopachievements.config;
 
 import net.enelson.sopachievements.SopAchievementsPlugin;
 import net.enelson.sopachievements.model.AchievementCategory;
+import net.enelson.sopachievements.model.AchievementConditionCheck;
+import net.enelson.sopachievements.model.AchievementConditions;
 import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
 import net.enelson.sopachievements.model.AchievementTrigger;
@@ -9,7 +11,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class AchievementConfigLoader {
@@ -61,6 +65,7 @@ public final class AchievementConfigLoader {
                         triggerSection == null ? "join" : triggerSection.getString("type", "join"),
                         settings
                 );
+                AchievementConditions conditions = loadConditions(section.getConfigurationSection("conditions"));
                 achievements.put(id, new AchievementDefinition(
                         id,
                         section.getString("category", "main"),
@@ -74,10 +79,35 @@ public final class AchievementConfigLoader {
                         section.getBoolean("announce-to-chat", true),
                         section.getBoolean("toast", true),
                         section.getBoolean("hidden", false),
-                        trigger
+                        trigger,
+                        conditions
                 ));
             }
         }
         return new AchievementRegistryModel(categories, achievements);
+    }
+
+    private AchievementConditions loadConditions(ConfigurationSection section) {
+        List<AchievementConditionCheck> checks = new ArrayList<AchievementConditionCheck>();
+        if (section != null) {
+            List<Map<?, ?>> rawChecks = section.getMapList("checks");
+            for (Map<?, ?> rawCheck : rawChecks) {
+                if (rawCheck == null) {
+                    continue;
+                }
+                String type = stringValue(rawCheck.get("type"), "");
+                String input = stringValue(rawCheck.get("input"), "");
+                String output = stringValue(rawCheck.get("output"), "");
+                if (type.trim().isEmpty()) {
+                    continue;
+                }
+                checks.add(new AchievementConditionCheck(type, input, output));
+            }
+        }
+        return new AchievementConditions(section == null ? "all" : section.getString("type", "all"), checks);
+    }
+
+    private String stringValue(Object value, String defaultValue) {
+        return value == null ? defaultValue : String.valueOf(value);
     }
 }
