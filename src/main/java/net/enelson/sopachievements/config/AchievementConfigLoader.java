@@ -43,6 +43,10 @@ public final class AchievementConfigLoader {
                         id,
                         section.getString("title", id),
                         section.getString("description", ""),
+                        section.getString("key-name", ""),
+                        section.getString("key-name-fallback", section.getString("title", id)),
+                        section.getString("key-lore", ""),
+                        section.getString("key-lore-fallback", section.getString("description", "")),
                         section.getString("icon", "STONE"),
                         section.getString("background", "minecraft:textures/gui/advancements/backgrounds/stone.png")
                 ));

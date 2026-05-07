@@ -298,6 +298,15 @@ first_join:
   key-lore-fallback: Join the server once.
 ```
 
+Categories can define the same translation keys for the root advancement tab display:
+
+- `categories.<id>.key-name`
+- `categories.<id>.key-name-fallback`
+- `categories.<id>.key-lore`
+- `categories.<id>.key-lore-fallback`
+
+If a root achievement belongs to that category, category keys take priority for the root tab title and description.
+
 ## Additional Trigger Notes
 
 `smelt_item`

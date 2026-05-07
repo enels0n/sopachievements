@@ -2,6 +2,10 @@ categories:
   main:
     title: "&6SopAchievements"
     description: "&7Main achievement tab"
+    key-name: achivka.category.main.name
+    key-name-fallback: SopAchievements
+    key-lore: achivka.category.main.lore
+    key-lore-fallback: Main achievement tab
     icon: GRASS_BLOCK
     background: minecraft:textures/gui/advancements/backgrounds/stone.png
 
