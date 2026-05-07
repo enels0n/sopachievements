@@ -10,6 +10,10 @@ achievements:
     category: main
     title: "&aFirst Steps"
     description: "&7Join the server once."
+    key-name: achivka.main.first_join.name
+    key-name-fallback: First Steps
+    key-lore: achivka.main.first_join.lore
+    key-lore-fallback: Join the server once.
     icon: OAK_DOOR
     frame: task
     x: 0
@@ -215,6 +219,33 @@ achievements:
       type: execute_command
       value: /spawn
       amount: 1
+
+  nether_escape_route:
+    category: main
+    title: "&5Nether Escape Route"
+    description: "&7Enter the Nether, then use /spawn without dying or teleporting first."
+    icon: CRYING_OBSIDIAN
+    frame: challenge
+    x: 8
+    y: 4
+    parent: dimension_traveler
+    requirements:
+      type: all
+      ordered: true
+      reset-on-death: true
+      reset-on-world-change: true
+      reset-on-teleport: true
+      criteria:
+        enter_nether:
+          trigger:
+            type: enter_world
+            environment: NETHER
+            amount: 1
+        use_spawn:
+          trigger:
+            type: execute_command
+            value: /spawn
+            amount: 1
 
   marathon:
     category: main

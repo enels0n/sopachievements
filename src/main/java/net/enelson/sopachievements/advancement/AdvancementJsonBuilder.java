@@ -16,8 +16,8 @@ public final class AdvancementJsonBuilder {
         }
         json.append("\"display\":{")
                 .append("\"icon\":{\"item\":\"minecraft:").append(escape(definition.getIconMaterial().toLowerCase())).append("\"},")
-                .append("\"title\":{\"text\":\"").append(escape(stripLegacy(definition.getTitle()))).append("\"},")
-                .append("\"description\":{\"text\":\"").append(escape(stripLegacy(definition.getDescription()))).append("\"},")
+                .append("\"title\":").append(buildTextComponent(definition.getNameKey(), definition.getNameKeyFallback(), definition.getTitle())).append(",")
+                .append("\"description\":").append(buildTextComponent(definition.getLoreKey(), definition.getLoreKeyFallback(), definition.getDescription())).append(",")
                 .append("\"frame\":\"").append(escape(definition.getFrame().toLowerCase())).append("\",")
                 .append("\"show_toast\":").append(definition.isShowToast()).append(",")
                 .append("\"announce_to_chat\":").append(definition.isAnnounceToChat()).append(",")
@@ -32,6 +32,21 @@ public final class AdvancementJsonBuilder {
         json.append("\"requirements\":[[\"done\"]]");
         json.append("}");
         return json.toString();
+    }
+
+    private static String buildTextComponent(String translateKey, String fallback, String plainText) {
+        String normalizedKey = translateKey == null ? "" : translateKey.trim();
+        if (!normalizedKey.isEmpty()) {
+            StringBuilder json = new StringBuilder();
+            json.append("{\"translate\":\"").append(escape(normalizedKey)).append("\"");
+            String normalizedFallback = stripLegacy(fallback == null || fallback.trim().isEmpty() ? plainText : fallback);
+            if (!normalizedFallback.isEmpty()) {
+                json.append(",\"fallback\":\"").append(escape(normalizedFallback)).append("\"");
+            }
+            json.append("}");
+            return json.toString();
+        }
+        return "{\"text\":\"" + escape(stripLegacy(plainText)) + "\"}";
     }
 
     private static String stripLegacy(String input) {

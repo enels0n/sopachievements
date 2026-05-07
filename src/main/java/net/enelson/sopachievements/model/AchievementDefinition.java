@@ -11,6 +11,10 @@ public final class AchievementDefinition {
     private final String categoryId;
     private final String title;
     private final String description;
+    private final String nameKey;
+    private final String nameKeyFallback;
+    private final String loreKey;
+    private final String loreKeyFallback;
     private final String iconMaterial;
     private final String frame;
     private final int x;
@@ -28,6 +32,10 @@ public final class AchievementDefinition {
                                  String categoryId,
                                  String title,
                                  String description,
+                                 String nameKey,
+                                 String nameKeyFallback,
+                                 String loreKey,
+                                 String loreKeyFallback,
                                  String iconMaterial,
                                  String frame,
                                  int x,
@@ -44,6 +52,10 @@ public final class AchievementDefinition {
         this.categoryId = categoryId;
         this.title = title;
         this.description = description;
+        this.nameKey = nameKey;
+        this.nameKeyFallback = nameKeyFallback;
+        this.loreKey = loreKey;
+        this.loreKeyFallback = loreKeyFallback;
         this.iconMaterial = iconMaterial;
         this.frame = frame;
         this.x = x;
@@ -72,6 +84,22 @@ public final class AchievementDefinition {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getNameKey() {
+        return nameKey;
+    }
+
+    public String getNameKeyFallback() {
+        return nameKeyFallback;
+    }
+
+    public String getLoreKey() {
+        return loreKey;
+    }
+
+    public String getLoreKeyFallback() {
+        return loreKeyFallback;
     }
 
     public String getIconMaterial() {

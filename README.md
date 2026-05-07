@@ -230,6 +230,74 @@ hunter_training:
 
 If `requirements.criteria` is omitted, the old single `trigger` format still works unchanged.
 
+### Ordered Session Chains
+
+Multi-criteria achievements can also run as ordered chains.
+
+Supported chain options:
+
+- `ordered: true`
+- `reset-on-death: true`
+- `reset-on-world-change: true`
+- `reset-on-teleport: true`
+
+When `ordered: true` is enabled:
+
+- only the current step in the chain can gain progress
+- later steps are ignored until earlier ones are completed
+- configured reset events wipe unfinished chain progress for that achievement
+
+Example:
+
+```yml
+nether_escape_route:
+  category: main
+  title: "&5Nether Escape Route"
+  icon: CRYING_OBSIDIAN
+  requirements:
+    type: all
+    ordered: true
+    reset-on-death: true
+    reset-on-world-change: true
+    reset-on-teleport: true
+    criteria:
+      enter_nether:
+        trigger:
+          type: enter_world
+          environment: NETHER
+          amount: 1
+      use_spawn:
+        trigger:
+          type: execute_command
+          value: /spawn
+          amount: 1
+```
+
+## Translation Keys
+
+Achievement display text can use resource-pack translation keys instead of hardcoded strings.
+
+Supported fields:
+
+- `key-name`
+- `key-name-fallback`
+- `key-lore`
+- `key-lore-fallback`
+
+If a key is set, `SopAchievements` writes the advancement display JSON as a translatable component. If no key is set, it falls back to the normal `title` and `description`.
+
+Example:
+
+```yml
+first_join:
+  title: "&aFirst Steps"
+  description: "&7Join the server once."
+  key-name: achivka.main.first_join.name
+  key-name-fallback: First Steps
+  key-lore: achivka.main.first_join.lore
+  key-lore-fallback: Join the server once.
+```
+
 ## Additional Trigger Notes
 
 `smelt_item`

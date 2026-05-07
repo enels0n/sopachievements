@@ -9,10 +9,23 @@ public final class AchievementRequirements {
 
     private final String type;
     private final List<AchievementCriterion> criteria;
+    private final boolean ordered;
+    private final boolean resetOnDeath;
+    private final boolean resetOnWorldChange;
+    private final boolean resetOnTeleport;
 
-    public AchievementRequirements(String type, List<AchievementCriterion> criteria) {
+    public AchievementRequirements(String type,
+                                   List<AchievementCriterion> criteria,
+                                   boolean ordered,
+                                   boolean resetOnDeath,
+                                   boolean resetOnWorldChange,
+                                   boolean resetOnTeleport) {
         this.type = normalize(type);
         this.criteria = Collections.unmodifiableList(new ArrayList<AchievementCriterion>(criteria));
+        this.ordered = ordered;
+        this.resetOnDeath = resetOnDeath;
+        this.resetOnWorldChange = resetOnWorldChange;
+        this.resetOnTeleport = resetOnTeleport;
     }
 
     public String getType() {
@@ -25,6 +38,22 @@ public final class AchievementRequirements {
 
     public List<AchievementCriterion> getCriteria() {
         return criteria;
+    }
+
+    public boolean isOrdered() {
+        return ordered;
+    }
+
+    public boolean isResetOnDeath() {
+        return resetOnDeath;
+    }
+
+    public boolean isResetOnWorldChange() {
+        return resetOnWorldChange;
+    }
+
+    public boolean isResetOnTeleport() {
+        return resetOnTeleport;
     }
 
     public boolean isEmpty() {

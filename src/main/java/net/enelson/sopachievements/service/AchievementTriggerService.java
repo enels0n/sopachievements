@@ -4,6 +4,7 @@ import net.enelson.sopachievements.SopAchievementsPlugin;
 import net.enelson.sopachievements.model.AchievementCriterion;
 import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
+import net.enelson.sopachievements.model.AchievementRequirements;
 import net.enelson.sopachievements.util.ValueMatcher;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
@@ -32,6 +33,7 @@ public final class AchievementTriggerService {
 
     private final SopAchievementsPlugin plugin;
     private final Map<TriggerType, List<CriterionBinding>> indexed = new EnumMap<TriggerType, List<CriterionBinding>>(TriggerType.class);
+    private final Map<String, AchievementDefinition> definitions = new LinkedHashMap<String, AchievementDefinition>();
     private final Map<String, FallSession> fallSessions = new HashMap<String, FallSession>();
     private final Map<String, BiomeStaySession> biomeStaySessions = new HashMap<String, BiomeStaySession>();
 
@@ -41,10 +43,12 @@ public final class AchievementTriggerService {
 
     public void reload(AchievementRegistryModel model) {
         indexed.clear();
+        definitions.clear();
         for (TriggerType type : TriggerType.values()) {
             indexed.put(type, new ArrayList<CriterionBinding>());
         }
         for (AchievementDefinition definition : model.getAchievements().values()) {
+            definitions.put(definition.getId(), definition);
             for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
                 TriggerType type = TriggerType.from(criterion.getTrigger().getType());
                 if (type != null) {
@@ -587,6 +591,18 @@ public final class AchievementTriggerService {
         biomeStaySessions.remove(player.getUniqueId().toString());
     }
 
+    public void resetSessionChainsOnDeath(Player player) {
+        resetSessionChains(player, ResetReason.DEATH);
+    }
+
+    public void resetSessionChainsOnWorldChange(Player player) {
+        resetSessionChains(player, ResetReason.WORLD_CHANGE);
+    }
+
+    public void resetSessionChainsOnTeleport(Player player) {
+        resetSessionChains(player, ResetReason.TELEPORT);
+    }
+
     private List<CriterionBinding> get(TriggerType type) {
         List<CriterionBinding> list = indexed.get(type);
         return list == null ? Collections.<CriterionBinding>emptyList() : list;
@@ -791,6 +807,32 @@ public final class AchievementTriggerService {
         return time >= min || time <= max;
     }
 
+    private void resetSessionChains(Player player, ResetReason reason) {
+        for (AchievementDefinition definition : definitions.values()) {
+            AchievementRequirements requirements = definition.getRequirements();
+            if (requirements == null || !requirements.isOrdered() || requirements.isEmpty()) {
+                continue;
+            }
+            if (!shouldReset(requirements, reason)) {
+                continue;
+            }
+            plugin.getProgressService().resetProgress(player, definition);
+        }
+    }
+
+    private boolean shouldReset(AchievementRequirements requirements, ResetReason reason) {
+        if (reason == ResetReason.DEATH) {
+            return requirements.isResetOnDeath();
+        }
+        if (reason == ResetReason.WORLD_CHANGE) {
+            return requirements.isResetOnWorldChange();
+        }
+        if (reason == ResetReason.TELEPORT) {
+            return requirements.isResetOnTeleport();
+        }
+        return false;
+    }
+
     private void tickBiomeStay(Player player) {
         List<CriterionBinding> bindings = get(TriggerType.BIOME_STAY);
         if (bindings.isEmpty()) {
@@ -889,18 +931,27 @@ public final class AchievementTriggerService {
     }
 
     private void incrementIfMatches(Player player, CriterionBinding binding, int amount, Map<String, String> context) {
+        if (!plugin.getProgressService().canTrackCriterion(player, binding.definition, binding.criterion.getId())) {
+            return;
+        }
         if (plugin.getConditionService().matches(player, binding.criterion.getConditions(), context)) {
             plugin.getProgressService().increment(player, binding.definition, binding.criterion.getId(), amount);
         }
     }
 
     private void awardIfMatches(Player player, CriterionBinding binding, Map<String, String> context) {
+        if (!plugin.getProgressService().canTrackCriterion(player, binding.definition, binding.criterion.getId())) {
+            return;
+        }
         if (plugin.getConditionService().matches(player, binding.criterion.getConditions(), context)) {
             plugin.getProgressService().increment(player, binding.definition, binding.criterion.getId(), binding.criterion.getTrigger().getInt("amount", 1));
         }
     }
 
     private void syncAbsoluteIfMatches(Player player, CriterionBinding binding, int value, Map<String, String> context) {
+        if (!plugin.getProgressService().canTrackCriterion(player, binding.definition, binding.criterion.getId())) {
+            return;
+        }
         if (!plugin.getConditionService().matches(player, binding.criterion.getConditions(), context)) {
             return;
         }
@@ -981,6 +1032,12 @@ public final class AchievementTriggerService {
             this.definition = definition;
             this.criterion = criterion;
         }
+    }
+
+    private enum ResetReason {
+        DEATH,
+        WORLD_CHANGE,
+        TELEPORT
     }
 
     private enum Type {

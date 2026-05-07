@@ -76,6 +76,10 @@ public final class AchievementConfigLoader {
                         section.getString("category", "main"),
                         section.getString("title", id),
                         section.getString("description", ""),
+                        section.getString("key-name", ""),
+                        section.getString("key-name-fallback", section.getString("title", id)),
+                        section.getString("key-lore", ""),
+                        section.getString("key-lore-fallback", section.getString("description", "")),
                         section.getString("icon", "STONE"),
                         section.getString("frame", "task"),
                         section.getInt("x", 0),
@@ -128,7 +132,14 @@ public final class AchievementConfigLoader {
 
     private AchievementRequirements loadRequirements(ConfigurationSection section) {
         if (section == null) {
-            return new AchievementRequirements("all", java.util.Collections.<AchievementCriterion>emptyList());
+            return new AchievementRequirements(
+                    "all",
+                    java.util.Collections.<AchievementCriterion>emptyList(),
+                    false,
+                    false,
+                    false,
+                    false
+            );
         }
         List<AchievementCriterion> criteria = new ArrayList<AchievementCriterion>();
         ConfigurationSection criteriaSection = section.getConfigurationSection("criteria");
@@ -153,6 +164,13 @@ public final class AchievementConfigLoader {
                 criteria.add(new AchievementCriterion(id, trigger, conditions));
             }
         }
-        return new AchievementRequirements(section.getString("type", "all"), criteria);
+        return new AchievementRequirements(
+                section.getString("type", "all"),
+                criteria,
+                section.getBoolean("ordered", false),
+                section.getBoolean("reset-on-death", false),
+                section.getBoolean("reset-on-world-change", false),
+                section.getBoolean("reset-on-teleport", false)
+        );
     }
 }

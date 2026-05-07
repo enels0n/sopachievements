@@ -43,6 +43,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
@@ -76,6 +77,7 @@ public final class AchievementEventListener implements Listener {
         String cause = event.getEntity().getLastDamageCause() == null ? "UNKNOWN" : event.getEntity().getLastDamageCause().getCause().name();
         plugin.getTriggerService().onPlayerDeath(event.getEntity(), cause);
         plugin.getTriggerService().onArmorlessDeath(event.getEntity(), cause);
+        plugin.getTriggerService().resetSessionChainsOnDeath(event.getEntity());
     }
 
     @EventHandler
@@ -236,7 +238,20 @@ public final class AchievementEventListener implements Listener {
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent event) {
         plugin.getTriggerService().onEnterWorld(event.getPlayer(), event.getPlayer().getWorld());
+        plugin.getTriggerService().resetSessionChainsOnWorldChange(event.getPlayer());
         plugin.getTriggerService().resetTransientState(event.getPlayer());
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onTeleport(PlayerTeleportEvent event) {
+        if (event.getFrom().getWorld() == null || event.getTo() == null || event.getTo().getWorld() == null) {
+            return;
+        }
+        if (event.getFrom().getWorld().equals(event.getTo().getWorld())
+                && event.getFrom().distanceSquared(event.getTo()) <= 0.0D) {
+            return;
+        }
+        plugin.getTriggerService().resetSessionChainsOnTeleport(event.getPlayer());
     }
 
     @EventHandler
