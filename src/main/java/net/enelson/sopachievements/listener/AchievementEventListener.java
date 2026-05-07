@@ -7,10 +7,12 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.raid.RaidFinishEvent;
 import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -18,9 +20,13 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.EntityTameEvent;
+import org.bukkit.event.entity.EntityPotionEffectEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
+import org.bukkit.event.inventory.BrewEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.BrewerInventory;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
@@ -36,6 +42,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
+import org.bukkit.potion.PotionEffect;
+
+import java.util.List;
 
 public final class AchievementEventListener implements Listener {
 
@@ -146,6 +155,18 @@ public final class AchievementEventListener implements Listener {
         }
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onPotionEffect(EntityPotionEffectEvent event) {
+        if (!(event.getEntity() instanceof Player)) {
+            return;
+        }
+        PotionEffect effect = event.getNewEffect();
+        if (effect == null) {
+            return;
+        }
+        plugin.getTriggerService().onPotionEffect((Player) event.getEntity(), effect.getType(), effect.getAmplifier());
+    }
+
     @EventHandler
     public void onEnchant(EnchantItemEvent event) {
         plugin.getTriggerService().onEnchantItem(event.getEnchanter(), 1);
@@ -177,6 +198,17 @@ public final class AchievementEventListener implements Listener {
     @EventHandler
     public void onAdvancement(PlayerAdvancementDoneEvent event) {
         plugin.getTriggerService().onAdvancementDone(event.getPlayer(), event.getAdvancement().getKey().toString());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onRaidFinish(RaidFinishEvent event) {
+        List<Player> winners = event.getWinners();
+        if (winners == null) {
+            return;
+        }
+        for (Player player : winners) {
+            plugin.getTriggerService().onRaidWin(player);
+        }
     }
 
     @EventHandler
@@ -223,6 +255,28 @@ public final class AchievementEventListener implements Listener {
     @EventHandler
     public void onHarvest(PlayerHarvestBlockEvent event) {
         plugin.getTriggerService().onHarvest(event.getPlayer(), event.getItemsHarvested());
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onBrew(BrewEvent event) {
+        BrewerInventory inventory = event.getContents();
+        if (inventory == null) {
+            return;
+        }
+        List<HumanEntity> viewers = inventory.getViewers();
+        if (viewers == null || viewers.isEmpty()) {
+            return;
+        }
+        for (ItemStack itemStack : inventory.getContents()) {
+            if (itemStack == null) {
+                continue;
+            }
+            for (HumanEntity viewer : viewers) {
+                if (viewer instanceof Player) {
+                    plugin.getTriggerService().onBrewItem((Player) viewer, itemStack.getType(), Math.max(1, itemStack.getAmount()));
+                }
+            }
+        }
     }
 
     @EventHandler

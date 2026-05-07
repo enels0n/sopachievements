@@ -52,6 +52,9 @@ The first working layer includes:
 - `totem_use`
 - `bucket`
 - `projectile_kill`
+- `potion_effect`
+- `brew_item`
+- `raid_win`
 
 ## Optional Conditions
 
@@ -244,6 +247,17 @@ If `requirements.criteria` is omitted, the old single `trigger` format still wor
 - reacts to kills made by player-shot projectiles
 - use `value` for the killed entity
 - use `projectile` for the projectile type, for example `ARROW`
+
+`potion_effect`
+- reacts when a player gains or changes to a new potion effect
+- use the potion effect name in `value`, for example `SPEED` or `HERO_OF_THE_VILLAGE`
+
+`brew_item`
+- reacts when brewing stand contents finish brewing
+- best used with values like `POTION`, `SPLASH_POTION`, `LINGERING_POTION`
+
+`raid_win`
+- reacts when the player is listed among raid winners
 
 ## Output
 

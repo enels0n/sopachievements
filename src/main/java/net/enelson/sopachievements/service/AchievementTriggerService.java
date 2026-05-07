@@ -14,6 +14,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.World;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,12 +78,33 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onRaidWin(Player player) {
+        for (CriterionBinding binding : get(TriggerType.RAID_WIN)) {
+            incrementIfMatches(player, binding, 1, baseContext(player, "raid_win"));
+        }
+    }
+
     public void onBucket(Player player, Material material, String action) {
         for (CriterionBinding binding : get(TriggerType.BUCKET)) {
             if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "bucket"), "material", material.name(), "bucket_action", action);
                 incrementIfMatches(player, binding, 1, context);
             }
+        }
+    }
+
+    public void onPotionEffect(Player player, PotionEffectType effectType, int amplifier) {
+        if (effectType == null) {
+            return;
+        }
+        for (CriterionBinding binding : get(TriggerType.POTION_EFFECT)) {
+            if (!ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(effectType.getName())) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "potion_effect"),
+                    "effect_type", effectType.getName(),
+                    "effect_level", String.valueOf(amplifier + 1));
+            incrementIfMatches(player, binding, 1, context);
         }
     }
 
@@ -151,6 +173,15 @@ public final class AchievementTriggerService {
         for (CriterionBinding binding : get(TriggerType.SMELT_ITEM)) {
             if (materialMatches(binding.criterion, material)) {
                 Map<String, String> context = with(baseContext(player, "smelt_item"), "material", material.name(), "amount", String.valueOf(amount));
+                incrementIfMatches(player, binding, Math.max(1, amount), context);
+            }
+        }
+    }
+
+    public void onBrewItem(Player player, Material material, int amount) {
+        for (CriterionBinding binding : get(TriggerType.BREW_ITEM)) {
+            if (materialMatches(binding.criterion, material)) {
+                Map<String, String> context = with(baseContext(player, "brew_item"), "material", material.name(), "amount", String.valueOf(amount));
                 incrementIfMatches(player, binding, Math.max(1, amount), context);
             }
         }
@@ -529,12 +560,15 @@ public final class AchievementTriggerService {
         DEATH,
         SLEEP,
         TOTEM_USE,
+        RAID_WIN,
         BUCKET,
+        POTION_EFFECT,
         BREAK_BLOCK,
         BLOCK_PLACE,
         KILL_ENTITY,
         PROJECTILE_KILL,
         CRAFT_ITEM,
+        BREW_ITEM,
         FALL_RANGE,
         PICKUP_ITEM,
         CONSUME_ITEM,

@@ -564,3 +564,44 @@ achievements:
       type: death
       value: LAVA
       amount: 3
+
+  village_dealer:
+    category: main
+    title: "&6Village Dealer"
+    description: "&7Apply the Hero of the Village effect once."
+    icon: EMERALD
+    frame: goal
+    x: 24
+    y: 4
+    parent: vanilla_story
+    trigger:
+      type: potion_effect
+      value: HERO_OF_THE_VILLAGE
+      amount: 1
+
+  brewer:
+    category: main
+    title: "&dBrewer"
+    description: "&7Brew 6 potions."
+    icon: BREWING_STAND
+    frame: task
+    x: 26
+    y: 0
+    parent: enchanter
+    trigger:
+      type: brew_item
+      value: POTION
+      amount: 6
+
+  bad_omen_breaker:
+    category: main
+    title: "&aRaid Breaker"
+    description: "&7Win a raid."
+    icon: WHITE_BANNER
+    frame: challenge
+    x: 26
+    y: 2
+    parent: village_dealer
+    trigger:
+      type: raid_win
+      amount: 1
