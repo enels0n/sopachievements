@@ -60,6 +60,11 @@ The first working layer includes:
 - `loot_container`
 - `biome_stay`
 - `location_range`
+- `lightning_strike`
+- `weather`
+- `underwater_time`
+- `glide_distance`
+- `vehicle_distance`
 
 ## Optional Conditions
 
@@ -283,6 +288,24 @@ If `requirements.criteria` is omitted, the old single `trigger` format still wor
 `location_range`
 - checked by the periodic sync task
 - supports `world`, `x-min`, `x-max`, `y-min`, `y-max`, `z-min`, `z-max`
+
+`lightning_strike`
+- reacts when a player takes lightning damage
+
+`weather`
+- checked by the periodic sync task
+- uses `CLEAR`, `RAIN`, or `THUNDER`
+
+`underwater_time`
+- checked by the periodic sync task
+- increments while the player's eye position is underwater
+
+`glide_distance`
+- increments traveled distance while gliding with elytra
+
+`vehicle_distance`
+- increments traveled distance while inside a vehicle
+- optional `vehicle` filter, for example `MINECART`, `BOAT`, `HORSE`
 
 ## Output
 

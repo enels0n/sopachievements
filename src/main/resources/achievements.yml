@@ -690,3 +690,70 @@ achievements:
       z-min: -10
       z-max: 10
       amount: 1
+
+  storm_touched:
+    category: main
+    title: "&eStorm Touched"
+    description: "&7Get struck by lightning once."
+    icon: LIGHTNING_ROD
+    frame: challenge
+    x: 32
+    y: 0
+    parent: doomed
+    trigger:
+      type: lightning_strike
+      amount: 1
+
+  weather_watcher:
+    category: main
+    title: "&7Weather Watcher"
+    description: "&7Stay in the rain for 30 seconds."
+    icon: WATER_BUCKET
+    frame: task
+    x: 32
+    y: 2
+    parent: swamp_resident
+    trigger:
+      type: weather
+      value: RAIN
+      amount: 30
+
+  deep_diver:
+    category: main
+    title: "&3Deep Diver"
+    description: "&7Stay underwater for 20 seconds."
+    icon: HEART_OF_THE_SEA
+    frame: goal
+    x: 32
+    y: 4
+    parent: weather_watcher
+    trigger:
+      type: underwater_time
+      amount: 20
+
+  elytra_runner:
+    category: main
+    title: "&bElytra Runner"
+    description: "&7Glide 1000 blocks."
+    icon: ELYTRA
+    frame: challenge
+    x: 34
+    y: 0
+    parent: marathon
+    trigger:
+      type: glide_distance
+      amount: 1000
+
+  rail_commuter:
+    category: main
+    title: "&8Rail Commuter"
+    description: "&7Travel 500 blocks in a minecart."
+    icon: MINECART
+    frame: task
+    x: 34
+    y: 2
+    parent: walker
+    trigger:
+      type: vehicle_distance
+      vehicle: MINECART
+      amount: 500

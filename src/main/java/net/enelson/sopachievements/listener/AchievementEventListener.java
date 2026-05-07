@@ -265,7 +265,11 @@ public final class AchievementEventListener implements Listener {
         if (!(event.getEntity() instanceof Player)) {
             return;
         }
-        plugin.getTriggerService().onDamageTaken((Player) event.getEntity(), event.getCause(), event.getFinalDamage());
+        Player player = (Player) event.getEntity();
+        plugin.getTriggerService().onDamageTaken(player, event.getCause(), event.getFinalDamage());
+        if (event.getCause() == EntityDamageEvent.DamageCause.LIGHTNING) {
+            plugin.getTriggerService().onLightningStrike(player);
+        }
     }
 
     @EventHandler
@@ -324,6 +328,7 @@ public final class AchievementEventListener implements Listener {
         double horizontalDistance = Math.sqrt((deltaX * deltaX) + (deltaZ * deltaZ));
         if (horizontalDistance >= 1.0D) {
             plugin.getTriggerService().onTravelDistance(event.getPlayer(), horizontalDistance);
+            plugin.getTriggerService().onMoveDistance(event.getPlayer(), horizontalDistance);
         }
         if (event.getFrom().getY() == event.getTo().getY()) {
             return;

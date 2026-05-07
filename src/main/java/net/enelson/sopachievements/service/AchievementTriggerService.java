@@ -69,6 +69,12 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onLightningStrike(Player player) {
+        for (CriterionBinding binding : get(TriggerType.LIGHTNING_STRIKE)) {
+            incrementIfMatches(player, binding, 1, baseContext(player, "lightning_strike"));
+        }
+    }
+
     public void onSleep(Player player) {
         for (CriterionBinding binding : get(TriggerType.SLEEP)) {
             incrementIfMatches(player, binding, 1, baseContext(player, "sleep"));
@@ -414,6 +420,29 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onUnderwaterSync(Player player) {
+        if (!player.getEyeLocation().getBlock().isLiquid()) {
+            return;
+        }
+        int seconds = Math.max(1, plugin.getConfig().getInt("settings.sync-check-interval-ticks",
+                plugin.getConfig().getInt("settings.statistic-check-interval-ticks", 100)) / 20);
+        for (CriterionBinding binding : get(TriggerType.UNDERWATER_TIME)) {
+            Map<String, String> context = with(baseContext(player, "underwater_time"), "time_seconds", String.valueOf(seconds));
+            incrementIfMatches(player, binding, seconds, context);
+        }
+    }
+
+    public void onWeatherSync(Player player) {
+        String weather = resolveWeather(player.getWorld());
+        for (CriterionBinding binding : get(TriggerType.WEATHER)) {
+            if (!ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(weather)) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "weather"), "weather", weather);
+            incrementIfMatches(player, binding, 1, context);
+        }
+    }
+
     public void onMove(Player player, double fromY, double toY, boolean onGroundNow) {
         tickBiomeStay(player);
         if (get(TriggerType.FALL_RANGE).isEmpty()) {
@@ -646,6 +675,61 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onMoveDistance(Player player, double horizontalDistance) {
+        if (horizontalDistance <= 0.0D) {
+            return;
+        }
+        int amount = (int) Math.floor(horizontalDistance);
+        if (amount <= 0) {
+            return;
+        }
+        if (player.isGliding()) {
+            tickGlideDistance(player, amount);
+        }
+        if (player.isInsideVehicle()) {
+            tickVehicleDistance(player, amount);
+        }
+    }
+
+    private void tickGlideDistance(Player player, double distance) {
+        int amount = (int) Math.floor(Math.max(0.0D, distance));
+        if (amount <= 0) {
+            return;
+        }
+        for (CriterionBinding binding : get(TriggerType.GLIDE_DISTANCE)) {
+            Map<String, String> context = with(baseContext(player, "glide_distance"), "distance", String.valueOf(amount));
+            incrementIfMatches(player, binding, amount, context);
+        }
+    }
+
+    private void tickVehicleDistance(Player player, double distance) {
+        int amount = (int) Math.floor(Math.max(0.0D, distance));
+        if (amount <= 0) {
+            return;
+        }
+        String vehicleType = player.getVehicle() == null ? "UNKNOWN" : player.getVehicle().getType().name();
+        for (CriterionBinding binding : get(TriggerType.VEHICLE_DISTANCE)) {
+            String rule = binding.criterion.getTrigger().getString("vehicle", "any");
+            if (!ValueMatcher.parse(rule).matches(vehicleType)) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "vehicle_distance"),
+                    "distance", String.valueOf(amount),
+                    "vehicle_type", vehicleType);
+            incrementIfMatches(player, binding, amount, context);
+        }
+    }
+
+    private String resolveWeather(World world) {
+        if (world.isThundering()) {
+            return "THUNDER";
+        }
+        if (world.hasStorm()) {
+            return "RAIN";
+        }
+        return "CLEAR";
+    }
+
     private Map<String, String> baseContext(Player player, String eventType) {
         return plugin.getConditionService().baseContext(player, eventType);
     }
@@ -689,6 +773,7 @@ public final class AchievementTriggerService {
     private enum TriggerType {
         JOIN,
         DEATH,
+        LIGHTNING_STRIKE,
         SLEEP,
         TOTEM_USE,
         RAID_WIN,
@@ -722,7 +807,11 @@ public final class AchievementTriggerService {
         EQUIP,
         LOOT_CONTAINER,
         BIOME_STAY,
-        LOCATION_RANGE;
+        LOCATION_RANGE,
+        GLIDE_DISTANCE,
+        VEHICLE_DISTANCE,
+        UNDERWATER_TIME,
+        WEATHER;
 
         static TriggerType from(String raw) {
             if (raw == null) {
