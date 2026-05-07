@@ -5,9 +5,12 @@ import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
 import net.enelson.sopachievements.util.ValueMatcher;
 import org.bukkit.Material;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.World;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -151,6 +154,69 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onDamageTaken(Player player, EntityDamageEvent.DamageCause cause, double damage) {
+        int amount = (int) Math.ceil(Math.max(0.0D, damage));
+        if (amount <= 0) {
+            return;
+        }
+        for (AchievementDefinition definition : get(TriggerType.DAMAGE_TAKEN)) {
+            if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(cause.name())) {
+                plugin.getProgressService().increment(player, definition, amount);
+            }
+        }
+    }
+
+    public void onDamageDealt(Player player, Entity target, double damage) {
+        int amount = (int) Math.ceil(Math.max(0.0D, damage));
+        if (amount <= 0 || target == null) {
+            return;
+        }
+        for (AchievementDefinition definition : get(TriggerType.DAMAGE_DEALT)) {
+            if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(target.getType().name())) {
+                plugin.getProgressService().increment(player, definition, amount);
+            }
+        }
+    }
+
+    public void onTravelDistance(Player player, double distance) {
+        int amount = (int) Math.floor(Math.max(0.0D, distance));
+        if (amount <= 0) {
+            return;
+        }
+        for (AchievementDefinition definition : get(TriggerType.TRAVEL_DISTANCE)) {
+            plugin.getProgressService().increment(player, definition, amount);
+        }
+    }
+
+    public void onFishItem(Player player, Material material, int amount) {
+        if (material == null) {
+            return;
+        }
+        for (AchievementDefinition definition : get(TriggerType.FISH_ITEM)) {
+            if (materialMatches(definition, material)) {
+                plugin.getProgressService().increment(player, definition, Math.max(1, amount));
+            }
+        }
+    }
+
+    public void onHarvest(Player player, java.util.List<ItemStack> harvestedItems) {
+        if (harvestedItems == null || harvestedItems.isEmpty()) {
+            return;
+        }
+        for (ItemStack itemStack : harvestedItems) {
+            if (itemStack == null) {
+                continue;
+            }
+            Material material = itemStack.getType();
+            int amount = Math.max(1, itemStack.getAmount());
+            for (AchievementDefinition definition : get(TriggerType.HARVEST)) {
+                if (materialMatches(definition, material)) {
+                    plugin.getProgressService().increment(player, definition, amount);
+                }
+            }
+        }
+    }
+
     public void onMove(Player player, double fromY, double toY, boolean onGroundNow) {
         if (get(TriggerType.FALL_RANGE).isEmpty()) {
             return;
@@ -247,7 +313,12 @@ public final class AchievementTriggerService {
         BREED_ENTITY,
         ENTER_WORLD,
         CHAT,
-        EXECUTE_COMMAND;
+        EXECUTE_COMMAND,
+        DAMAGE_TAKEN,
+        DAMAGE_DEALT,
+        TRAVEL_DISTANCE,
+        FISH_ITEM,
+        HARVEST;
 
         static TriggerType from(String raw) {
             if (raw == null) {

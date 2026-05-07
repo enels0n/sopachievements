@@ -202,3 +202,72 @@ achievements:
       type: execute_command
       value: /spawn
       amount: 1
+
+  marathon:
+    category: main
+    title: "&fMarathon"
+    description: "&7Travel 1000 blocks."
+    icon: LEATHER_BOOTS
+    frame: goal
+    x: 8
+    y: 4
+    parent: chatter
+    trigger:
+      type: travel_distance
+      amount: 1000
+
+  tough_skin:
+    category: main
+    title: "&cTough Skin"
+    description: "&7Take 40 damage from any source."
+    icon: SHIELD
+    frame: task
+    x: 10
+    y: 2
+    parent: zombie_slayer
+    trigger:
+      type: damage_taken
+      value: any
+      amount: 40
+
+  hunter_force:
+    category: main
+    title: "&4Hunter Force"
+    description: "&7Deal 50 damage to hostile mobs."
+    icon: BOW
+    frame: goal
+    x: 12
+    y: 2
+    parent: zombie_slayer
+    trigger:
+      type: damage_dealt
+      value: ZOMBIE,SKELETON,CREEPER,SPIDER
+      amount: 50
+
+  lucky_fisher:
+    category: main
+    title: "&bLucky Fisher"
+    description: "&7Catch 5 cod or salmon."
+    icon: FISHING_ROD
+    frame: task
+    x: 10
+    y: 4
+    parent: bread_maker
+    trigger:
+      type: fish_item
+      value: COD,SALMON
+      amount: 5
+
+  berry_picker:
+    category: main
+    title: "&dBerry Picker"
+    description: "&7Harvest 8 sweet berries."
+    icon: SWEET_BERRIES
+    frame: task
+    x: 12
+    y: 4
+    parent: bread_maker
+    trigger:
+      type: harvest
+      value: SWEET_BERRIES
+      amount: 8

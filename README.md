@@ -38,6 +38,11 @@ The first working layer includes:
 - `enter_world`
 - `chat`
 - `execute_command`
+- `damage_taken`
+- `damage_dealt`
+- `travel_distance`
+- `fish_item`
+- `harvest`
 
 ## Output
 

@@ -2,19 +2,25 @@ package net.enelson.sopachievements.listener;
 
 import net.enelson.sopachievements.SopAchievementsPlugin;
 import org.bukkit.entity.AnimalTamer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.entity.EntityBreedEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
@@ -132,7 +138,48 @@ public final class AchievementEventListener implements Listener {
     }
 
     @EventHandler
+    public void onDamageTaken(EntityDamageEvent event) {
+        if (!(event.getEntity() instanceof Player)) {
+            return;
+        }
+        plugin.getTriggerService().onDamageTaken((Player) event.getEntity(), event.getCause(), event.getFinalDamage());
+    }
+
+    @EventHandler
+    public void onDamageDealt(EntityDamageByEntityEvent event) {
+        Player player = resolveDamager(event.getDamager());
+        if (player == null) {
+            return;
+        }
+        plugin.getTriggerService().onDamageDealt(player, event.getEntity(), event.getFinalDamage());
+    }
+
+    @EventHandler
+    public void onFish(PlayerFishEvent event) {
+        if (!(event.getCaught() instanceof org.bukkit.entity.Item)) {
+            return;
+        }
+        ItemStack item = ((org.bukkit.entity.Item) event.getCaught()).getItemStack();
+        plugin.getTriggerService().onFishItem(event.getPlayer(), item.getType(), item.getAmount());
+    }
+
+    @EventHandler
+    public void onHarvest(PlayerHarvestBlockEvent event) {
+        plugin.getTriggerService().onHarvest(event.getPlayer(), event.getItemsHarvested());
+    }
+
+    @EventHandler
     public void onMove(PlayerMoveEvent event) {
+        if (!event.getFrom().getWorld().equals(event.getTo().getWorld())) {
+            plugin.getTriggerService().resetTransientState(event.getPlayer());
+            return;
+        }
+        double deltaX = event.getTo().getX() - event.getFrom().getX();
+        double deltaZ = event.getTo().getZ() - event.getFrom().getZ();
+        double horizontalDistance = Math.sqrt((deltaX * deltaX) + (deltaZ * deltaZ));
+        if (horizontalDistance >= 1.0D) {
+            plugin.getTriggerService().onTravelDistance(event.getPlayer(), horizontalDistance);
+        }
         if (event.getFrom().getY() == event.getTo().getY()) {
             return;
         }
@@ -142,5 +189,18 @@ public final class AchievementEventListener implements Listener {
                 event.getTo().getY(),
                 event.getPlayer().isOnGround()
         );
+    }
+
+    private Player resolveDamager(Entity damager) {
+        if (damager instanceof Player) {
+            return (Player) damager;
+        }
+        if (damager instanceof Projectile) {
+            Projectile projectile = (Projectile) damager;
+            if (projectile.getShooter() instanceof Player) {
+                return (Player) projectile.getShooter();
+            }
+        }
+        return null;
     }
 }
