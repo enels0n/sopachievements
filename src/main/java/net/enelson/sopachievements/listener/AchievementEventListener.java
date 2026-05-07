@@ -1,13 +1,23 @@
 package net.enelson.sopachievements.listener;
 
 import net.enelson.sopachievements.SopAchievementsPlugin;
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.entity.EntityBreedEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.EntityTameEvent;
+import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -24,6 +34,7 @@ public final class AchievementEventListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         plugin.getTriggerService().onJoin(event.getPlayer());
+        plugin.getTriggerService().onEnterWorld(event.getPlayer(), event.getPlayer().getWorld());
     }
 
     @EventHandler
@@ -34,6 +45,11 @@ public final class AchievementEventListener implements Listener {
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
         plugin.getTriggerService().onBlockBreak(event.getPlayer(), event.getBlock().getType());
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent event) {
+        plugin.getTriggerService().onBlockPlace(event.getPlayer(), event.getBlockPlaced().getType());
     }
 
     @EventHandler
@@ -56,6 +72,63 @@ public final class AchievementEventListener implements Listener {
             return;
         }
         plugin.getTriggerService().onCraft((Player) event.getWhoClicked(), item.getType());
+    }
+
+    @EventHandler
+    public void onPickup(EntityPickupItemEvent event) {
+        if (!(event.getEntity() instanceof Player)) {
+            return;
+        }
+        ItemStack item = event.getItem().getItemStack();
+        plugin.getTriggerService().onPickupItem((Player) event.getEntity(), item.getType(), item.getAmount());
+    }
+
+    @EventHandler
+    public void onConsume(PlayerItemConsumeEvent event) {
+        plugin.getTriggerService().onConsumeItem(event.getPlayer(), event.getItem().getType());
+    }
+
+    @EventHandler
+    public void onEnchant(EnchantItemEvent event) {
+        plugin.getTriggerService().onEnchantItem(event.getEnchanter(), 1);
+    }
+
+    @EventHandler
+    public void onTame(EntityTameEvent event) {
+        AnimalTamer owner = event.getOwner();
+        if (!(owner instanceof Player)) {
+            return;
+        }
+        plugin.getTriggerService().onTameEntity((Player) owner, event.getEntity().getType());
+    }
+
+    @EventHandler
+    public void onBreed(EntityBreedEvent event) {
+        if (!(event.getBreeder() instanceof Player)) {
+            return;
+        }
+        plugin.getTriggerService().onBreedEntity((Player) event.getBreeder(), event.getEntity().getType());
+    }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent event) {
+        plugin.getTriggerService().onEnterWorld(event.getPlayer(), event.getPlayer().getWorld());
+        plugin.getTriggerService().resetTransientState(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent event) {
+        plugin.getTriggerService().onChat(event.getPlayer(), event.getMessage());
+    }
+
+    @EventHandler
+    public void onCommand(PlayerCommandPreprocessEvent event) {
+        String command = event.getMessage();
+        int spaceIndex = command.indexOf(' ');
+        if (spaceIndex >= 0) {
+            command = command.substring(0, spaceIndex);
+        }
+        plugin.getTriggerService().onExecuteCommand(event.getPlayer(), command);
     }
 
     @EventHandler

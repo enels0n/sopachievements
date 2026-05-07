@@ -3,9 +3,11 @@ package net.enelson.sopachievements.service;
 import net.enelson.sopachievements.SopAchievementsPlugin;
 import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
+import net.enelson.sopachievements.util.ValueMatcher;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,8 +49,15 @@ public final class AchievementTriggerService {
 
     public void onBlockBreak(Player player, Material material) {
         for (AchievementDefinition definition : get(TriggerType.BREAK_BLOCK)) {
-            Material expected = Material.matchMaterial(definition.getTrigger().getString("material", ""));
-            if (expected != null && expected == material) {
+            if (materialMatches(definition, material)) {
+                plugin.getProgressService().increment(player, definition, 1);
+            }
+        }
+    }
+
+    public void onBlockPlace(Player player, Material material) {
+        for (AchievementDefinition definition : get(TriggerType.BLOCK_PLACE)) {
+            if (materialMatches(definition, material)) {
                 plugin.getProgressService().increment(player, definition, 1);
             }
         }
@@ -56,8 +65,7 @@ public final class AchievementTriggerService {
 
     public void onEntityKill(Player player, EntityType entityType) {
         for (AchievementDefinition definition : get(TriggerType.KILL_ENTITY)) {
-            String expected = definition.getTrigger().getString("entity-type", "");
-            if (entityType.name().equalsIgnoreCase(expected)) {
+            if (entityMatches(definition, entityType)) {
                 plugin.getProgressService().increment(player, definition, 1);
             }
         }
@@ -65,8 +73,79 @@ public final class AchievementTriggerService {
 
     public void onCraft(Player player, Material material) {
         for (AchievementDefinition definition : get(TriggerType.CRAFT_ITEM)) {
-            Material expected = Material.matchMaterial(definition.getTrigger().getString("material", ""));
-            if (expected != null && expected == material) {
+            if (materialMatches(definition, material)) {
+                plugin.getProgressService().increment(player, definition, 1);
+            }
+        }
+    }
+
+    public void onPickupItem(Player player, Material material, int amount) {
+        for (AchievementDefinition definition : get(TriggerType.PICKUP_ITEM)) {
+            if (materialMatches(definition, material)) {
+                plugin.getProgressService().increment(player, definition, Math.max(1, amount));
+            }
+        }
+    }
+
+    public void onConsumeItem(Player player, Material material) {
+        for (AchievementDefinition definition : get(TriggerType.CONSUME_ITEM)) {
+            if (materialMatches(definition, material)) {
+                plugin.getProgressService().increment(player, definition, 1);
+            }
+        }
+    }
+
+    public void onEnchantItem(Player player, int amount) {
+        for (AchievementDefinition definition : get(TriggerType.ENCHANT_ITEM)) {
+            plugin.getProgressService().increment(player, definition, Math.max(1, amount));
+        }
+    }
+
+    public void onTameEntity(Player player, EntityType entityType) {
+        for (AchievementDefinition definition : get(TriggerType.TAME_ENTITY)) {
+            if (entityMatches(definition, entityType)) {
+                plugin.getProgressService().increment(player, definition, 1);
+            }
+        }
+    }
+
+    public void onBreedEntity(Player player, EntityType entityType) {
+        for (AchievementDefinition definition : get(TriggerType.BREED_ENTITY)) {
+            if (entityMatches(definition, entityType)) {
+                plugin.getProgressService().increment(player, definition, 1);
+            }
+        }
+    }
+
+    public void onEnterWorld(Player player, World world) {
+        for (AchievementDefinition definition : get(TriggerType.ENTER_WORLD)) {
+            String expectedWorld = definition.getTrigger().getString("world", definition.getTrigger().getString("value", ""));
+            String expectedEnvironment = definition.getTrigger().getString("environment", definition.getTrigger().getString("value", ""));
+            boolean matched = false;
+            if (!expectedWorld.isEmpty() && ValueMatcher.parse(expectedWorld).matches(world.getName())) {
+                matched = true;
+            }
+            if (!expectedEnvironment.isEmpty() && ValueMatcher.parse(expectedEnvironment).matches(world.getEnvironment().name())) {
+                matched = true;
+            }
+            if (matched) {
+                plugin.getProgressService().increment(player, definition, 1);
+            }
+        }
+    }
+
+    public void onChat(Player player, String message) {
+        for (AchievementDefinition definition : get(TriggerType.CHAT)) {
+            String value = definition.getTrigger().getString("value", "any");
+            if ("any".equalsIgnoreCase(value) || message.toLowerCase(Locale.ROOT).contains(value.toLowerCase(Locale.ROOT))) {
+                plugin.getProgressService().increment(player, definition, 1);
+            }
+        }
+    }
+
+    public void onExecuteCommand(Player player, String commandLabelWithSlash) {
+        for (AchievementDefinition definition : get(TriggerType.EXECUTE_COMMAND)) {
+            if (ValueMatcher.parse(definition.getTrigger().getString("value", "any")).matches(commandLabelWithSlash)) {
                 plugin.getProgressService().increment(player, definition, 1);
             }
         }
@@ -144,12 +223,31 @@ public final class AchievementTriggerService {
         return list == null ? Collections.<AchievementDefinition>emptyList() : list;
     }
 
+    private boolean materialMatches(AchievementDefinition definition, Material material) {
+        String raw = definition.getTrigger().getString("value", definition.getTrigger().getString("material", "any"));
+        return ValueMatcher.parse(raw).matches(material.name());
+    }
+
+    private boolean entityMatches(AchievementDefinition definition, EntityType entityType) {
+        String raw = definition.getTrigger().getString("value", definition.getTrigger().getString("entity-type", "any"));
+        return ValueMatcher.parse(raw).matches(entityType.name());
+    }
+
     private enum TriggerType {
         JOIN,
         BREAK_BLOCK,
+        BLOCK_PLACE,
         KILL_ENTITY,
         CRAFT_ITEM,
-        FALL_RANGE;
+        FALL_RANGE,
+        PICKUP_ITEM,
+        CONSUME_ITEM,
+        ENCHANT_ITEM,
+        TAME_ENTITY,
+        BREED_ENTITY,
+        ENTER_WORLD,
+        CHAT,
+        EXECUTE_COMMAND;
 
         static TriggerType from(String raw) {
             if (raw == null) {

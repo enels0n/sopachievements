@@ -26,9 +26,18 @@ The first working layer includes:
 
 - `join`
 - `break_block`
+- `block_place`
 - `kill_entity`
 - `craft_item`
 - `fall_range`
+- `pickup_item`
+- `consume_item`
+- `enchant_item`
+- `tame_entity`
+- `breed_entity`
+- `enter_world`
+- `chat`
+- `execute_command`
 
 ## Output
 

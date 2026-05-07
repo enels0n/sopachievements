@@ -29,7 +29,7 @@ achievements:
     parent: first_join
     trigger:
       type: break_block
-      material: STONE
+      value: STONE
       amount: 16
 
   zombie_slayer:
@@ -43,7 +43,7 @@ achievements:
     parent: stone_miner
     trigger:
       type: kill_entity
-      entity-type: ZOMBIE
+      value: ZOMBIE
       amount: 5
 
   bread_maker:
@@ -57,7 +57,7 @@ achievements:
     parent: first_join
     trigger:
       type: craft_item
-      material: BREAD
+      value: BREAD
       amount: 1
 
   sky_to_bottom:
@@ -77,3 +77,128 @@ achievements:
       deny-flight: true
       deny-vehicles: true
       deny-elytra: true
+
+  apple_taste:
+    category: main
+    title: "&cFresh Bite"
+    description: "&7Eat an apple."
+    icon: APPLE
+    frame: task
+    x: 0
+    y: 2
+    parent: first_join
+    trigger:
+      type: consume_item
+      value: APPLE
+      amount: 1
+
+  collector:
+    category: main
+    title: "&eCollector"
+    description: "&7Pick up 32 cobblestone."
+    icon: COBBLESTONE
+    frame: task
+    x: 2
+    y: 4
+    parent: stone_miner
+    trigger:
+      type: pickup_item
+      value: COBBLESTONE
+      amount: 32
+
+  enchanter:
+    category: main
+    title: "&bEnchanter"
+    description: "&7Enchant an item once."
+    icon: ENCHANTING_TABLE
+    frame: goal
+    x: 4
+    y: 2
+    parent: bread_maker
+    trigger:
+      type: enchant_item
+      amount: 1
+
+  animal_friend:
+    category: main
+    title: "&dAnimal Friend"
+    description: "&7Tame a wolf."
+    icon: BONE
+    frame: task
+    x: 6
+    y: 2
+    parent: bread_maker
+    trigger:
+      type: tame_entity
+      value: WOLF
+      amount: 1
+
+  farmer_family:
+    category: main
+    title: "&aFarmer Family"
+    description: "&7Breed 3 cows."
+    icon: WHEAT
+    frame: goal
+    x: 8
+    y: 2
+    parent: animal_friend
+    trigger:
+      type: breed_entity
+      value: COW
+      amount: 3
+
+  dimension_traveler:
+    category: main
+    title: "&5Traveler"
+    description: "&7Enter the Nether."
+    icon: NETHERRACK
+    frame: task
+    x: 10
+    y: 0
+    parent: zombie_slayer
+    trigger:
+      type: enter_world
+      environment: NETHER
+      amount: 1
+
+  builder:
+    category: main
+    title: "&eBuilder"
+    description: "&7Place 32 planks."
+    icon: OAK_PLANKS
+    frame: task
+    x: 0
+    y: 4
+    parent: first_join
+    trigger:
+      type: block_place
+      value: OAK_PLANKS,BIRCH_PLANKS,SPRUCE_PLANKS
+      amount: 32
+
+  chatter:
+    category: main
+    title: "&bSocial Spark"
+    description: "&7Send 10 chat messages."
+    icon: BOOK
+    frame: task
+    x: 4
+    y: 4
+    parent: first_join
+    trigger:
+      type: chat
+      value: any
+      amount: 10
+
+  command_user:
+    category: main
+    title: "&dCommand Line"
+    description: "&7Use /spawn once."
+    icon: COMPASS
+    frame: task
+    x: 6
+    y: 4
+    parent: chatter
+    trigger:
+      type: execute_command
+      value: /spawn
+      amount: 1
