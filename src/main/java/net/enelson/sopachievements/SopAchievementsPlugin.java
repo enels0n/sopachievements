@@ -124,6 +124,9 @@ public final class SopAchievementsPlugin extends JavaPlugin {
                     triggerService.onLocationRangeSync(player);
                     triggerService.onUnderwaterSync(player);
                     triggerService.onWeatherSync(player);
+                    triggerService.onMoonPhaseSync(player);
+                    triggerService.onTimeWindowSync(player);
+                    triggerService.onEffectComboSync(player);
                 }
             }
         }, interval, interval);

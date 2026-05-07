@@ -65,6 +65,11 @@ The first working layer includes:
 - `underwater_time`
 - `glide_distance`
 - `vehicle_distance`
+- `moon_phase`
+- `time_window`
+- `effect_combo`
+- `armorless_death`
+- `villager_trade_profession`
 
 ## Optional Conditions
 
@@ -306,6 +311,27 @@ If `requirements.criteria` is omitted, the old single `trigger` format still wor
 `vehicle_distance`
 - increments traveled distance while inside a vehicle
 - optional `vehicle` filter, for example `MINECART`, `BOAT`, `HORSE`
+
+`moon_phase`
+- checked by the periodic sync task
+- values include `FULL_MOON`, `NEW_MOON`, `FIRST_QUARTER`, `LAST_QUARTER`, `WAXING_GIBBOUS`, `WANING_GIBBOUS`, `WAXING_CRESCENT`, `WANING_CRESCENT`
+
+`time_window`
+- checked by the periodic sync task
+- supports `time-min` and `time-max`
+- works with wrapped ranges too, for example night from `13000` to `23000`
+
+`effect_combo`
+- checked by the periodic sync task
+- `value` is a comma-separated list of potion effect names that must all be active at once
+
+`armorless_death`
+- reacts when the player dies without armor equipped
+- uses the same death-cause matching as `death`
+
+`villager_trade_profession`
+- trade trigger with extra villager filters
+- supports `profession` and `level`
 
 ## Output
 

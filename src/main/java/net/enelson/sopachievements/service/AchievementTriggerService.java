@@ -8,9 +8,11 @@ import net.enelson.sopachievements.util.ValueMatcher;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.AbstractVillager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.World;
 import org.bukkit.inventory.PlayerInventory;
@@ -69,6 +71,18 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onArmorlessDeath(Player player, String cause) {
+        if (!isArmorless(player)) {
+            return;
+        }
+        for (CriterionBinding binding : get(TriggerType.ARMORLESS_DEATH)) {
+            if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(cause)) {
+                Map<String, String> context = with(baseContext(player, "armorless_death"), "death_cause", cause);
+                incrementIfMatches(player, binding, 1, context);
+            }
+        }
+    }
+
     public void onLightningStrike(Player player) {
         for (CriterionBinding binding : get(TriggerType.LIGHTNING_STRIKE)) {
             incrementIfMatches(player, binding, 1, baseContext(player, "lightning_strike"));
@@ -102,12 +116,32 @@ public final class AchievementTriggerService {
         }
     }
 
-    public void onVillagerTrade(Player player, Material result, int amount) {
+    public void onVillagerTrade(Player player, Material result, int amount, String profession, String level) {
         for (CriterionBinding binding : get(TriggerType.VILLAGER_TRADE)) {
             if (materialMatches(binding.criterion, result)) {
                 Map<String, String> context = with(baseContext(player, "villager_trade"), "material", result.name(), "amount", String.valueOf(amount));
+                context.put("villager_profession", profession);
+                context.put("villager_level", level);
                 incrementIfMatches(player, binding, Math.max(1, amount), context);
             }
+        }
+    }
+
+    public void onVillagerTradeProfession(Player player, Material result, int amount, String profession, String level) {
+        for (CriterionBinding binding : get(TriggerType.VILLAGER_TRADE_PROFESSION)) {
+            if (!materialMatches(binding.criterion, result)) {
+                continue;
+            }
+            if (!ValueMatcher.parse(binding.criterion.getTrigger().getString("profession", "any")).matches(profession)) {
+                continue;
+            }
+            if (!ValueMatcher.parse(binding.criterion.getTrigger().getString("level", "any")).matches(level)) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "villager_trade_profession"), "material", result.name(), "amount", String.valueOf(amount));
+            context.put("villager_profession", profession);
+            context.put("villager_level", level);
+            incrementIfMatches(player, binding, Math.max(1, amount), context);
         }
     }
 
@@ -443,6 +477,44 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onMoonPhaseSync(Player player) {
+        if (player.getWorld().getEnvironment() != World.Environment.NORMAL) {
+            return;
+        }
+        String moonPhase = resolveMoonPhase(player.getWorld());
+        for (CriterionBinding binding : get(TriggerType.MOON_PHASE)) {
+            if (!ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(moonPhase)) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "moon_phase"), "moon_phase", moonPhase);
+            incrementIfMatches(player, binding, 1, context);
+        }
+    }
+
+    public void onTimeWindowSync(Player player) {
+        long time = player.getWorld().getTime();
+        for (CriterionBinding binding : get(TriggerType.TIME_WINDOW)) {
+            long min = binding.criterion.getTrigger().getInt("time-min", 0);
+            long max = binding.criterion.getTrigger().getInt("time-max", 23999);
+            if (!isWithinTimeWindow(time, min, max)) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "time_window"), "world_time", String.valueOf(time));
+            incrementIfMatches(player, binding, 1, context);
+        }
+    }
+
+    public void onEffectComboSync(Player player) {
+        String activeEffects = activeEffects(player);
+        for (CriterionBinding binding : get(TriggerType.EFFECT_COMBO)) {
+            if (!hasAllEffects(player, binding.criterion.getTrigger().getString("value", ""))) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "effect_combo"), "active_effects", activeEffects);
+            incrementIfMatches(player, binding, 1, context);
+        }
+    }
+
     public void onMove(Player player, double fromY, double toY, boolean onGroundNow) {
         tickBiomeStay(player);
         if (get(TriggerType.FALL_RANGE).isEmpty()) {
@@ -592,6 +664,18 @@ public final class AchievementTriggerService {
         return total;
     }
 
+    private boolean isArmorless(Player player) {
+        PlayerInventory inventory = player.getInventory();
+        return isEmpty(inventory.getHelmet())
+                && isEmpty(inventory.getChestplate())
+                && isEmpty(inventory.getLeggings())
+                && isEmpty(inventory.getBoots());
+    }
+
+    private boolean isEmpty(ItemStack itemStack) {
+        return itemStack == null || itemStack.getType() == Material.AIR;
+    }
+
     private int countEquipped(PlayerInventory inventory, Material material) {
         int total = 0;
         ItemStack helmet = inventory.getHelmet();
@@ -647,6 +731,64 @@ public final class AchievementTriggerService {
         } catch (Exception ignored) {
             return null;
         }
+    }
+
+    private String activeEffects(Player player) {
+        List<String> names = new ArrayList<String>();
+        for (org.bukkit.potion.PotionEffect effect : player.getActivePotionEffects()) {
+            if (effect != null && effect.getType() != null && effect.getType().getName() != null) {
+                names.add(effect.getType().getName());
+            }
+        }
+        return String.join(",", names);
+    }
+
+    private boolean hasAllEffects(Player player, String raw) {
+        if (raw == null || raw.trim().isEmpty()) {
+            return false;
+        }
+        String[] split = raw.split(",");
+        for (String part : split) {
+            String trimmed = part.trim();
+            if (trimmed.isEmpty()) {
+                continue;
+            }
+            PotionEffectType effectType = PotionEffectType.getByName(trimmed.toUpperCase(Locale.ROOT));
+            if (effectType == null || !player.hasPotionEffect(effectType)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private String resolveMoonPhase(World world) {
+        long fullTime = world.getFullTime();
+        int phase = (int) ((fullTime / 24000L) % 8L);
+        switch (phase) {
+            case 0:
+                return "FULL_MOON";
+            case 1:
+                return "WANING_GIBBOUS";
+            case 2:
+                return "LAST_QUARTER";
+            case 3:
+                return "WANING_CRESCENT";
+            case 4:
+                return "NEW_MOON";
+            case 5:
+                return "WAXING_CRESCENT";
+            case 6:
+                return "FIRST_QUARTER";
+            default:
+                return "WAXING_GIBBOUS";
+        }
+    }
+
+    private boolean isWithinTimeWindow(long time, long min, long max) {
+        if (min <= max) {
+            return time >= min && time <= max;
+        }
+        return time >= min || time <= max;
     }
 
     private void tickBiomeStay(Player player) {
@@ -774,12 +916,14 @@ public final class AchievementTriggerService {
         JOIN,
         DEATH,
         LIGHTNING_STRIKE,
+        ARMORLESS_DEATH,
         SLEEP,
         TOTEM_USE,
         RAID_WIN,
         BUCKET,
         POTION_EFFECT,
         VILLAGER_TRADE,
+        VILLAGER_TRADE_PROFESSION,
         BREAK_BLOCK,
         BLOCK_PLACE,
         KILL_ENTITY,
@@ -811,7 +955,10 @@ public final class AchievementTriggerService {
         GLIDE_DISTANCE,
         VEHICLE_DISTANCE,
         UNDERWATER_TIME,
-        WEATHER;
+        WEATHER,
+        MOON_PHASE,
+        TIME_WINDOW,
+        EFFECT_COMBO;
 
         static TriggerType from(String raw) {
             if (raw == null) {

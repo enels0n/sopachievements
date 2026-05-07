@@ -757,3 +757,76 @@ achievements:
       type: vehicle_distance
       vehicle: MINECART
       amount: 500
+
+  moon_watcher:
+    category: main
+    title: "&7Moon Watcher"
+    description: "&7Spend 20 seconds under a full moon."
+    icon: DAYLIGHT_DETECTOR
+    frame: goal
+    x: 36
+    y: 0
+    parent: weather_watcher
+    trigger:
+      type: moon_phase
+      value: FULL_MOON
+      amount: 20
+
+  midnight_runner:
+    category: main
+    title: "&1Midnight Runner"
+    description: "&7Travel at night for 30 seconds."
+    icon: CLOCK
+    frame: task
+    x: 36
+    y: 2
+    parent: moon_watcher
+    trigger:
+      type: time_window
+      time-min: 13000
+      time-max: 23000
+      amount: 30
+
+  battle_chemist:
+    category: main
+    title: "&5Battle Chemist"
+    description: "&7Have both speed and strength at once."
+    icon: DRAGON_BREATH
+    frame: challenge
+    x: 36
+    y: 4
+    parent: brewer
+    trigger:
+      type: effect_combo
+      value: SPEED,INCREASE_DAMAGE
+      amount: 1
+
+  leather_loser:
+    category: main
+    title: "&8Leather Loser"
+    description: "&7Die to fall damage without armor."
+    icon: LEATHER
+    frame: task
+    x: 38
+    y: 0
+    parent: doomed
+    trigger:
+      type: armorless_death
+      value: FALL
+      amount: 1
+
+  master_cleric:
+    category: main
+    title: "&aMaster Cleric Customer"
+    description: "&7Trade emeralds with a master cleric."
+    icon: GOLDEN_CARROT
+    frame: goal
+    x: 38
+    y: 2
+    parent: emerald_client
+    trigger:
+      type: villager_trade_profession
+      value: EMERALD
+      profession: CLERIC
+      level: 5
+      amount: 8

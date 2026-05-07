@@ -75,6 +75,7 @@ public final class AchievementEventListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         String cause = event.getEntity().getLastDamageCause() == null ? "UNKNOWN" : event.getEntity().getLastDamageCause().getCause().name();
         plugin.getTriggerService().onPlayerDeath(event.getEntity(), cause);
+        plugin.getTriggerService().onArmorlessDeath(event.getEntity(), cause);
     }
 
     @EventHandler
@@ -160,7 +161,16 @@ public final class AchievementEventListener implements Listener {
         if (current == null) {
             return;
         }
-        plugin.getTriggerService().onVillagerTrade((Player) event.getWhoClicked(), current.getType(), Math.max(1, current.getAmount()));
+        String profession = "ANY";
+        String level = "ANY";
+        MerchantInventory merchantInventory = (MerchantInventory) event.getInventory();
+        if (merchantInventory.getMerchant() instanceof org.bukkit.entity.Villager) {
+            org.bukkit.entity.Villager villager = (org.bukkit.entity.Villager) merchantInventory.getMerchant();
+            profession = villager.getProfession().name();
+            level = String.valueOf(villager.getVillagerLevel());
+        }
+        plugin.getTriggerService().onVillagerTrade((Player) event.getWhoClicked(), current.getType(), Math.max(1, current.getAmount()), profession, level);
+        plugin.getTriggerService().onVillagerTradeProfession((Player) event.getWhoClicked(), current.getType(), Math.max(1, current.getAmount()), profession, level);
     }
 
     @EventHandler
