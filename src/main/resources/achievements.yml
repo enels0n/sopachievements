@@ -26,7 +26,8 @@ achievements:
       type: join
       amount: 1
     rewards:
-      message: "&aYou unlocked %achievement_title%&a."
+      message-key: "%soplocales_achivka_main_first_join_complete%"
+      message-fallback: "&aYou unlocked %achievement_title%&a."
 
   stone_miner:
     category: main

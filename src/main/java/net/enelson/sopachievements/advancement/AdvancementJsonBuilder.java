@@ -55,18 +55,18 @@ public final class AdvancementJsonBuilder {
     }
 
     private static String buildTextComponent(String translateKey, String fallback, String plainText) {
+        String normalizedFallback = stripLegacy(fallback == null || fallback.trim().isEmpty() ? plainText : fallback);
         String normalizedKey = translateKey == null ? "" : translateKey.trim();
         if (!normalizedKey.isEmpty()) {
             StringBuilder json = new StringBuilder();
             json.append("{\"translate\":\"").append(escape(normalizedKey)).append("\"");
-            String normalizedFallback = stripLegacy(fallback == null || fallback.trim().isEmpty() ? plainText : fallback);
             if (!normalizedFallback.isEmpty()) {
                 json.append(",\"fallback\":\"").append(escape(normalizedFallback)).append("\"");
             }
             json.append("}");
             return json.toString();
         }
-        return "{\"text\":\"" + escape(stripLegacy(plainText)) + "\"}";
+        return "{\"text\":\"" + escape(normalizedFallback) + "\"}";
     }
 
     private static String stripLegacy(String input) {

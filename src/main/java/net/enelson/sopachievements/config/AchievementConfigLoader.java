@@ -129,9 +129,14 @@ public final class AchievementConfigLoader {
 
     private AchievementRewards loadRewards(ConfigurationSection section) {
         if (section == null) {
-            return new AchievementRewards(java.util.Collections.<String>emptyList(), "");
+            return new AchievementRewards(java.util.Collections.<String>emptyList(), "", "", "");
         }
-        return new AchievementRewards(section.getStringList("commands"), section.getString("message", ""));
+        return new AchievementRewards(
+                section.getStringList("commands"),
+                section.getString("message", ""),
+                section.getString("message-key", ""),
+                section.getString("message-fallback", section.getString("message", ""))
+        );
     }
 
     private AchievementRequirements loadRequirements(ConfigurationSection section) {

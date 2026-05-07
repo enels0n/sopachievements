@@ -159,6 +159,33 @@ Reward commands support:
 - `[player] ...`
 - or plain commands, which default to console execution
 
+Reward messages can also use PlaceholderAPI directly for systems like `SopLocales`.
+
+Supported reward message fields:
+
+- `message`
+- `message-key`
+- `message-fallback`
+
+Recommended pattern:
+
+```yml
+rewards:
+  message-key: "%soplocales_achivka_main_first_join_complete%"
+  message-fallback: "&aYou unlocked %achievement_title%&a."
+```
+
+Behavior:
+
+- if `message-key` resolves through PAPI, that result is used
+- if it stays unresolved, `message-fallback` is used instead
+- if no `message-key` is set, normal `message` or `message-fallback` text is used
+
+For advancement display fields in the `L` menu:
+
+- if you set only `key-name-fallback` or `key-lore-fallback` and leave `key-*` empty, no errors occur
+- the fallback text is written as plain advancement text
+
 ## Statistic Trigger
 
 `statistic` achievements read vanilla Bukkit statistics on a configurable interval instead of listening to a dedicated event.

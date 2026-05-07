@@ -25,7 +25,10 @@ public final class AchievementRewardService {
 
         Map<String, String> replacements = replacements(player, definition);
         if (rewards.hasMessage()) {
-            player.sendMessage(plugin.getMessageService().resolve(player, rewards.getMessage(), replacements));
+            String rewardMessage = resolveRewardMessage(player, rewards, replacements);
+            if (rewardMessage != null && !rewardMessage.trim().isEmpty()) {
+                player.sendMessage(rewardMessage);
+            }
         }
         if (rewards.hasCommands()) {
             for (String rawCommand : rewards.getCommands()) {
@@ -52,6 +55,22 @@ public final class AchievementRewardService {
             return;
         }
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+    }
+
+    private String resolveRewardMessage(Player player, AchievementRewards rewards, Map<String, String> replacements) {
+        if (rewards.getMessageKey() != null && !rewards.getMessageKey().trim().isEmpty()) {
+            String keyMessage = plugin.getMessageService().resolve(player, rewards.getMessageKey(), replacements);
+            if (!keyMessage.equals(rewards.getMessageKey()) || rewards.getMessageKey().indexOf('%') < 0) {
+                return keyMessage;
+            }
+            if (rewards.getMessageFallback() != null && !rewards.getMessageFallback().trim().isEmpty()) {
+                return plugin.getMessageService().resolve(player, rewards.getMessageFallback(), replacements);
+            }
+        }
+        if (rewards.getMessageFallback() != null && !rewards.getMessageFallback().trim().isEmpty()) {
+            return plugin.getMessageService().resolve(player, rewards.getMessageFallback(), replacements);
+        }
+        return plugin.getMessageService().resolve(player, rewards.getMessage(), replacements);
     }
 
     private Map<String, String> replacements(Player player, AchievementDefinition definition) {
