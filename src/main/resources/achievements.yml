@@ -486,3 +486,81 @@ achievements:
     trigger:
       type: player_advancement
       value: minecraft:story/enter_the_nether
+
+  second_wind:
+    category: main
+    title: "&cSecond Wind"
+    description: "&7Cheat death with a totem once."
+    icon: TOTEM_OF_UNDYING
+    frame: challenge
+    x: 22
+    y: 0
+    parent: tough_skin
+    trigger:
+      type: totem_use
+      amount: 1
+
+  sleepyhead:
+    category: main
+    title: "&9Sleepyhead"
+    description: "&7Go to bed 3 times."
+    icon: BLUE_BED
+    frame: task
+    x: 22
+    y: 2
+    parent: sleeper
+    trigger:
+      type: sleep
+      amount: 3
+
+  deep_bucket:
+    category: main
+    title: "&bDeep Bucket"
+    description: "&7Empty a water bucket below Y 30."
+    icon: WATER_BUCKET
+    frame: task
+    x: 22
+    y: 4
+    parent: command_sprinter
+    trigger:
+      type: bucket
+      value: WATER_BUCKET
+      amount: 1
+    conditions:
+      type: all
+      checks:
+        - type: "string equals"
+          input: "%bucket_action%"
+          output: "EMPTY"
+        - type: "number <="
+          input: "%player_y%"
+          output: "30"
+
+  skeleton_sniper:
+    category: main
+    title: "&fSkeleton Sniper"
+    description: "&7Kill 5 skeletons with arrows."
+    icon: ARROW
+    frame: goal
+    x: 24
+    y: 0
+    parent: hunter_training
+    trigger:
+      type: projectile_kill
+      value: SKELETON
+      projectile: ARROW
+      amount: 5
+
+  doomed:
+    category: main
+    title: "&8Doomed"
+    description: "&7Die 3 times to lava."
+    icon: LAVA_BUCKET
+    frame: task
+    x: 24
+    y: 2
+    parent: dimension_traveler
+    trigger:
+      type: death
+      value: LAVA
+      amount: 3

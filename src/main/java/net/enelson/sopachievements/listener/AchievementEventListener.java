@@ -16,12 +16,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.EntityTameEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.FurnaceExtractEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerHarvestBlockEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
@@ -29,7 +33,9 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.projectiles.ProjectileSource;
 
 public final class AchievementEventListener implements Listener {
 
@@ -53,6 +59,19 @@ public final class AchievementEventListener implements Listener {
     }
 
     @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        String cause = event.getEntity().getLastDamageCause() == null ? "UNKNOWN" : event.getEntity().getLastDamageCause().getCause().name();
+        plugin.getTriggerService().onPlayerDeath(event.getEntity(), cause);
+    }
+
+    @EventHandler
+    public void onBedEnter(PlayerBedEnterEvent event) {
+        if (event.getBedEnterResult() == PlayerBedEnterEvent.BedEnterResult.OK) {
+            plugin.getTriggerService().onSleep(event.getPlayer());
+        }
+    }
+
+    @EventHandler
     public void onBreak(BlockBreakEvent event) {
         plugin.getTriggerService().onBlockBreak(event.getPlayer(), event.getBlock().getType());
     }
@@ -63,13 +82,30 @@ public final class AchievementEventListener implements Listener {
     }
 
     @EventHandler
+    public void onBucketFill(PlayerBucketFillEvent event) {
+        plugin.getTriggerService().onBucket(event.getPlayer(), event.getBucket(), "FILL");
+    }
+
+    @EventHandler
+    public void onBucketEmpty(PlayerBucketEmptyEvent event) {
+        plugin.getTriggerService().onBucket(event.getPlayer(), event.getBucket(), "EMPTY");
+    }
+
+    @EventHandler
     public void onDeath(EntityDeathEvent event) {
         LivingEntity entity = event.getEntity();
         Player killer = entity.getKiller();
+        Projectile projectile = projectileKiller(entity);
         if (killer == null) {
+            if (projectile != null && projectile.getShooter() instanceof Player) {
+                plugin.getTriggerService().onProjectileKill((Player) projectile.getShooter(), entity.getType(), projectile.getType());
+            }
             return;
         }
         plugin.getTriggerService().onEntityKill(killer, entity.getType());
+        if (projectile != null && projectile.getShooter() instanceof Player) {
+            plugin.getTriggerService().onProjectileKill((Player) projectile.getShooter(), entity.getType(), projectile.getType());
+        }
     }
 
     @EventHandler
@@ -101,6 +137,13 @@ public final class AchievementEventListener implements Listener {
     @EventHandler
     public void onConsume(PlayerItemConsumeEvent event) {
         plugin.getTriggerService().onConsumeItem(event.getPlayer(), event.getItem().getType());
+    }
+
+    @EventHandler
+    public void onResurrect(EntityResurrectEvent event) {
+        if (event.getEntity() instanceof Player) {
+            plugin.getTriggerService().onTotemUse((Player) event.getEntity());
+        }
     }
 
     @EventHandler
@@ -213,6 +256,20 @@ public final class AchievementEventListener implements Listener {
             Projectile projectile = (Projectile) damager;
             if (projectile.getShooter() instanceof Player) {
                 return (Player) projectile.getShooter();
+            }
+        }
+        return null;
+    }
+
+    private Projectile projectileKiller(LivingEntity entity) {
+        if (entity.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+            Entity damager = ((EntityDamageByEntityEvent) entity.getLastDamageCause()).getDamager();
+            if (damager instanceof Projectile) {
+                Projectile projectile = (Projectile) damager;
+                ProjectileSource shooter = projectile.getShooter();
+                if (shooter instanceof Player) {
+                    return projectile;
+                }
             }
         }
         return null;

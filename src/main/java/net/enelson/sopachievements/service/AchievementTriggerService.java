@@ -56,6 +56,36 @@ public final class AchievementTriggerService {
         }
     }
 
+    public void onPlayerDeath(Player player, String cause) {
+        for (CriterionBinding binding : get(TriggerType.DEATH)) {
+            if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(cause)) {
+                Map<String, String> context = with(baseContext(player, "death"), "death_cause", cause);
+                incrementIfMatches(player, binding, 1, context);
+            }
+        }
+    }
+
+    public void onSleep(Player player) {
+        for (CriterionBinding binding : get(TriggerType.SLEEP)) {
+            incrementIfMatches(player, binding, 1, baseContext(player, "sleep"));
+        }
+    }
+
+    public void onTotemUse(Player player) {
+        for (CriterionBinding binding : get(TriggerType.TOTEM_USE)) {
+            incrementIfMatches(player, binding, 1, baseContext(player, "totem_use"));
+        }
+    }
+
+    public void onBucket(Player player, Material material, String action) {
+        for (CriterionBinding binding : get(TriggerType.BUCKET)) {
+            if (materialMatches(binding.criterion, material)) {
+                Map<String, String> context = with(baseContext(player, "bucket"), "material", material.name(), "bucket_action", action);
+                incrementIfMatches(player, binding, 1, context);
+            }
+        }
+    }
+
     public void onAdvancementDone(Player player, String advancementKey) {
         for (CriterionBinding binding : get(TriggerType.PLAYER_ADVANCEMENT)) {
             if (ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(advancementKey)) {
@@ -89,6 +119,22 @@ public final class AchievementTriggerService {
                 Map<String, String> context = with(baseContext(player, "kill_entity"), "entity_type", entityType.name());
                 incrementIfMatches(player, binding, 1, context);
             }
+        }
+    }
+
+    public void onProjectileKill(Player player, EntityType entityType, EntityType projectileType) {
+        for (CriterionBinding binding : get(TriggerType.PROJECTILE_KILL)) {
+            if (!entityMatches(binding.criterion, entityType)) {
+                continue;
+            }
+            String projectileRule = binding.criterion.getTrigger().getString("projectile", "any");
+            if (!ValueMatcher.parse(projectileRule).matches(projectileType.name())) {
+                continue;
+            }
+            Map<String, String> context = with(baseContext(player, "projectile_kill"),
+                    "entity_type", entityType.name(),
+                    "projectile_type", projectileType.name());
+            incrementIfMatches(player, binding, 1, context);
         }
     }
 
@@ -480,9 +526,14 @@ public final class AchievementTriggerService {
 
     private enum TriggerType {
         JOIN,
+        DEATH,
+        SLEEP,
+        TOTEM_USE,
+        BUCKET,
         BREAK_BLOCK,
         BLOCK_PLACE,
         KILL_ENTITY,
+        PROJECTILE_KILL,
         CRAFT_ITEM,
         FALL_RANGE,
         PICKUP_ITEM,

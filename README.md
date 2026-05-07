@@ -47,6 +47,11 @@ The first working layer includes:
 - `smelt_item`
 - `player_advancement`
 - `inventory_contains`
+- `death`
+- `sleep`
+- `totem_use`
+- `bucket`
+- `projectile_kill`
 
 ## Optional Conditions
 
@@ -219,6 +224,26 @@ If `requirements.criteria` is omitted, the old single `trigger` format still wor
 `inventory_contains`
 - checked by the periodic sync task
 - completes when the player holds at least the configured amount of an item at once
+
+`death`
+- uses the player death cause name as its `value`
+- example values: `LAVA`, `FALL`, `ENTITY_ATTACK`
+
+`sleep`
+- increments when the player successfully enters a bed
+
+`totem_use`
+- increments on `EntityResurrectEvent` for players
+
+`bucket`
+- listens to fill/empty bucket events
+- use `value` for the bucket item, for example `WATER_BUCKET`
+- use `%bucket_action%` in conditions if you want only `FILL` or only `EMPTY`
+
+`projectile_kill`
+- reacts to kills made by player-shot projectiles
+- use `value` for the killed entity
+- use `projectile` for the projectile type, for example `ARROW`
 
 ## Output
 
