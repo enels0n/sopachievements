@@ -1,9 +1,12 @@
 package net.enelson.sopachievements;
 
 import net.enelson.sopachievements.advancement.AdvancementRegistry;
+import net.enelson.sopachievements.advancement.AdvancementDataPackWriter;
+import net.enelson.sopachievements.advancement.AdvancementJsonBuilder;
 import net.enelson.sopachievements.command.SopAchievementsCommand;
 import net.enelson.sopachievements.config.AchievementConfigLoader;
 import net.enelson.sopachievements.listener.AchievementEventListener;
+import net.enelson.sopachievements.model.AchievementCategory;
 import net.enelson.sopachievements.model.AchievementDefinition;
 import net.enelson.sopachievements.model.AchievementRegistryModel;
 import net.enelson.sopachievements.service.AchievementProgressService;
@@ -22,6 +25,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
     private MessageService messageService;
     private AchievementRegistryModel registryModel;
     private AdvancementRegistry advancementRegistry;
+    private AdvancementDataPackWriter advancementDataPackWriter;
     private AchievementProgressService progressService;
     private AchievementConditionService conditionService;
     private AchievementRewardService rewardService;
@@ -35,6 +39,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
 
         this.messageService = new MessageService(this);
         this.advancementRegistry = new AdvancementRegistry(this);
+        this.advancementDataPackWriter = new AdvancementDataPackWriter(this);
         this.progressService = new AchievementProgressService(this);
         this.conditionService = new AchievementConditionService(this);
         this.rewardService = new AchievementRewardService(this);
@@ -46,7 +51,9 @@ public final class SopAchievementsPlugin extends JavaPlugin {
         }
 
         getServer().getPluginManager().registerEvents(new AchievementEventListener(this), this);
-        getCommand("sopachievements").setExecutor(new SopAchievementsCommand(this));
+        SopAchievementsCommand commandExecutor = new SopAchievementsCommand(this);
+        getCommand("sopachievements").setExecutor(commandExecutor);
+        getCommand("sopachievements").setTabCompleter(commandExecutor);
     }
 
     public boolean reloadPlugin() {
@@ -56,11 +63,13 @@ public final class SopAchievementsPlugin extends JavaPlugin {
             AchievementRegistryModel loaded = new AchievementConfigLoader(this).load();
             this.registryModel = loaded;
             this.triggerService.reload(loaded);
+            this.advancementDataPackWriter.write(loaded);
             this.advancementRegistry.reload(loaded);
             for (AchievementDefinition definition : loaded.getAchievements().values()) {
-                if (definition.isRoot()) {
-                    progressService.ensureAwardConsistency(definition, Collections.unmodifiableMap(loaded.getAchievements()));
-                }
+                progressService.ensureAwardConsistency(definition, Collections.unmodifiableMap(loaded.getAchievements()));
+            }
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                schedulePlayerInitialization(player, 60L);
             }
             startSyncTask();
             return true;
@@ -88,6 +97,10 @@ public final class SopAchievementsPlugin extends JavaPlugin {
         return advancementRegistry;
     }
 
+    public AdvancementDataPackWriter getAdvancementDataPackWriter() {
+        return advancementDataPackWriter;
+    }
+
     public AchievementProgressService getProgressService() {
         return progressService;
     }
@@ -102,6 +115,56 @@ public final class SopAchievementsPlugin extends JavaPlugin {
 
     public AchievementTriggerService getTriggerService() {
         return triggerService;
+    }
+
+    public void schedulePlayerInitialization(final Player player, long delayTicks) {
+        getServer().getScheduler().runTaskLater(this, new Runnable() {
+            @Override
+            public void run() {
+                if (player == null || !player.isOnline()) {
+                    return;
+                }
+                runInitializationPass(player);
+                getServer().getScheduler().runTaskLater(SopAchievementsPlugin.this, new Runnable() {
+                    @Override
+                    public void run() {
+                        if (player == null || !player.isOnline()) {
+                            return;
+                        }
+                        runInitializationPass(player);
+                    }
+                }, 40L);
+            }
+        }, Math.max(40L, delayTicks));
+    }
+
+    private void runInitializationPass(Player player) {
+        ensureCategoryTabsGranted(player);
+        progressService.refreshAwardedAdvancements(player, registryModel.getAchievements().values());
+        triggerService.onJoin(player);
+        triggerService.onEnterWorld(player, player.getWorld());
+        triggerService.onStatisticSync(player);
+        triggerService.onInventorySync(player);
+        triggerService.onEquipSync(player);
+        triggerService.onLocationRangeSync(player);
+        triggerService.onUnderwaterSync(player);
+        triggerService.onWeatherSync(player);
+        triggerService.onMoonPhaseSync(player);
+        triggerService.onTimeWindowSync(player);
+        triggerService.onEffectComboSync(player);
+        progressService.refreshAwardedAdvancements(player, registryModel.getAchievements().values());
+    }
+
+    private void ensureCategoryTabsGranted(Player player) {
+        if (registryModel == null) {
+            return;
+        }
+        for (AchievementCategory category : registryModel.getCategories().values()) {
+            org.bukkit.advancement.Advancement advancement = Bukkit.getAdvancement(
+                    advancementRegistry.key(AdvancementJsonBuilder.categoryRootId(category.getId()))
+            );
+            progressService.awardAllCriteria(player, advancement);
+        }
     }
 
     private void saveResourceIfMissing(String path) {
@@ -127,6 +190,7 @@ public final class SopAchievementsPlugin extends JavaPlugin {
                     triggerService.onMoonPhaseSync(player);
                     triggerService.onTimeWindowSync(player);
                     triggerService.onEffectComboSync(player);
+                    triggerService.onBiomeStaySync(player);
                 }
             }
         }, interval, interval);

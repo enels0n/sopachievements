@@ -520,7 +520,6 @@ public final class AchievementTriggerService {
     }
 
     public void onMove(Player player, double fromY, double toY, boolean onGroundNow) {
-        tickBiomeStay(player);
         if (get(TriggerType.FALL_RANGE).isEmpty()) {
             return;
         }
@@ -833,6 +832,10 @@ public final class AchievementTriggerService {
         return false;
     }
 
+    public void onBiomeStaySync(Player player) {
+        tickBiomeStay(player);
+    }
+
     private void tickBiomeStay(Player player) {
         List<CriterionBinding> bindings = get(TriggerType.BIOME_STAY);
         if (bindings.isEmpty()) {
@@ -844,14 +847,14 @@ public final class AchievementTriggerService {
         if (session == null || session.biome != biome || !session.worldName.equalsIgnoreCase(player.getWorld().getName())) {
             session = new BiomeStaySession(player.getWorld().getName(), biome);
             biomeStaySessions.put(key, session);
-        } else {
-            session.ticks++;
         }
+        int syncInterval = Math.max(1, plugin.getConfig().getInt("settings.sync-check-interval-ticks",
+                plugin.getConfig().getInt("settings.statistic-check-interval-ticks", 100)) / 20);
+        int seconds = (int) ((System.currentTimeMillis() - session.startTimeMillis) / 1000L);
         for (CriterionBinding binding : bindings) {
             if (!ValueMatcher.parse(binding.criterion.getTrigger().getString("value", "any")).matches(biome.name())) {
                 continue;
             }
-            int seconds = Math.max(1, session.ticks / 20);
             Map<String, String> context = with(baseContext(player, "biome_stay"),
                     "biome", biome.name(),
                     "time_seconds", String.valueOf(seconds));
@@ -1078,12 +1081,12 @@ public final class AchievementTriggerService {
     private static final class BiomeStaySession {
         private final String worldName;
         private final Biome biome;
-        private int ticks;
+        private final long startTimeMillis;
 
         private BiomeStaySession(String worldName, Biome biome) {
             this.worldName = worldName;
             this.biome = biome;
-            this.ticks = 0;
+            this.startTimeMillis = System.currentTimeMillis();
         }
     }
 }

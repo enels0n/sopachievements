@@ -5,6 +5,8 @@ import net.enelson.sopachievements.model.AchievementDefinition;
 
 public final class AdvancementJsonBuilder {
 
+    private static final String CATEGORY_ROOT_PREFIX = "__category_";
+
     private AdvancementJsonBuilder() {
     }
 
@@ -16,26 +18,11 @@ public final class AdvancementJsonBuilder {
         String loreFallback = definition.getLoreKeyFallback();
         String loreText = definition.getDescription();
 
-        if (definition.isRoot() && category != null) {
-            if (category.getNameKey() != null && !category.getNameKey().trim().isEmpty()) {
-                titleKey = category.getNameKey();
-                titleFallback = category.getNameKeyFallback();
-                titleText = category.getTitle();
-            }
-            if (category.getLoreKey() != null && !category.getLoreKey().trim().isEmpty()) {
-                loreKey = category.getLoreKey();
-                loreFallback = category.getLoreKeyFallback();
-                loreText = category.getDescription();
-            }
-        }
-
         StringBuilder json = new StringBuilder();
         json.append("{");
-        if (!definition.isRoot()) {
-            json.append("\"parent\":\"").append(namespace).append(":").append(escape(definition.getParentId())).append("\",");
-        }
+        json.append("\"parent\":\"").append(namespace).append(":").append(escape(resolveParentId(definition, category))).append("\",");
         json.append("\"display\":{")
-                .append("\"icon\":{\"item\":\"minecraft:").append(escape(definition.getIconMaterial().toLowerCase())).append("\"},")
+                .append("\"icon\":").append(buildIconComponent(definition.getIconMaterial())).append(",")
                 .append("\"title\":").append(buildTextComponent(titleKey, titleFallback, titleText)).append(",")
                 .append("\"description\":").append(buildTextComponent(loreKey, loreFallback, loreText)).append(",")
                 .append("\"frame\":\"").append(escape(definition.getFrame().toLowerCase())).append("\",")
@@ -44,9 +31,6 @@ public final class AdvancementJsonBuilder {
                 .append("\"hidden\":").append(definition.isHidden()).append(",")
                 .append("\"x\":").append(definition.getX()).append(",")
                 .append("\"y\":").append(definition.getY());
-        if (definition.isRoot()) {
-            json.append(",\"background\":\"").append(escape(category.getBackground())).append("\"");
-        }
         json.append("},");
         json.append("\"criteria\":{\"done\":{\"trigger\":\"minecraft:impossible\"}},");
         json.append("\"requirements\":[[\"done\"]]");
@@ -54,19 +38,61 @@ public final class AdvancementJsonBuilder {
         return json.toString();
     }
 
+    public static String buildCategoryRoot(AchievementCategory category) {
+        StringBuilder json = new StringBuilder();
+        json.append("{");
+        json.append("\"display\":{")
+                .append("\"icon\":").append(buildIconComponent(category.getIconMaterial())).append(",")
+                .append("\"title\":").append(buildTextComponent(category.getNameKey(), category.getNameKeyFallback(), category.getTitle())).append(",")
+                .append("\"description\":").append(buildTextComponent(category.getLoreKey(), category.getLoreKeyFallback(), category.getDescription())).append(",")
+                .append("\"frame\":\"task\",")
+                .append("\"show_toast\":false,")
+                .append("\"announce_to_chat\":false,")
+                .append("\"hidden\":false,")
+                .append("\"x\":0,")
+                .append("\"y\":0,")
+                .append("\"background\":\"").append(escape(normalizeBackground(category.getBackground()))).append("\"");
+        json.append("},");
+        json.append("\"criteria\":{\"auto\":{\"trigger\":\"minecraft:tick\"}},");
+        json.append("\"requirements\":[[\"auto\"]]");
+        json.append("}");
+        return json.toString();
+    }
+
+    public static String categoryRootId(String categoryId) {
+        return CATEGORY_ROOT_PREFIX + categoryId;
+    }
+
+    private static String resolveParentId(AchievementDefinition definition, AchievementCategory category) {
+        if (!definition.isRoot()) {
+            return definition.getParentId();
+        }
+        return categoryRootId(category == null ? "main" : category.getId());
+    }
+
+    private static String buildIconComponent(String iconMaterial) {
+        String material = escape(iconMaterial.toLowerCase());
+        return "{\"id\":\"minecraft:" + material + "\",\"item\":\"minecraft:" + material + "\"}";
+    }
+
     private static String buildTextComponent(String translateKey, String fallback, String plainText) {
         String normalizedFallback = stripLegacy(fallback == null || fallback.trim().isEmpty() ? plainText : fallback);
         String normalizedKey = translateKey == null ? "" : translateKey.trim();
         if (!normalizedKey.isEmpty()) {
-            StringBuilder json = new StringBuilder();
-            json.append("{\"translate\":\"").append(escape(normalizedKey)).append("\"");
-            if (!normalizedFallback.isEmpty()) {
-                json.append(",\"fallback\":\"").append(escape(normalizedFallback)).append("\"");
-            }
-            json.append("}");
-            return json.toString();
+            return "{\"translate\":\"" + escape(normalizedKey) + "\"}";
         }
         return "{\"text\":\"" + escape(normalizedFallback) + "\"}";
+    }
+
+    private static String normalizeBackground(String background) {
+        if (background == null || background.trim().isEmpty()) {
+            return "minecraft:textures/block/stone.png";
+        }
+        String normalized = background.trim();
+        if ("minecraft:textures/gui/advancements/backgrounds/stone.png".equalsIgnoreCase(normalized)) {
+            return "minecraft:textures/block/stone.png";
+        }
+        return normalized;
     }
 
     private static String stripLegacy(String input) {

@@ -2,22 +2,14 @@ categories:
   main:
     title: "&6SopAchievements"
     description: "&7Main achievement tab"
-    key-name: achivka.category.main.name
-    key-name-fallback: SopAchievements
-    key-lore: achivka.category.main.lore
-    key-lore-fallback: Main achievement tab
     icon: GRASS_BLOCK
-    background: minecraft:textures/gui/advancements/backgrounds/stone.png
+    background: minecraft:textures/block/stone.png
 
 achievements:
   first_join:
     category: main
     title: "&aFirst Steps"
     description: "&7Join the server once."
-    key-name: achivka.main.first_join.name
-    key-name-fallback: First Steps
-    key-lore: achivka.main.first_join.lore
-    key-lore-fallback: Join the server once.
     icon: OAK_DOOR
     frame: task
     x: 0
@@ -26,7 +18,6 @@ achievements:
       type: join
       amount: 1
     rewards:
-      message-key: "%soplocales_achivka_main_first_join_complete%"
       message-fallback: "&aYou unlocked %achievement_title%&a."
 
   stone_miner:

@@ -48,7 +48,7 @@ public final class AchievementConfigLoader {
                         section.getString("key-lore", ""),
                         section.getString("key-lore-fallback", section.getString("description", "")),
                         section.getString("icon", "STONE"),
-                        section.getString("background", "minecraft:textures/gui/advancements/backgrounds/stone.png")
+                        section.getString("background", "minecraft:textures/block/stone.png")
                 ));
             }
         }

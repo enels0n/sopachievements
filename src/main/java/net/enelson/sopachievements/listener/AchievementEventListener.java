@@ -61,10 +61,7 @@ public final class AchievementEventListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        plugin.getTriggerService().onJoin(event.getPlayer());
-        plugin.getTriggerService().onEnterWorld(event.getPlayer(), event.getPlayer().getWorld());
-        plugin.getTriggerService().onStatisticSync(event.getPlayer());
-        plugin.getTriggerService().onInventorySync(event.getPlayer());
+        plugin.schedulePlayerInitialization(event.getPlayer(), 60L);
     }
 
     @EventHandler

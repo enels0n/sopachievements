@@ -3,7 +3,11 @@ messages:
   no-permission: "&cYou do not have permission to do this."
   reload-success: "&aSopAchievements reloaded."
   reload-failed: "&cFailed to reload SopAchievements. Check the console."
+  reinit-success: "&aSopAchievements player initialization has been retriggered."
   advancement-load-failed: "&cFailed to register advancement %id%."
+  datapack-rebuild-success: "&aSopAchievements datapack has been rebuilt."
+  datapack-rebuild-failed: "&cFailed to rebuild SopAchievements datapack. Check the console."
+  datapack-rebuild-restart: "&eRecommended: fully restart the server. If you need a live apply, use these commands:"
 
 settings:
   namespace: "sopachievements"

@@ -47,30 +47,45 @@ public final class AchievementProgressService {
     }
 
     public void award(Player player, AchievementDefinition definition) {
+        if (isAwarded(player, definition)) {
+            return;
+        }
         Advancement advancement = plugin.getAdvancementRegistry().getAdvancement(definition.getId());
         if (advancement == null) {
             return;
         }
         AdvancementProgress progress = player.getAdvancementProgress(advancement);
         if (progress.isDone()) {
-            setProgress(player, definition, definition.getTrigger().getInt("amount", 1));
+            markAwarded(player, definition);
+            setCompletedProgress(player, definition);
             return;
         }
-        for (String criteria : progress.getRemainingCriteria()) {
-            progress.awardCriteria(criteria);
+
+        boolean granted = awardAllCriteria(player, advancement);
+
+        setCompletedProgress(player, definition);
+        if (granted || player.getAdvancementProgress(advancement).isDone()) {
+            markAwarded(player, definition);
+            plugin.getRewardService().give(player, definition);
         }
-        for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
-            setProgress(player, definition, criterion.getId(), criterion.getTrigger().getInt("amount", 1));
-        }
-        plugin.getRewardService().give(player, definition);
     }
 
     public boolean isAwarded(Player player, AchievementDefinition definition) {
+        Integer awarded = player.getPersistentDataContainer().get(awardedKey(definition), PersistentDataType.INTEGER);
+        if (awarded != null && awarded.intValue() == 1) {
+            return true;
+        }
         Advancement advancement = plugin.getAdvancementRegistry().getAdvancement(definition.getId());
         if (advancement == null) {
-            return false;
+            return isStoredComplete(player, definition);
         }
-        return player.getAdvancementProgress(advancement).isDone();
+        boolean done = player.getAdvancementProgress(advancement).isDone();
+        if (done) {
+            markAwarded(player, definition);
+            setCompletedProgress(player, definition);
+            return true;
+        }
+        return isStoredComplete(player, definition);
     }
 
     public int getProgress(Player player, AchievementDefinition definition) {
@@ -128,11 +143,81 @@ public final class AchievementProgressService {
     public void ensureAwardConsistency(AchievementDefinition definition, Map<String, AchievementDefinition> allDefinitions) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (isAwarded(player, definition)) {
-                for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
-                    setProgress(player, definition, criterion.getId(), criterion.getTrigger().getInt("amount", 1));
-                }
+                setCompletedProgress(player, definition);
             }
         }
+    }
+
+    public void refreshAwardedAdvancements(Player player, Iterable<AchievementDefinition> definitions) {
+        for (AchievementDefinition definition : definitions) {
+            if (!isAwarded(player, definition)) {
+                continue;
+            }
+            Advancement advancement = plugin.getAdvancementRegistry().getAdvancement(definition.getId());
+            if (advancement == null) {
+                continue;
+            }
+            AdvancementProgress progress = player.getAdvancementProgress(advancement);
+            if (!progress.isDone()) {
+                awardAllCriteria(player, advancement);
+            }
+            markAwarded(player, definition);
+            setCompletedProgress(player, definition);
+        }
+    }
+
+    public void markAwarded(Player player, AchievementDefinition definition) {
+        player.getPersistentDataContainer().set(awardedKey(definition), PersistentDataType.INTEGER, Integer.valueOf(1));
+    }
+
+    private void setCompletedProgress(Player player, AchievementDefinition definition) {
+        for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
+            setProgress(player, definition, criterion.getId(), criterion.getTrigger().getInt("amount", 1));
+        }
+    }
+
+    private boolean isStoredComplete(Player player, AchievementDefinition definition) {
+        AchievementRequirements requirements = definition.getRequirements();
+        if (requirements != null && requirements.isOrdered()) {
+            for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
+                if (getProgress(player, definition, criterion.getId()) < criterion.getTrigger().getInt("amount", 1)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        if (definition.isAnyCriteriaMode()) {
+            for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
+                if (getProgress(player, definition, criterion.getId()) >= criterion.getTrigger().getInt("amount", 1)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        for (AchievementCriterion criterion : definition.getEffectiveCriteria()) {
+            if (getProgress(player, definition, criterion.getId()) < criterion.getTrigger().getInt("amount", 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean awardAllCriteria(Player player, Advancement advancement) {
+        if (player == null || advancement == null) {
+            return false;
+        }
+        AdvancementProgress progress = player.getAdvancementProgress(advancement);
+        if (progress.isDone()) {
+            return true;
+        }
+        java.util.List<String> remaining = new java.util.ArrayList<String>(progress.getRemainingCriteria());
+        boolean changed = false;
+        for (String criteria : remaining) {
+            if (progress.awardCriteria(criteria)) {
+                changed = true;
+            }
+        }
+        return changed || player.getAdvancementProgress(advancement).isDone();
     }
 
     private boolean meetsRequirements(Player player, AchievementDefinition definition) {
@@ -172,5 +257,9 @@ public final class AchievementProgressService {
 
     private NamespacedKey progressKey(AchievementDefinition definition, String criterionId) {
         return new NamespacedKey(plugin, "progress_" + definition.getId() + "_" + criterionId);
+    }
+
+    private NamespacedKey awardedKey(AchievementDefinition definition) {
+        return new NamespacedKey(plugin, "awarded_" + definition.getId());
     }
 }

@@ -1,19 +1,22 @@
 package net.enelson.sopachievements.service;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.ChatColor;
 import net.enelson.sopachievements.SopAchievementsPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import net.md_5.bungee.api.ChatColor;
 
+import java.lang.reflect.Method;
 import java.util.Map;
 
 public final class MessageService {
 
     private final SopAchievementsPlugin plugin;
+    private final boolean papiAvailable;
 
     public MessageService(SopAchievementsPlugin plugin) {
         this.plugin = plugin;
+        this.papiAvailable = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
     }
 
     public void send(CommandSender sender, String path) {
@@ -35,10 +38,21 @@ public final class MessageService {
                 result = result.replace("%" + entry.getKey() + "%", entry.getValue());
             }
         }
-        if (sender instanceof Player) {
-            result = PlaceholderAPI.setPlaceholders((Player) sender, result);
+        if (sender instanceof Player && papiAvailable) {
+            result = applyPapi((Player) sender, result);
         }
         return ChatColor.translateAlternateColorCodes('&', result);
+    }
+
+    private String applyPapi(Player player, String text) {
+        try {
+            Class<?> clazz = Class.forName("me.clip.placeholderapi.PlaceholderAPI");
+            Method method = clazz.getMethod("setPlaceholders", Player.class, String.class);
+            Object result = method.invoke(null, player, text);
+            return result == null ? text : String.valueOf(result);
+        } catch (Throwable ignored) {
+            return text;
+        }
     }
 
     private String withPrefix(String message) {

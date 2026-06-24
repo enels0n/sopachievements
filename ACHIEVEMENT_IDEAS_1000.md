@@ -1,0 +1,1283 @@
+# SopAchievements: 1000 Achievement Ideas
+
+Ниже `1000` идей для ачивок. Формат короткий:
+
+- `номер` `id` — `название` — условие
+
+## Mining
+
+- `001` `mine_stone_16` — Stone Starter — сломать `16` камня
+- `002` `mine_stone_128` — Stone Worker — сломать `128` камня
+- `003` `mine_stone_1024` — Stone Veteran — сломать `1024` камня
+- `004` `mine_cobblestone_64` — Rough Supply — добыть `64` булыжника
+- `005` `mine_granite_32` — Granite Taste — добыть `32` гранита
+- `006` `mine_diorite_32` — Diorite Taste — добыть `32` диорита
+- `007` `mine_andesite_32` — Andesite Taste — добыть `32` андезита
+- `008` `mine_deepslate_64` — Deep Worker — добыть `64` глубинного сланца
+- `009` `mine_coal_16` — Coal Dust — добыть `16` угля
+- `010` `mine_coal_128` — Fueled Up — добыть `128` угля
+- `011` `mine_iron_16` — Iron Vein — добыть `16` железной руды
+- `012` `mine_iron_128` — Iron Industry — добыть `128` железной руды
+- `013` `mine_copper_16` — Copper Touch — добыть `16` меди
+- `014` `mine_copper_256` — Copper Craze — добыть `256` меди
+- `015` `mine_gold_16` — Golden Spark — добыть `16` золотой руды
+- `016` `mine_redstone_64` — Wired Mind — добыть `64` редстоуна
+- `017` `mine_lapis_32` — Blue Powder — добыть `32` лазурита
+- `018` `mine_diamond_1` — First Diamond — добыть `1` алмаз
+- `019` `mine_diamond_16` — Diamond Miner — добыть `16` алмазов
+- `020` `mine_diamond_64` — Diamond Dynasty — добыть `64` алмаза
+- `021` `mine_emerald_1` — Green Shard — добыть `1` изумруд
+- `022` `mine_emerald_16` — Mountain Trader — добыть `16` изумрудов
+- `023` `mine_obsidian_16` — Dark Glass — добыть `16` обсидиана
+- `024` `mine_nether_quartz_64` — Quartz Farmer — добыть `64` кварца
+- `025` `mine_nether_gold_32` — Gilded Netherrack — добыть `32` незерского золота
+- `026` `mine_ancient_debris_1` — Ancient Fragment — добыть `1` древние обломки
+- `027` `mine_ancient_debris_8` — Buried Legacy — добыть `8` древних обломков
+- `028` `mine_spawner_sight` — Forbidden Machinery — найти спавнер
+- `029` `mine_amethyst_64` — Crystal Harvester — добыть `64` аметиста
+- `030` `mine_dripstone_64` — Sharp Stockpile — добыть `64` капельника
+- `031` `mine_tuff_64` — Tuff Enough — добыть `64` туфа
+- `032` `mine_calcite_64` — White Veins — добыть `64` кальцита
+- `033` `mine_blackstone_64` — Black Core — добыть `64` чернокамня
+- `034` `mine_basalt_64` — Hot Pillars — добыть `64` базальта
+- `035` `mine_magma_32` — Burning Grip — добыть `32` магма-блока
+- `036` `mine_end_stone_128` — End Quarry — добыть `128` эндерняка
+- `037` `mine_glowstone_64` — Neon Dust — добыть `64` светокамня
+- `038` `mine_sand_128` — Desert Loader — добыть `128` песка
+- `039` `mine_red_sand_64` — Canyon Dust — добыть `64` красного песка
+- `040` `mine_gravel_128` — Gravel Gut — добыть `128` гравия
+- `041` `mine_clay_64` — Mud Hands — добыть `64` глины
+- `042` `mine_ice_32` — Cold Cutter — добыть `32` льда
+- `043` `mine_packed_ice_32` — Frozen Cargo — добыть `32` плотного льда
+- `044` `mine_blue_ice_16` — Polar Prize — добыть `16` синего льда
+- `045` `mine_prismarine_64` — Monument Mason — добыть `64` призмарина
+- `046` `mine_sea_lantern_16` — Ocean Glow — добыть `16` морских фонарей
+- `047` `mine_sculk_64` — Quiet Growth — добыть `64` скалка
+- `048` `mine_reinforced_deepslate_view` — Untouchable Wall — найти укрепленный глубинный сланец
+- `049` `mine_every_overworld_ore` — Overworld Survey — добыть все виды руд обычного мира
+- `050` `mine_every_dimension_ore` — Universal Prospector — добыть руды из всех измерений
+
+## Crafting
+
+- `051` `craft_planks_64` — Woodshop — скрафтить `64` доски
+- `052` `craft_sticks_64` — Stick Bundle — скрафтить `64` палки
+- `053` `craft_table` — Workbench — скрафтить верстак
+- `054` `craft_pickaxe_wood` — Wooden Start — скрафтить деревянную кирку
+- `055` `craft_pickaxe_stone` — Stone Start — скрафтить каменную кирку
+- `056` `craft_pickaxe_iron` — Iron Start — скрафтить железную кирку
+- `057` `craft_pickaxe_diamond` — Blue Tools — скрафтить алмазную кирку
+- `058` `craft_pickaxe_netherite` — Final Tool — скрафтить незеритовую кирку
+- `059` `craft_sword_wood` — Wooden Edge — скрафтить деревянный меч
+- `060` `craft_sword_stone` — Stone Edge — скрафтить каменный меч
+- `061` `craft_sword_iron` — Iron Edge — скрафтить железный меч
+- `062` `craft_sword_diamond` — Diamond Edge — скрафтить алмазный меч
+- `063` `craft_sword_netherite` — Nether Edge — скрафтить незеритовый меч
+- `064` `craft_furnace` — Heat Source — скрафтить печь
+- `065` `craft_blast_furnace` — Smelter Core — скрафтить плавильню
+- `066` `craft_smoker` — Cook Station — скрафтить коптильню
+- `067` `craft_anvil` — Heavy Metal — скрафтить наковальню
+- `068` `craft_enchanting_table` — Arcane Desk — скрафтить стол зачарований
+- `069` `craft_brewing_stand` — Potion Bench — скрафтить варочную стойку
+- `070` `craft_ender_chest` — Personal Vault — скрафтить эндер-сундук
+- `071` `craft_shulker_box` — Portable Storage — скрафтить шалкер
+- `072` `craft_beacon` — Sky Signal — скрафтить маяк
+- `073` `craft_lodestone` — Anchor Point — скрафтить магнетит
+- `074` `craft_bookshelf_16` — Library Wing — скрафтить `16` книжных полок
+- `075` `craft_bread_16` — Baker — скрафтить `16` хлеба
+- `076` `craft_cake` — Celebration — скрафтить торт
+- `077` `craft_golden_apple` — Golden Bite — скрафтить золотое яблоко
+- `078` `craft_notch_apple` — Lost Recipe — получить зачарованное золотое яблоко
+- `079` `craft_rail_64` — Railworks — скрафтить `64` рельс
+- `080` `craft_powered_rail_32` — Electric Path — скрафтить `32` энерго-рельс
+- `081` `craft_hopper` — Filter Mind — скрафтить воронку
+- `082` `craft_redstone_lamp` — Circuit Glow — скрафтить редстоун лампу
+- `083` `craft_piston` — Push It — скрафтить поршень
+- `084` `craft_sticky_piston` — Sticky Business — скрафтить липкий поршень
+- `085` `craft_observer` — Watching Block — скрафтить наблюдатель
+- `086` `craft_target` — Bullseye Maker — скрафтить мишень
+- `087` `craft_crossbow` — New Tech — скрафтить арбалет
+- `088` `craft_bow` — Archer Basics — скрафтить лук
+- `089` `craft_shield` — Defense Line — скрафтить щит
+- `090` `craft_firework` — Spark Burst — скрафтить фейерверк
+- `091` `craft_map` — Cartographer — скрафтить карту
+- `092` `craft_compass` — Northbound — скрафтить компас
+- `093` `craft_clock` — Timekeeper — скрафтить часы
+- `094` `craft_tnt` — Controlled Boom — скрафтить TNT
+- `095` `craft_glass_64` — Clear Stack — скрафтить `64` стекла
+- `096` `craft_concrete_64` — Builder Palette — скрафтить `64` бетона
+- `097` `craft_bed_any` — Sweet Dreams — скрафтить кровать
+- `098` `craft_boat_any` — First Boat — скрафтить лодку
+- `099` `craft_minecart` — Rail Rider — скрафтить вагонетку
+- `100` `craft_every_tool_tier` — Full Progression — скрафтить инструменты всех тиров
+
+## Smelting And Brewing
+
+- `101` `smelt_iron_16` — Iron Ingots — переплавить `16` железа
+- `102` `smelt_gold_16` — Gold Ingots — переплавить `16` золота
+- `103` `smelt_sand_64` — Glassblower — переплавить `64` песка
+- `104` `smelt_cactus_32` — Green Dye Works — переплавить `32` кактуса
+- `105` `smelt_kelp_64` — Dry Supply — переплавить `64` ламинарии
+- `106` `smelt_food_32` — Meal Prep — приготовить `32` еды
+- `107` `smelt_netherite_scrap_4` — Ancient Melt — переплавить `4` незеритового лома
+- `108` `smelt_stone_64` — Clean Blocks — переплавить `64` камня
+- `109` `smelt_smooth_stone_32` — Smooth Finish — получить `32` гладкого камня
+- `110` `smelt_charcoal_32` — Forest Fuel — выплавить `32` древесного угля
+- `111` `brew_awkward` — Awkward Start — сварить awkward potion
+- `112` `brew_speed` — Speed Mix — сварить зелье скорости
+- `113` `brew_strength` — Strength Mix — сварить зелье силы
+- `114` `brew_regen` — Life Mix — сварить зелье регенерации
+- `115` `brew_fire_res` — Lava Insurance — сварить зелье огнестойкости
+- `116` `brew_night_vision` — Cave Eyes — сварить зелье ночного зрения
+- `117` `brew_water_breathing` — Deep Breath — сварить зелье подводного дыхания
+- `118` `brew_slow_falling` — Feather Flask — сварить зелье плавного падения
+- `119` `brew_splash_any` — Throwing Glass — сварить взрывное зелье
+- `120` `brew_lingering_any` — Lingering Cloud — сварить туманное зелье
+- `121` `brew_healing_stack` — Medic Supply — сварить `16` лечебных зелий
+- `122` `brew_poison_stack` — Toxic Stock — сварить `16` ядовитых зелий
+- `123` `brew_weakness_stack` — Debuffer — сварить `16` зелий слабости
+- `124` `brew_every_positive` — Helpful Brewer — сварить все положительные зелья
+- `125` `brew_every_negative` — Dangerous Brewer — сварить все отрицательные зелья
+- `126` `smelt_and_brew` — Alchemical Industry — переплавить и сварить что-нибудь за одну сессию
+- `127` `blast_furnace_use` — Hotter Than Usual — получить предмет из плавильни
+- `128` `smoker_use` — Smokehouse — получить предмет из коптильни
+- `129` `furnace_master` — Furnace Master — получить `500` переплавленных предметов
+- `130` `fuel_efficient` — Efficient Fire — переплавить `64` предмета одним видом топлива
+- `131` `brew_in_nether` — Hell Alchemy — сварить зелье в аду
+- `132` `smelt_in_nether` — Hell Foundry — переплавить предмет в аду
+- `133` `glass_factory` — Window District — выплавить `256` стекла
+- `134` `copper_smelter` — Orange Shine — переплавить `128` меди
+- `135` `dried_kelp_block` — Sea Fuel — создать блок сушеной ламинарии
+- `136` `master_brewer` — Master Brewer — сварить `100` зелий
+- `137` `master_smelter` — Master Smelter — выплавить `1000` предметов
+- `138` `glow_ink_process` — Shiny Text — получить светящийся чернильный мешок и использовать его
+- `139` `netherite_upgrade` — Ancient Upgrade — улучшить предмет до незеритового
+- `140` `smithing_table_use` — Modern Smith — воспользоваться кузнечным столом
+- `141` `trim_armor_once` — Fashion Start — применить узор к броне
+- `142` `trim_full_set` — Styled Set — оформить полный комплект брони
+- `143` `pottery_piece` — Archaeology Start — получить керамический черепок
+- `144` `pottery_decorated_pot` — Decorated Memory — создать украшенный горшок
+- `145` `suspicious_stew` — Suspicious Dinner — приготовить подозрительное рагу
+- `146` `rabbit_stew` — Hunter Meal — скрафтить кроличье рагу
+- `147` `beetroot_soup` — Red Bowl — скрафтить свекольный суп
+- `148` `pumpkin_pie` — Autumn Taste — скрафтить тыквенный пирог
+- `149` `cookie_stack` — Cookie Jar — скрафтить `32` печенья
+- `150` `cake_party` — Baker's Parade — скрафтить `8` тортов
+
+## Farming
+
+- `151` `harvest_wheat_64` — Field Hand — собрать `64` пшеницы
+- `152` `harvest_wheat_512` — Bread Empire — собрать `512` пшеницы
+- `153` `harvest_carrot_64` — Carrot Patch — собрать `64` моркови
+- `154` `harvest_potato_64` — Potato Patch — собрать `64` картофеля
+- `155` `harvest_beetroot_64` — Beetroot Patch — собрать `64` свеклы
+- `156` `harvest_pumpkin_32` — Pumpkin Yard — собрать `32` тыквы
+- `157` `harvest_melon_64` — Melon Yard — собрать `64` арбузных ломтиков
+- `158` `harvest_cocoa_64` — Cocoa Plantation — собрать `64` какао-бобов
+- `159` `harvest_sugarcane_256` — Cane River — собрать `256` тростника
+- `160` `harvest_bamboo_256` — Bamboo Grove — собрать `256` бамбука
+- `161` `harvest_cactus_128` — Needle Farm — собрать `128` кактуса
+- `162` `harvest_nether_wart_64` — Wart Keeper — собрать `64` адского нароста
+- `163` `harvest_kelp_256` — Kelp Net — собрать `256` ламинарии
+- `164` `harvest_berries_64` — Sweet Thorns — собрать `64` ягод
+- `165` `harvest_glow_berries_64` — Cave Candy — собрать `64` светящихся ягод
+- `166` `harvest_honey_16` — Honey Flow — собрать `16` бутылочек меда
+- `167` `shear_hive` — Wax Worker — состричь пчелиное гнездо
+- `168` `breed_cows_10` — Cattle Keeper — развести `10` коров
+- `169` `breed_sheep_10` — Wool Keeper — развести `10` овец
+- `170` `breed_pigs_10` — Pig Keeper — развести `10` свиней
+- `171` `breed_chickens_10` — Coop Keeper — развести `10` кур
+- `172` `breed_horses_2` — Stable Owner — развести `2` лошади
+- `173` `breed_wolves_2` — Pack Growth — развести `2` волков
+- `174` `breed_cats_2` — Cat Colony — развести `2` кошки
+- `175` `breed_pandas_1` — Bamboo Miracle — развести панд
+- `176` `breed_foxes_1` — Hidden Romance — развести лис
+- `177` `breed_bees_4` — Apiary — развести `4` пчел
+- `178` `breed_striders_2` — Lava Stable — развести `2` страйдера
+- `179` `tame_horse` — First Mount — приручить лошадь
+- `180` `tame_donkey` — Pack Animal — приручить осла
+- `181` `tame_mule` — Hybrid Friend — получить мула
+- `182` `tame_wolf` — Loyal Friend — приручить волка
+- `183` `tame_cat` — Purring Friend — приручить кошку
+- `184` `tame_parrot` — Shoulder Song — приручить попугая
+- `185` `milk_cow` — Farm Routine — подоить корову
+- `186` `shear_sheep` — Fresh Wool — постричь овцу
+- `187` `shear_mooshroom` — Strange Harvest — постричь грибную корову
+- `188` `collect_eggs_16` — Basket — собрать `16` яиц
+- `189` `feed_animals_all` — Full Barn — покормить все базовые виды животных
+- `190` `farmland_100` — Land Tiller — обработать `100` блоков земли
+- `191` `villager_farmer_trade` — Produce Seller — поторговать с фермером
+- `192` `composter_use_32` — Compost Cycle — использовать компостер `32` раза
+- `193` `bee_pollination` — Bloom Power — увидеть опыление пчел
+- `194` `honey_block_craft` — Sticky Sweet — скрафтить блок меда
+- `195` `honeycomb_block_craft` — Wax Brick — скрафтить блок сот
+- `196` `wax_copper` — Preservation — покрыть медные блоки воском
+- `197` `scrape_copper` — Restoration — соскрести окись с меди
+- `198` `farm_all_crops` — Green Thumb — собрать все основные культуры
+- `199` `animal_millionaire` — Barn Lord — развести `100` любых животных
+- `200` `apiary_master` — Apiary Master — собрать `64` меда и `64` сот
+
+## Combat
+
+- `201` `kill_zombie_1` — Zombie Down — убить зомби
+- `202` `kill_zombie_25` — Grave Cleaner — убить `25` зомби
+- `203` `kill_zombie_250` — Rot Slayer — убить `250` зомби
+- `204` `kill_skeleton_1` — Bones Down — убить скелета
+- `205` `kill_skeleton_50` — Bone Collector — убить `50` скелетов
+- `206` `kill_creeper_1` — Green Flash — убить крипера
+- `207` `kill_creeper_25` — Bomb Squad — убить `25` криперов
+- `208` `kill_spider_25` — Web Cleaner — убить `25` пауков
+- `209` `kill_enderman_10` — Tall Trouble — убить `10` эндерменов
+- `210` `kill_witch_10` — Brew Breaker — убить `10` ведьм
+- `211` `kill_slime_25` — Gel Crusher — убить `25` слизней
+- `212` `kill_magma_cube_25` — Hot Gel — убить `25` магма-кубов
+- `213` `kill_blaze_25` — Rod Collector — убить `25` ифритов
+- `214` `kill_ghast_10` — Anti-Air — убить `10` гастов
+- `215` `kill_piglin_25` — Gold Tax — убить `25` пиглинов
+- `216` `kill_hoglin_10` — Crimson Hunt — убить `10` хоглинов
+- `217` `kill_stray_10` — Frozen Bones — убить `10` зимогоров
+- `218` `kill_husk_10` — Dry Rot — убить `10` кадавров
+- `219` `kill_drowned_25` — Ocean Rot — убить `25` утопленников
+- `220` `kill_guardian_10` — Temple Threat — убить `10` стражей
+- `221` `kill_elder_guardian` — Ocean Silence — убить древнего стража
+- `222` `kill_shulker_10` — Levitation Breaker — убить `10` шалкеров
+- `223` `kill_evoker_5` — Spell Ender — убить `5` заклинателей
+- `224` `kill_vindicator_10` — Axe Stopper — убить `10` поборников
+- `225` `kill_pillager_25` — Patrol Breaker — убить `25` разбойников
+- `226` `kill_ravager_5` — Beast Breaker — убить `5` разорителей
+- `227` `kill_phantom_25` — Sleep Debt — убить `25` фантомов
+- `228` `kill_wither_skeleton_25` — Black Bones — убить `25` визер-скелетов
+- `229` `kill_piglin_brute_10` — Bastion Force — убить `10` брутальных пиглинов
+- `230` `kill_bogged_10` — Damp Bones — убить `10` bogged
+- `231` `kill_breeze_10` — Wind Stopper — убить `10` breeze
+- `232` `kill_warden` — Impossible Noise — убить вардена
+- `233` `kill_wither` — Triple Skull — убить визера
+- `234` `kill_dragon` — The End Ended — убить дракона
+- `235` `projectile_kill_skeleton` — Archer Duel — убить скелета стрелой
+- `236` `projectile_kill_ghast` — Return To Sender — убить гаста снарядом
+- `237` `crossbow_kill_50` — Trigger Discipline — убить `50` мобов из арбалета
+- `238` `bow_kill_100` — Longbow Habit — убить `100` мобов из лука
+- `239` `melee_kill_250` — Close Range — убить `250` мобов вблизи
+- `240` `kill_without_damage` — Untouched Duel — убить моба без получения урона
+- `241` `kill_in_lava_resistance` — Fireproof Hunter — убить моба с огнестойкостью
+- `242` `kill_with_strength` — Buffed Strike — убить моба с силой
+- `243` `kill_while_on_half_heart` — Last Chance — убить моба на половине сердца
+- `244` `kill_group_night` — Night Sweep — убить `10` мобов за ночь
+- `245` `kill_group_cave` — Cave Purge — убить `25` мобов под `Y 32`
+- `246` `kill_group_nether` — Hell Patrol — убить `50` мобов в аду
+- `247` `kill_group_end` — Void Patrol — убить `25` мобов в энде
+- `248` `shield_block_50` — Wall Up — заблокировать `50` ударов щитом
+- `249` `totem_use_1` — Second Life — использовать тотем
+- `250` `totem_use_5` — Habit Of Survival — использовать `5` тотемов
+
+## Bosses And Raids
+
+- `251` `raid_win_1` — Village Defender — выиграть рейд
+- `252` `raid_win_5` — Repeating Hero — выиграть `5` рейдов
+- `253` `raid_hero_effect` — Hero's Discount — получить `HERO_OF_THE_VILLAGE`
+- `254` `raid_bad_omen` — Omen Carrier — получить `BAD_OMEN`
+- `255` `raid_kill_pillager_captain` — Banner Down — убить капитана разбойников
+- `256` `raid_kill_evoker` — Spellbreaker — убить заклинателя во время рейда
+- `257` `raid_kill_ravager` — Beastbreaker — убить разорителя во время рейда
+- `258` `raid_flawless` — Clean Defense — выиграть рейд без смерти
+- `259` `raid_archer` — Defensive Fire — выиграть рейд с луком
+- `260` `raid_melee` — Frontline Defender — выиграть рейд в ближнем бою
+- `261` `wither_spawn` — Three Heads — призвать визера
+- `262` `wither_kill` — Black Storm — убить визера
+- `263` `wither_no_death` — Witherproof — пережить битву с визером без смерти
+- `264` `dragon_enter_end` — Void Arrival — попасть в энд
+- `265` `dragon_find_portal` — Stronghold Route — найти портал в энд
+- `266` `dragon_kill` — Dragonfall — убить дракона
+- `267` `dragon_egg_view` — One And Only — увидеть яйцо дракона
+- `268` `dragon_crystal_break` — Crystal Shatter — сломать кристалл эндера
+- `269` `dragon_bed_fight` — Risky Sleeper — ударить дракона взрывом кровати
+- `270` `dragon_free_fall` — Dragon Dive — пережить падение в бою с драконом
+- `271` `dragon_respawn` — Again? — возродить дракона
+- `272` `dragon_second_kill` — Encore Ender — убить дракона повторно
+- `273` `warden_spawn` — Don't Sneak That — вызвать вардена
+- `274` `warden_escape` — Silent Retreat — уйти от вардена живым
+- `275` `warden_kill` — Deep Silence — убить вардена
+- `276` `warden_loot` — Sonic Prize — забрать лут с вардена
+- `277` `guardian_monument` — Sea Fortress — найти океанический монумент
+- `278` `guardian_elder_1` — Old Threat — убить древнего стража
+- `279` `guardian_elder_3` — Monument Cleared — убить `3` древних стражей
+- `280` `ocean_conduit` — Ocean Core — активировать проводник
+- `281` `conduit_full_power` — Sea Beacon — активировать полный проводник
+- `282` `bastion_enter` — Gold Citadel — найти бастион
+- `283` `bastion_loot` — Piglin Treasure — залутать сундук бастиона
+- `284` `fortress_enter` — Fire Keep — найти адскую крепость
+- `285` `fortress_blaze_spawner` — Blaze Foundry — найти спавнер ифритов
+- `286` `ancient_city_enter` — Ancient Silence — найти древний город
+- `287` `ancient_city_loot` — Echo Hunter — забрать лут из древнего города
+- `288` `trial_chambers_enter` — Trial Door — найти trial chambers
+- `289` `trial_breeze_kill` — Breeze Control — убить breeze в trial chambers
+- `290` `trial_ominous` — Ominous Trial — запустить ominous trial
+- `291` `trial_vault` — Trial Vault — открыть trial vault
+- `292` `boss_chain` — World Menace — убить визера и дракона
+- `293` `raid_boss_chain` — Public Safety — выиграть рейд и убить визера
+- `294` `deep_boss_chain` — Nightmares — встретить вардена и уйти живым
+- `295` `ocean_chain` — Sea Conqueror — зачистить монумент и собрать проводник
+- `296` `end_chain` — End Conqueror — убить дракона и открыть outer end
+- `297` `hell_chain` — Nether Conqueror — найти крепость, бастион и древние обломки
+- `298` `all_major_bosses` — Apex Hunter — убить дракона, визера, вардена
+- `299` `all_raids` — Homeland Security — выиграть `10` рейдов
+- `300` `boss_collector` — Trophy Wall — собрать все крупные трофеи боссов
+
+## Exploration
+
+- `301` `enter_overworld` — Familiar Land — оказаться в обычном мире
+- `302` `enter_nether` — Into Fire — войти в ад
+- `303` `enter_end` — Into Void — войти в энд
+- `304` `discover_desert` — Dry Air — найти пустыню
+- `305` `discover_savanna` — Warm Wind — найти саванну
+- `306` `discover_jungle` — Thick Leaves — найти джунгли
+- `307` `discover_taiga` — Cold Pines — найти тайгу
+- `308` `discover_snow` — White Silence — найти снежный биом
+- `309` `discover_swamp` — Wet Ground — найти болото
+- `310` `discover_mangrove` — Tangled Roots — найти мангровое болото
+- `311` `discover_mushroom` — Rare Island — найти грибной остров
+- `312` `discover_badlands` — Red Layers — найти бедлендс
+- `313` `discover_meadow` — Flower Hills — найти луга
+- `314` `discover_cherry` — Pink Valley — найти вишневую рощу
+- `315` `discover_deep_dark` — Quiet Below — найти deep dark
+- `316` `discover_lush_caves` — Green Cave — найти lush caves
+- `317` `discover_dripstone_caves` — Needle Cave — найти dripstone caves
+- `318` `discover_frozen_ocean` — Frozen Sea — найти замерзший океан
+- `319` `discover_warm_ocean` — Warm Sea — найти теплый океан
+- `320` `discover_river` — Following Water — найти реку
+- `321` `discover_village` — Civilization — найти деревню
+- `322` `discover_pillager_outpost` — Watchtower — найти форпост
+- `323` `discover_shipwreck` — Broken Voyage — найти кораблекрушение
+- `324` `discover_ocean_ruin` — Drowned History — найти океанские руины
+- `325` `discover_buried_treasure` — X Marks It — найти клад
+- `326` `discover_monument` — Sea Giant — найти монумент
+- `327` `discover_mineshaft` — Wooden Tunnels — найти шахту
+- `328` `discover_stronghold` — Eye Route — найти крепость
+- `329` `discover_dungeon` — Mossy Cellar — найти спавнер-комнату
+- `330` `discover_woodland_mansion` — Dark Estate — найти mansion
+- `331` `discover_desert_temple` — Sand Secrets — найти храм пустыни
+- `332` `discover_jungle_temple` — Trap Temple — найти храм джунглей
+- `333` `discover_igloo` — Frozen Hut — найти иглу
+- `334` `discover_ruined_portal` — Broken Gate — найти разрушенный портал
+- `335` `discover_fortress` — Blaze Walls — найти крепость ада
+- `336` `discover_bastion` — Piglin Castle — найти бастион
+- `337` `discover_end_city` — Floating City — найти энд-город
+- `338` `discover_ancient_city` — Echo Streets — найти древний город
+- `339` `discover_trial_chambers` — New Depths — найти trial chambers
+- `340` `boat_distance_1000` — River Drifter — проплыть `1000` блоков
+- `341` `minecart_distance_1000` — Rail Tourist — проехать `1000` блоков
+- `342` `horse_distance_1000` — Saddle Route — проехать `1000` на лошади
+- `343` `elytra_distance_5000` — Long Glide — пролететь `5000` блоков
+- `344` `nether_roof_touch` — Above Hell — попасть на крышу ада
+- `345` `world_border_trip` — Far Away — сильно удалиться от спавна
+- `346` `map_fill` — Cartographic Duty — открыть большую часть карты
+- `347` `sleep_in_every_dimension_possible` — Traveler's Rest — поспать где возможно
+- `348` `all_major_structures` — Explorer's Ledger — найти основные структуры
+- `349` `all_main_biomes` — World Palette — посетить основные биомы
+- `350` `true_explorer` — Never Lost — исследовать все измерения и крупные структуры
+
+## Survival Challenges
+
+- `351` `sleep_once` — First Sleep — лечь спать
+- `352` `sleep_10` — Regular Sleeper — поспать `10` раз
+- `353` `sleep_100` — Heavy Dreamer — поспать `100` раз
+- `354` `dont_sleep_3_nights` — Phantom Invitation — не спать `3` ночи
+- `355` `food_full` — Full Belly — восстановить полный голод
+- `356` `food_empty` — Starving — довести голод до нуля
+- `357` `half_heart_survive` — Barely Alive — выжить на половине сердца
+- `358` `lava_survive` — Too Hot — выжить после падения в лаву
+- `359` `fall_survive` — Broken But Breathing — пережить сильное падение
+- `360` `void_rescue` — Void Edge — спастись у края пустоты
+- `361` `totem_survive` — Undying — выжить с тотемом
+- `362` `fire_rescue` — Fire Insurance — выжить в огне с огнестойкостью
+- `363` `drowning_rescue` — Final Breath — выжить от почти полного утопления
+- `364` `freezing_rescue` — Ice Survivor — пережить замерзание
+- `365` `poison_survive` — Bitter Endurance — пережить отравление
+- `366` `wither_survive` — Black Hearts — пережить визер-эффект
+- `367` `levitation_survive` — Floating Risk — пережить левитацию без смерти
+- `368` `lightning_survive` — Storm Survivor — пережить удар молнии
+- `369` `raid_survive` — Through The Chaos — пережить рейд без смерти
+- `370` `night_survive` — Full Night — пережить ночь вне дома
+- `371` `cave_survive` — Deep Night — провести время глубоко под землей
+- `372` `nether_survive_10m` — Hell Tourist — прожить `10` минут в аду
+- `373` `end_survive_10m` — Void Tourist — прожить `10` минут в энде
+- `374` `underwater_survive_60s` — Sea Lung — пробыть под водой `60` секунд
+- `375` `no_armor_day` — Naked Day — прожить день без брони
+- `376` `no_food_day` — Empty Pockets — прожить день без еды
+- `377` `rain_night` — Wet Night — пережить ночь под дождем
+- `378` `thunder_night` — Storm Night — пережить ночь в грозу
+- `379` `full_moon_night` — Lunar Night — пережить ночь полнолуния
+- `380` `new_moon_night` — Black Night — провести ночь в новолуние
+- `381` `deep_dark_survive` — Hear Nothing — выжить в deep dark
+- `382` `ancient_city_loot_escape` — Take And Leave — украсть и уйти из древнего города
+- `383` `warden_escape` — Run Quiet — уйти от вардена
+- `384` `desert_day` — Heat Endurance — прожить день в пустыне
+- `385` `snow_day` — Cold Endurance — прожить день в снегах
+- `386` `jungle_day` — Humid Endurance — прожить день в джунглях
+- `387` `night_no_torch` — No Light — пережить ночь без факелов
+- `388` `cave_no_torch` — Blind Miner — провести время в пещере без факелов
+- `389` `hardcore_style` — One Life Mood — долго не умирать
+- `390` `early_nether` — Rushing Fire — попасть в ад очень рано
+- `391` `early_diamond` — Quick Fortune — быстро добыть алмаз
+- `392` `early_enchant` — Fast Magic — быстро сделать стол зачарований
+- `393` `first_day_iron` — Day One Iron — получить железо в первый день
+- `394` `first_day_bed` — Day One Bed — скрафтить кровать в первый день
+- `395` `first_day_portal` — Day One Portal — построить портал в первый день
+- `396` `first_day_mine` — Day One Cave — спуститься глубоко в первый день
+- `397` `spawn_radius_survival` — Local Survivor — выжить не уходя далеко от спавна
+- `398` `nomad` — No Home Yet — выживать долго без кровати и дома
+- `399` `return_alive` — Came Back — вернуться из опасной зоны живым
+- `400` `ultimate_survivor` — Refuses To Die — пережить все основные угрозы
+
+## Building
+
+- `401` `place_blocks_256` — First Build — поставить `256` блоков
+- `402` `place_blocks_2048` — Builder At Work — поставить `2048` блоков
+- `403` `place_blocks_10000` — World Shaper — поставить `10000` блоков
+- `404` `place_planks_256` — Carpenter — поставить `256` досок
+- `405` `place_stone_bricks_256` — Mason — поставить `256` каменных кирпичей
+- `406` `place_glass_128` — Window Maker — поставить `128` стекла
+- `407` `place_lanterns_32` — Lighting Crew — поставить `32` фонаря
+- `408` `place_torches_128` — Cave Lighter — поставить `128` факелов
+- `409` `place_bookshelves_32` — Library Builder — поставить `32` книжных полки
+- `410` `place_beds_8` — Hostel Owner — поставить `8` кроватей
+- `411` `place_doors_16` — Door Policy — поставить `16` дверей
+- `412` `place_fences_128` — Boundary Maker — поставить `128` заборов
+- `413` `place_walls_128` — Stone Boundary — поставить `128` стен
+- `414` `place_stairs_128` — Climber — поставить `128` ступеней
+- `415` `place_slabs_128` — Half Height — поставить `128` плит
+- `416` `place_roof` — Under Cover — построить крышу над домом
+- `417` `place_floor_100` — Flat Start — уложить пол площадью `100`
+- `418` `place_full_house` — Home Sweet Home — построить полноценный дом
+- `419` `place_farmhouse` — Country House — построить фермерский дом
+- `420` `place_tower` — High Point — построить башню
+- `421` `place_bridge` — Crossing — построить мост
+- `422` `place_beacon_base` — Pyramid Works — построить базу под маяк
+- `423` `place_beacon_active` — Guiding Light — активировать маяк
+- `424` `place_conduit_active` — Ocean Build — активировать проводник
+- `425` `place_portal_room` — Gate Chamber — красиво оформить портал
+- `426` `place_nether_hub` — Hell Network — построить хаб в аду
+- `427` `place_rail_line` — Rail Project — построить длинную железную дорогу
+- `428` `place_dock` — Harbor Start — построить причал
+- `429` `place_barn` — Barn Maker — построить амбар
+- `430` `place_greenhouse` — Controlled Climate — построить теплицу
+- `431` `place_storage_room` — Warehouse — построить склад
+- `432` `place_smeltery` — Foundry Room — построить плавильню
+- `433` `place_enchant_room` — Arcane Corner — построить комнату зачарований
+- `434` `place_brew_room` — Alchemy Corner — построить варочную комнату
+- `435` `place_map_room` — Cartography Hall — построить картографическую комнату
+- `436` `place_statue` — Stone Pride — построить статую
+- `437` `place_pixel_art` — Block Artist — построить пиксель-арт
+- `438` `place_garden` — Green Decor — оформить сад
+- `439` `place_path_128` — Walkway — проложить дорожку
+- `440` `place_lamp_posts_8` — Street Design — построить `8` фонарных столбов
+- `441` `place_water_feature` — Fountain — построить фонтан
+- `442` `place_wall_castle` — Castle Walls — построить крепостную стену
+- `443` `place_gatehouse` — Gatehouse — построить ворота
+- `444` `place_watchtower` — Guard Post — построить сторожевую башню
+- `445` `place_village_style` — Settlement — построить маленькую деревню
+- `446` `place_mega_build` — Megaproject — поставить очень много блоков
+- `447` `place_palette_10` — Color Test — использовать `10` разных блоков в одной постройке
+- `448` `place_palette_25` — Rich Palette — использовать `25` разных блоков
+- `449` `place_sky_build` — Sky Base — построить базу в небе
+- `450` `place_mountain_build` — Cliffside Living — построить дом в горе
+
+## Redstone
+
+- `451` `craft_redstone` — Dusty Hands — добыть или использовать редстоун
+- `452` `place_redstone_wire_64` — First Circuits — поставить `64` редстоуна
+- `453` `place_repeater_16` — Delay Line — поставить `16` повторителей
+- `454` `place_comparator_8` — Signal Reader — поставить `8` компараторов
+- `455` `place_observer_8` — Observer Grid — поставить `8` наблюдателей
+- `456` `place_piston_16` — Push Factory — поставить `16` поршней
+- `457` `place_sticky_piston_16` — Sticky Factory — поставить `16` липких поршней
+- `458` `place_hopper_16` — Item Flow — поставить `16` воронок
+- `459` `place_dispenser_8` — Launch Point — поставить `8` раздатчиков
+- `460` `place_dropper_8` — Drop Point — поставить `8` выбрасывателей
+- `461` `place_lamp_16` — Electric Lights — поставить `16` ламп
+- `462` `power_lamp` — Let There Be Light — зажечь лампу сигналом
+- `463` `open_iron_door_redstone` — Access Granted — открыть железную дверь редстоуном
+- `464` `button_press_32` — Push Again — нажать кнопку `32` раза
+- `465` `lever_pull_32` — Switch Habit — дернуть рычаг `32` раза
+- `466` `pressure_plate_use` — Step Trigger — активировать нажимную плиту
+- `467` `tripwire_use` — Wire Trap — активировать растяжку
+- `468` `daylight_detector_use` — Solar Tech — использовать датчик дневного света
+- `469` `target_hit` — Direct Signal — попасть по мишени
+- `470` `note_block_use` — Block Music — использовать нотный блок
+- `471` `jukebox_play` — Vinyl Night — запустить пластинку
+- `472` `crafter_use` — Auto Workshop — использовать crafter
+- `473` `auto_farm` — Automation Start — собрать автоферму
+- `474` `item_sorter` — Organized Flow — построить сортировщик
+- `475` `door_system` — Secure Entry — сделать редстоун дверь
+- `476` `piston_door` — Hidden Entry — сделать поршневую дверь
+- `477` `flying_machine` — Illegal Aviation — собрать летающую машину
+- `478` `minecart_loader` — Rail Logistics — сделать загрузчик вагонетки
+- `479` `item_elevator` — Vertical Supply — сделать лифт предметов
+- `480` `water_dispenser` — Auto Irrigation — сделать автополив
+- `481` `sugarcane_farm_auto` — Green Automation — сделать автоферму тростника
+- `482` `melon_farm_auto` — Slice Automation — сделать автоферму арбузов
+- `483` `pumpkin_farm_auto` — Harvest Automation — сделать автоферму тыкв
+- `484` `bamboo_farm_auto` — Stick Industry — сделать автоферму бамбука
+- `485` `kelp_farm_auto` — Sea Industry — сделать автоферму ламинарии
+- `486` `smelter_array` — Super Smelter — собрать печной массив
+- `487` `brewer_array` — Brew Line — сделать линию зелий
+- `488` `storage_signal` — Overflow Alarm — сделать сигнал заполнения
+- `489` `clock_circuit` — Tick Tock — сделать редстоун часы
+- `490` `pulse_extender` — Long Signal — сделать удлинитель импульса
+- `491` `t_flip_flop` — Memory Bit — собрать T-flip-flop
+- `492` `combination_lock` — Secret Entry — сделать кодовый замок
+- `493` `minecart_station` — Station Stop — сделать станцию вагонетки
+- `494` `trap_build` — Not Welcome — собрать ловушку
+- `495` `hidden_storage` — Smuggler's Chest — спрятать склад редстоуном
+- `496` `map_wall_switch` — Display Control — сделать переключаемую стену карт
+- `497` `signal_100` — Wire Jungle — поставить очень много компонентов
+- `498` `observer_chain` — Seen Everything — сделать длинную цепь наблюдателей
+- `499` `automation_master` — Automation Master — собрать несколько разных механизмов
+- `500` `redstone_architect` — Circuit Architect — построить крупную редстоун систему
+
+## Villagers And Economy
+
+- `501` `meet_villager` — Local Merchant — встретить жителя
+- `502` `trade_once` — First Trade — совершить первую сделку
+- `503` `trade_10` — Business Basics — совершить `10` сделок
+- `504` `trade_100` — Market Player — совершить `100` сделок
+- `505` `trade_farmer` — Fresh Produce — поторговать с фермером
+- `506` `trade_librarian` — Page Turner — поторговать с библиотекарем
+- `507` `trade_cleric` — Mystic Buyer — поторговать с клириком
+- `508` `trade_toolsmith` — Hardware Buyer — поторговать с toolsmith
+- `509` `trade_armorer` — Heavy Shopping — поторговать с бронником
+- `510` `trade_cartographer` — Mapped Deal — поторговать с картографом
+- `511` `trade_weaponsmith` — Sharp Shopping — поторговать с оружейником
+- `512` `trade_fletcher` — Arrow Contract — поторговать с лучником
+- `513` `trade_butcher` — Meat Contract — поторговать с мясником
+- `514` `trade_mason` — Stone Contract — поторговать с каменщиком
+- `515` `trade_shepherd` — Wool Contract — поторговать с пастухом
+- `516` `trade_fisherman` — River Contract — поторговать с рыбаком
+- `517` `trade_leatherworker` — Soft Deal — поторговать с кожевником
+- `518` `trade_master_any` — Top Customer — поторговать с жителем-мастером
+- `519` `trade_all_professions` — Marketplace Tour — поторговать со всеми профессиями
+- `520` `emerald_64` — Pocket Full Of Green — иметь `64` изумруда
+- `521` `emerald_256` — Rich Villager — иметь `256` изумрудов
+- `522` `cure_zombie_villager` — Redemption — вылечить зомби-жителя
+- `523` `breed_villagers_2` — New Residents — развести жителей
+- `524` `village_bell` — Ring The Square — использовать колокол
+- `525` `village_bed_8` — Housing Plan — поставить `8` кроватей для деревни
+- `526` `village_workstations_8` — Job Market — поставить `8` рабочих станций
+- `527` `iron_golem_built` — Handmade Guard — создать железного голема
+- `528` `snow_golem_built` — Snow Guard — создать снежного голема
+- `529` `hero_discount` — Local Hero — получить скидки героя деревни
+- `530` `raid_after_trade` — Merchant Protector — сначала торговать, потом защитить деревню
+- `531` `village_city` — Urban Planner — развить большую деревню
+- `532` `merchant_hall` — Trading Hall — построить торговый зал
+- `533` `one_profession_level5` — Loyal Customer — прокачать жителя до `5` уровня
+- `534` `three_professions_level5` — Trade Network — прокачать `3` профессии до `5`
+- `535` `all_professions_level5` — World Of Work — прокачать все профессии
+- `536` `name_villager` — Personal Merchant — назвать жителя
+- `537` `rescue_villager` — Safe Escort — спасти жителя от монстра
+- `538` `transport_villager` — Relocation — перевезти жителя
+- `539` `village_in_nether` — Strange Settlement — поселить жителя в аду
+- `540` `village_in_end` — Impossible Colony — поселить жителя в энде
+- `541` `wandering_trader_trade` — Passing Deal — поторговать со странствующим торговцем
+- `542` `llama_leash` — Caravan Start — повести ламу на поводке
+- `543` `carrot_trade_loop` — Farm Economy — зарабатывать на моркови
+- `544` `paper_trade_loop` — Forest Economy — зарабатывать на бумаге
+- `545` `stick_trade_loop` — Cheap Economy — зарабатывать на палках
+- `546` `glass_trade_loop` — Sand Economy — зарабатывать на стекле
+- `547` `pumpkin_trade_loop` — Pumpkin Economy — зарабатывать на тыквах
+- `548` `melon_trade_loop` — Melon Economy — зарабатывать на арбузах
+- `549` `economy_engine` — Self Sustained — наладить стабильную цепочку торговли
+- `550` `village_tycoon` — Village Tycoon — стать мастером деревенской экономики
+
+## Ocean
+
+- `551` `boat_first` — Float Start — поплыть на лодке
+- `552` `boat_1000` — River Run — проплыть `1000` блоков
+- `553` `boat_5000` — Sea Route — проплыть `5000` блоков
+- `554` `fish_first` — First Catch — поймать первый предмет на удочку
+- `555` `fish_32` — Fishing Habit — поймать `32` предмета
+- `556` `fish_treasure` — Lucky Hook — поймать сокровище
+- `557` `fish_junk` — Why This? — поймать мусор
+- `558` `fish_puffer` — Risky Catch — поймать иглобрюха
+- `559` `fish_name_tag` — Useful Catch — поймать бирку
+- `560` `fish_bow` — Wet Arsenal — поймать лук
+- `561` `underwater_30` — Long Breath — пробыть под водой `30` секунд
+- `562` `underwater_120` — Sea Creature — пробыть под водой `120` секунд
+- `563` `kill_drowned_25` — Sunken Guard — убить `25` утопленников
+- `564` `kill_guardian_25` — Temple Cleaner — убить `25` стражей
+- `565` `collect_nautilus` — Shell Spiral — добыть раковину наутилуса
+- `566` `collect_heart_of_sea` — Blue Core — добыть сердце моря
+- `567` `conduit_active` — Ocean Signal — активировать проводник
+- `568` `conduit_kill` — Conduit Hunter — убить моба под эффектом проводника
+- `569` `find_shipwreck` — Broken Hull — найти кораблекрушение
+- `570` `find_ocean_ruins` — Sea Ruins — найти руины
+- `571` `find_buried_treasure` — Sand Chest — найти клад
+- `572` `treasure_loot` — Hidden Wealth — залутать клад
+- `573` `dolphin_grace` — Guided Swim — получить благодать дельфина
+- `574` `swim_1000` — Strong Arms — проплыть `1000` блоков
+- `575` `swim_5000` — Endless Current — проплыть `5000` блоков
+- `576` `kelp_harvest_256` — Ocean Garden — собрать `256` ламинарии
+- `577` `sea_pickle_collect` — Tiny Glow — собрать морские огурцы
+- `578` `coral_collect` — Reef Touch — собрать коралл
+- `579` `warm_ocean_visit` — Warm Waters — посетить теплый океан
+- `580` `frozen_ocean_visit` — Frozen Waters — посетить ледяной океан
+- `581` `ride_dolphin` — Current Friend — прокатиться рядом с дельфином
+- `582` `ride_boat_storm` — Storm Sailing — плавать в грозу
+- `583` `night_fishing` — Midnight Fishing — рыбачить ночью
+- `584` `underwater_ruin_loot` — Wet Archaeology — лутать под водой
+- `585` `prismarine_collect_128` — Prismarine Stock — собрать `128` призмарина
+- `586` `sea_lantern_collect_32` — Lantern Salvage — собрать `32` морских фонаря
+- `587` `trident_obtain` — Three Prongs — получить трезубец
+- `588` `trident_kill` — Ocean Spear — убить моба трезубцем
+- `589` `channeling_strike` — Thunder Spear — ударить молнией через channeling
+- `590` `riptide_launch` — Water Launch — использовать riptide
+- `591` `boat_mob_transport` — Strange Passenger — перевезти моба на лодке
+- `592` `turtle_shell` — Shell Helmet — сделать шлем черепахи
+- `593` `scute_collect` — Tiny Shells — добыть scute
+- `594` `breed_turtles` — Ocean Nursery — развести черепах
+- `595` `sniffer_egg` — Buried Life — добыть яйцо sniffers
+- `596` `sniffer_seed` — Ancient Seeds — выкопать древние семена sniffers
+- `597` `axolotl_bucket` — Pocket Axolotl — поймать аксолотля в ведро
+- `598` `all_fish_types` — Aquarium Collector — поймать разные виды рыб
+- `599` `ocean_master` — Ocean Master — закрыть основные морские задачи
+- `600` `sea_emperor` — Sea Emperor — стать хозяином океана
+
+## Nether
+
+- `601` `portal_build` — Fire Door — построить портал
+- `602` `enter_nether` — Into Flames — войти в ад
+- `603` `find_fortress` — Burning Walls — найти крепость
+- `604` `find_bastion` — Gold Bastion — найти бастион
+- `605` `mine_quartz_256` — White Vein — добыть `256` кварца
+- `606` `mine_nether_gold_128` — Piglin Taxpayer — добыть `128` незерского золота
+- `607` `mine_blackstone_256` — Black Builder — добыть `256` чернокамня
+- `608` `mine_ancient_debris_1` — First Debris — добыть `1` древние обломки
+- `609` `mine_ancient_debris_16` — Debris Hunter — добыть `16` древних обломков
+- `610` `kill_blaze_50` — Blaze Breaker — убить `50` ифритов
+- `611` `kill_ghast_25` — Ghast Breaker — убить `25` гастов
+- `612` `kill_hoglin_25` — Hog Hunt — убить `25` хоглинов
+- `613` `kill_piglin_50` — Gold Argument — убить `50` пиглинов
+- `614` `kill_piglin_brute_10` — Bastion Muscle — убить `10` брутальных пиглинов
+- `615` `kill_magma_cube_50` — Hot Gelatin — убить `50` магма-кубов
+- `616` `kill_wither_skeleton_50` — Skull Farm — убить `50` визер-скелетов
+- `617` `collect_blaze_rods_16` — Blaze Supply — добыть `16` blaze rod
+- `618` `collect_wither_skulls_3` — Dark Trio — собрать `3` головы визер-скелета
+- `619` `barter_once` — First Barter — обменяться с пиглином
+- `620` `barter_32` — Golden Negotiator — сделать `32` обмена
+- `621` `barter_ender_pearls` — Pearl Dealer — получить жемчуг от пиглина
+- `622` `barter_obsidian` — Dark Trade — получить обсидиан от пиглина
+- `623` `barter_fire_res` — Safe Trade — получить огнестойкость от пиглина
+- `624` `wear_gold_in_nether` — Respect The Rules — надеть золото в аду
+- `625` `survive_lava_nether` — Hell Resistant — пережить лаву в аду
+- `626` `strider_ride` — Lava Taxi — проехать на страйдере
+- `627` `strider_1000` — Lava Commute — проехать `1000` блоков на страйдере
+- `628` `warp_forest` — Blue Forest — посетить warped forest
+- `629` `crimson_forest` — Red Forest — посетить crimson forest
+- `630` `basalt_deltas` — Falling Ash — посетить basalt deltas
+- `631` `soul_sand_valley` — Lost Valley — посетить soul sand valley
+- `632` `nether_wart_128` — Wart Grower — собрать `128` адского нароста
+- `633` `brew_fire_res_potion` — Prepared For Hell — сварить огнестойкость
+- `634` `smelt_ancient_debris` — Scrap Maker — переплавить древние обломки
+- `635` `netherite_ingot` — Final Alloy — создать незеритовый слиток
+- `636` `upgrade_netherite_tool` — Better Than Diamond — улучшить инструмент до незерита
+- `637` `upgrade_full_netherite` — Black Arsenal — собрать полный незеритовый комплект
+- `638` `lodestone_place` — Lost Compass — поставить магнетит
+- `639` `crying_obsidian_collect` — Purple Tears — добыть плачущий обсидиан
+- `640` `respawn_anchor_charge` — Nether Bed — зарядить якорь возрождения
+- `641` `respawn_anchor_use` — Hell Return — использовать якорь возрождения
+- `642` `nether_highway` — Highway To Hell — проложить маршрут в аду
+- `643` `nether_hub` — Hell Junction — построить хаб в аду
+- `644` `bastion_loot_all` — Piglin Sweep — залутать все части бастиона
+- `645` `fortress_loot` — Fortress Hoard — залутать крепость
+- `646` `wither_skull_farm` — Skull Project — наладить добычу черепов
+- `647` `nether_roof_walk` — Ceiling Walker — походить по крыше ада
+- `648` `return_from_nether_alive` — Back From Flames — вернуться живым
+- `649` `hell_conqueror` — Hell Conqueror — закрыть ключевые задачи ада
+- `650` `nether_emperor` — Nether Emperor — полностью освоить ад
+
+## The End
+
+- `651` `find_stronghold` — Eyes Lead — найти крепость
+- `652` `enter_end` — Step Into Void — войти в энд
+- `653` `dragon_kill` — Ender Finale — убить дракона
+- `654` `dragon_crystal_break_10` — Crystal Cleaner — сломать `10` кристаллов
+- `655` `dragon_egg_touch` — Royal Relic — получить яйцо дракона
+- `656` `end_gateway_use` — Outer Ring — воспользоваться gateway
+- `657` `find_end_city` — Sky Ruins — найти энд-город
+- `658` `loot_end_city` — Purpur Profit — залутать энд-город
+- `659` `find_ship` — End Ship — найти энд-корабль
+- `660` `elytra_get` — Wings — получить элитры
+- `661` `glide_first` — First Glide — впервые полететь на элитрах
+- `662` `glide_1000` — Air Route — пролететь `1000` блоков
+- `663` `glide_10000` — Endless Glide — пролететь `10000` блоков
+- `664` `firework_boost` — Rocket Assist — ускориться ракетой
+- `665` `shulker_kill_50` — Shell Breaker — убить `50` шалкеров
+- `666` `collect_shulker_shells_32` — Portable Walls — добыть `32` shells
+- `667` `craft_shulker_boxes_8` — Storage Fleet — сделать `8` шалкеров
+- `668` `chorus_fruit_eat` — Strange Teleport — съесть chorus fruit
+- `669` `chorus_plant_break` — End Flora — добыть chorus plant
+- `670` `purpur_128` — End Bricks — добыть `128` purpur
+- `671` `end_stone_512` — Pale Quarry — добыть `512` эндерняка
+- `672` `respawn_dragon` — Another Round — возродить дракона
+- `673` `kill_dragon_twice` — Again And Again — убить дракона дважды
+- `674` `kill_dragon_without_death` — Clean Finale — убить дракона без смерти
+- `675` `kill_shulker_with_arrow` — Long Shell — убить шалкера стрелой
+- `676` `void_rescue_end` — Not Today Void — спастись от пустоты в энде
+- `677` `bridge_end_islands` — Careful Steps — построить мост в энде
+- `678` `enderman_kill_100` — Tall Population Control — убить `100` эндерменов
+- `679` `ender_pearl_64` — Teleport Budget — получить `64` жемчуга
+- `680` `ender_chest_place` — Private Access — поставить эндер-сундук
+- `681` `end_base` — Outer Base — построить базу в энде
+- `682` `end_farm` — Enderman Business — сделать ферму эндерменов
+- `683` `end_beacon` — Void Light — поставить маяк в энде
+- `684` `dragon_bed_strat` — Explosive Sleeper — применить кровати против дракона
+- `685` `dragon_arrow_strat` — Patient Archer — победить дракона стрелами
+- `686` `dragon_melee_finish` — Final Hit — добить дракона в мили
+- `687` `shulker_levitation_survive` — Floating But Fine — пережить атаку шалкера
+- `688` `all_end_loot` — Sky Hoarder — собрать ключевой лут энда
+- `689` `end_master` — End Master — закрыть основные цели энда
+- `690` `void_emperor` — Void Emperor — полностью освоить энд
+- `691` `dragon_chain` — End Journey — пройти весь путь до победы над драконом
+- `692` `elytra_chain` — Wings Acquired — убить дракона, найти корабль, получить элитры
+- `693` `shulker_chain` — Storage Mission — найти город, убить шалкеров, сделать шалкер
+- `694` `end_city_chain` — Skyline Raider — войти, залутать, вернуться
+- `695` `end_survival_chain` — Nothing Is Safe — выжить долго в энде
+- `696` `void_escape_chain` — Edge Walker — несколько раз избежать смерти в пустоте
+- `697` `dragon_speed_chain` — Fast Finale — быстро пройти дорогу до дракона
+- `698` `dragon_perfect_chain` — Perfect Finale — дракон, кристаллы, без смерти
+- `699` `ultimate_end_chain` — Crown Of The End — полный end progression
+- `700` `void_legend` — Void Legend — элитный end challenge
+
+## Animals And Creatures
+
+- `701` `wolf_tame` — Pack One — приручить волка
+- `702` `wolf_pack_5` — Pack Five — иметь `5` волков
+- `703` `cat_tame` — Quiet Friend — приручить кошку
+- `704` `cat_variants_5` — Cat Collector — собрать `5` видов кошек
+- `705` `horse_tame` — Saddle Partner — приручить лошадь
+- `706` `horse_armor` — Armored Mount — надеть броню на лошадь
+- `707` `donkey_tame` — Supply Friend — приручить осла
+- `708` `mule_get` — Working Hybrid — получить мула
+- `709` `llama_tame` — Fuzzy Caravan — приручить ламу
+- `710` `llama_caravan_3` — Caravan — вести `3` ламы
+- `711` `parrot_tame` — Feather Friend — приручить попугая
+- `712` `parrot_shoulder` — Shoulder Tune — посадить попугая на плечо
+- `713` `fox_breed` — Forest Pair — развести лис
+- `714` `axolotl_bucket` — Pocket Axolotl — поймать аксолотля
+- `715` `axolotl_rare` — Blue Dream — получить редкого аксолотля
+- `716` `bee_breed` — Bee Family — развести пчел
+- `717` `mooshroom_find` — Mushroom Cow — найти муухомора
+- `718` `mooshroom_brown` — Brown Mystery — получить коричневого муухомора
+- `719` `goat_find` — Mountain Goat — найти козу
+- `720` `goat_horn` — Loud Souvenir — получить козий рог
+- `721` `camel_ride` — Desert Cruiser — покататься на верблюде
+- `722` `sniffer_hatch` — Ancient Nose — вылупить sniffers
+- `723` `sniffer_seed` — Ancient Bloom — найти древние семена
+- `724` `frog_find` — Swamp Hopper — найти лягушку
+- `725` `frog_variants_3` — Frog Palette — увидеть все варианты лягушек
+- `726` `froglight_get` — Living Lamp — получить froglight
+- `727` `tadpole_bucket` — Pocket Tadpole — поймать головастика
+- `728` `panda_find` — Bamboo Giant — найти панду
+- `729` `panda_breed` — Panda Pair — развести панд
+- `730` `polar_bear_find` — Arctic Threat — встретить белого медведя
+- `731` `dolphin_find` — Sea Friend — встретить дельфина
+- `732` `dolphin_grace` — Guided Current — получить благодать дельфина
+- `733` `turtle_find` — Slow Walker — встретить черепаху
+- `734` `turtle_breed` — Shell Nursery — развести черепах
+- `735` `scute_collect` — Shell Piece — получить scute
+- `736` `rabbit_find` — Fast Feet — встретить кролика
+- `737` `rabbit_killer` — Hunter's Meal — добыть кроличье мясо
+- `738` `strider_ride` — Hot Feet — покататься на страйдере
+- `739` `strider_breed` — Lava Family — развести страйдеров
+- `740` `trader_llama_encounter` — Spitting Welcome — встретить торговую ламу
+- `741` `iron_golem_friend` — Steel Guard — жить рядом с големом
+- `742` `snow_golem_friend` — Snow Guard — построить снежного голема
+- `743` `bat_find` — Cave Wing — встретить летучую мышь
+- `744` `glow_squid_find` — Neon Squid — встретить светящегося спрута
+- `745` `squid_ink` — Ink Supply — добыть чернило
+- `746` `glow_ink` — Bright Ink — добыть светящееся чернило
+- `747` `all_passive_animals` — Nature Album — увидеть всех мирных животных
+- `748` `all_tamable_animals` — Tamer's Album — приручить все приручаемые виды
+- `749` `all_farm_animals_bred` — Barn Album — развести все фермерские виды
+- `750` `creature_master` — Creature Master — закрыть всю animal-линейку
+
+## Items And Hoarding
+
+- `751` `wood_stack` — Stack Of Wood — получить стак древесины
+- `752` `stone_stack` — Stack Of Stone — получить стак камня
+- `753` `iron_stack` — Stack Of Iron — получить стак железа
+- `754` `gold_stack` — Stack Of Gold — получить стак золота
+- `755` `diamond_stack` — Stack Of Diamond — получить стак алмазов
+- `756` `emerald_stack` — Stack Of Emerald — получить стак изумрудов
+- `757` `coal_stack` — Stack Of Coal — получить стак угля
+- `758` `redstone_stack` — Stack Of Redstone — получить стак редстоуна
+- `759` `lapis_stack` — Stack Of Lapis — получить стак лазурита
+- `760` `quartz_stack` — Stack Of Quartz — получить стак кварца
+- `761` `obsidian_stack` — Stack Of Obsidian — получить стак обсидиана
+- `762` `ender_pearl_stack` — Stack Of Pearls — получить стак жемчуга
+- `763` `bone_stack` — Stack Of Bones — получить стак костей
+- `764` `string_stack` — Stack Of String — получить стак ниток
+- `765` `gunpowder_stack` — Stack Of Powder — получить стак пороха
+- `766` `rotten_flesh_stack` — Stack Of Rot — получить стак гнилой плоти
+- `767` `blaze_rod_stack` — Stack Of Rods — получить стак blaze rod
+- `768` `slime_ball_stack` — Stack Of Slime — получить стак slime ball
+- `769` `magma_cream_stack` — Stack Of Cream — получить стак magma cream
+- `770` `honey_bottle_stack` — Stack Of Honey — получить стак бутылочек меда
+- `771` `book_stack` — Stack Of Books — получить стак книг
+- `772` `bread_stack` — Stack Of Bread — получить стак хлеба
+- `773` `carrot_stack` — Stack Of Carrots — получить стак моркови
+- `774` `potato_stack` — Stack Of Potatoes — получить стак картофеля
+- `775` `cooked_beef_stack` — Stack Of Steak — получить стак стейков
+- `776` `golden_carrot_stack` — Stack Of Carrots Gold — получить стак золотой моркови
+- `777` `arrow_stack` — Stack Of Arrows — получить стак стрел
+- `778` `firework_stack` — Stack Of Fireworks — получить стак ракет
+- `779` `potion_row` — Potion Row — собрать ряд зелий
+- `780` `totem_collection` — Totem Drawer — собрать `5` тотемов
+- `781` `music_disc_collection` — Vinyl Collector — собрать пластинки
+- `782` `armor_set_iron` — Iron Wardrobe — собрать полный железный сет
+- `783` `armor_set_diamond` — Diamond Wardrobe — собрать полный алмазный сет
+- `784` `armor_set_netherite` — Netherite Wardrobe — собрать полный незеритовый сет
+- `785` `tool_set_iron` — Iron Toolbox — собрать железный набор инструментов
+- `786` `tool_set_diamond` — Diamond Toolbox — собрать алмазный набор
+- `787` `tool_set_netherite` — Netherite Toolbox — собрать незеритовый набор
+- `788` `enchanted_item` — Enchanted Piece — получить зачарованный предмет
+- `789` `enchanted_set` — Enchanted Wardrobe — собрать зачарованный комплект
+- `790` `max_enchanted_item` — Overloaded Gear — получить очень сильное зачарование
+- `791` `shulker_full` — Packed Box — заполнить шалкер
+- `792` `ender_chest_full` — Hidden Wealth — заполнить эндер-сундук
+- `793` `named_item` — Personal Tool — назвать предмет
+- `794` `signed_book` — Written Record — подписать книгу
+- `795` `map_wall` — Wall Of Maps — собрать стену карт
+- `796` `rare_drop` — Rare Drop — получить редкий дроп
+- `797` `mob_head` — Trophy Head — получить голову моба
+- `798` `dragon_head` — Royal Trophy — получить голову дракона
+- `799` `hoarder` — Hoarder — забить склад ресурсами
+- `800` `museum_owner` — Museum Owner — собрать много редких предметов
+
+## Food And Cooking
+
+- `801` `eat_apple` — Simple Bite — съесть яблоко
+- `802` `eat_bread` — Fresh Loaf — съесть хлеб
+- `803` `eat_steak` — Proper Meal — съесть стейк
+- `804` `eat_golden_apple` — Rich Snack — съесть золотое яблоко
+- `805` `eat_enchanted_apple` — Mythic Bite — съесть зачарованное яблоко
+- `806` `eat_carrot` — Healthy Start — съесть морковь
+- `807` `eat_golden_carrot` — Best Diet — съесть золотую морковь
+- `808` `eat_melon` — Summer Snack — съесть арбуз
+- `809` `eat_pumpkin_pie` — Autumn Snack — съесть пирог
+- `810` `eat_cookie` — Sweet Bite — съесть печенье
+- `811` `eat_cake` — Shared Celebration — съесть торт
+- `812` `eat_mushroom_stew` — Warm Bowl — съесть грибной суп
+- `813` `eat_beetroot_soup` — Red Bowl — съесть свекольный суп
+- `814` `eat_rabbit_stew` — Hunter's Bowl — съесть кроличье рагу
+- `815` `eat_suspicious_stew` — Dangerous Taste — съесть suspicious stew
+- `816` `eat_kelp` — Sea Snack — съесть сушеную ламинарию
+- `817` `eat_berries` — Thorny Snack — съесть сладкие ягоды
+- `818` `eat_glow_berries` — Luminous Snack — съесть светящиеся ягоды
+- `819` `eat_pufferfish` — Why Eat That — съесть иглобрюха
+- `820` `eat_rotten_flesh` — Desperate Meal — съесть гнилую плоть
+- `821` `eat_spider_eye` — Worse Choice — съесть паучий глаз
+- `822` `eat_chorus_fruit` — Teleport Snack — съесть chorus fruit
+- `823` `eat_honey` — Sweet Medicine — выпить мед
+- `824` `eat_all_basic_foods` — Tasting Menu — попробовать основные виды еды
+- `825` `eat_all_bad_foods` — Bad Decisions — попробовать все плохие виды еды
+- `826` `eat_all_cooked_meats` — Carnivore — съесть все виды приготовленного мяса
+- `827` `eat_all_farmer_foods` — Farm Table — съесть все виды фермерской еды
+- `828` `eat_during_raid` — Quick Snack — поесть во время рейда
+- `829` `eat_in_nether` — Hell Lunch — поесть в аду
+- `830` `eat_in_end` — Void Lunch — поесть в энде
+- `831` `starve_then_eat` — Saved By Lunch — довести голод до нуля и поесть
+- `832` `full_saturation` — Stuffed — полностью насытиться
+- `833` `regen_from_food` — Back To Life — восстановить здоровье едой
+- `834` `cook_32_beef` — Grill Master — приготовить `32` говядины
+- `835` `cook_32_pork` — Pork Master — приготовить `32` свинины
+- `836` `cook_32_chicken` — Chicken Master — приготовить `32` курицы
+- `837` `cook_32_mutton` — Mutton Master — приготовить `32` баранины
+- `838` `cook_32_rabbit` — Rabbit Master — приготовить `32` крольчатины
+- `839` `cook_32_fish` — Fish Master — приготовить `32` рыбы
+- `840` `baker_master` — Baker Master — испечь много еды
+- `841` `chef_master` — Chef Master — попробовать все сложные блюда
+- `842` `sugar_rush` — Sugar Rush — быстро съесть много сладкого
+- `843` `balanced_diet_plus` — Balanced Diet Plus — большой список еды
+- `844` `campfire_cook` — Smoky Meal — приготовить еду на костре
+- `845` `farmer_market_meal` — Local Cuisine — съесть продукты деревни
+- `846` `night_meal` — Midnight Snack — поесть ночью
+- `847` `storm_meal` — Rain Dinner — поесть в дождь
+- `848` `wilderness_meal` — Field Kitchen — поесть вдали от дома
+- `849` `gourmet` — Gourmet — собрать коллекцию редкой еды
+- `850` `master_of_taste` — Master Of Taste — закрыть всю food-линейку
+
+## Time Weather And Session
+
+- `851` `play_1_hour` — First Hour — провести `1` час в игре
+- `852` `play_10_hours` — Familiar Face — провести `10` часов в игре
+- `853` `play_100_hours` — Veteran Time — провести `100` часов в игре
+- `854` `play_500_hours` — Time Sink — провести `500` часов в игре
+- `855` `day_cycle_watch` — Full Day — прожить полный игровой день
+- `856` `night_cycle_watch` — Full Night — прожить полную ночь
+- `857` `rain_60` — Wet Minute — провести `60` секунд под дождем
+- `858` `thunder_60` — Storm Minute — провести `60` секунд в грозу
+- `859` `clear_300` — Good Weather — провести `300` секунд в ясную погоду
+- `860` `full_moon_60` — Full Moon Watch — провести `60` секунд при полной луне
+- `861` `new_moon_60` — New Moon Watch — провести `60` секунд в новолуние
+- `862` `sunrise_visit` — Dawn Walker — быть онлайн на рассвете
+- `863` `sunset_visit` — Sunset Walker — быть онлайн на закате
+- `864` `midnight_visit` — Midnight Walker — быть онлайн в полночь
+- `865` `noon_visit` — High Sun — быть онлайн в полдень
+- `866` `biome_stay_forest` — Forest Rest — пробыть в лесу
+- `867` `biome_stay_desert` — Desert Rest — пробыть в пустыне
+- `868` `biome_stay_jungle` — Jungle Rest — пробыть в джунглях
+- `869` `biome_stay_snow` — Snow Rest — пробыть в снегу
+- `870` `biome_stay_swamp` — Swamp Rest — пробыть на болоте
+- `871` `biome_stay_cherry` — Pink Rest — пробыть в вишневой роще
+- `872` `biome_stay_deep_dark` — Quiet Rest — пробыть в deep dark
+- `873` `travel_at_night` — Night Walker — пройти путь ночью
+- `874` `travel_in_rain` — Rain Walker — пройти путь под дождем
+- `875` `travel_in_thunder` — Storm Walker — пройти путь в грозу
+- `876` `travel_dawn` — Dawn Jog — пройти путь на рассвете
+- `877` `travel_dusk` — Dusk Jog — пройти путь на закате
+- `878` `underwater_session` — Submerged Session — пробыть долго под водой
+- `879` `vehicle_session` — Road Session — долго находиться в транспорте
+- `880` `glide_session` — Flight Session — долго парить на элитрах
+- `881` `nether_session` — Hell Session — долго быть в аду
+- `882` `end_session` — End Session — долго быть в энде
+- `883` `cave_session` — Cave Session — долго быть глубоко под землей
+- `884` `surface_session` — Surface Session — долго находиться на поверхности
+- `885` `chain_no_death` — One Run — выполнить последовательность без смерти
+- `886` `chain_no_teleport` — No Warp — выполнить последовательность без телепорта
+- `887` `chain_speedrun` — Fast Chain — уложиться во временной лимит
+- `888` `chain_biome_trip` — Biome Route — пройти цепочку по нескольким биомам
+- `889` `chain_dimension_trip` — Dimension Route — пройти цепочку по измерениям
+- `890` `chain_weather_trip` — Weather Route — пройти цепочку в разную погоду
+- `891` `storm_survivor_chain` — Storm Survivor — пережить грозу, удар молнии и остаться живым
+- `892` `void_runner_chain` — Void Runner — пройти рискованную end-цепочку
+- `893` `hell_runner_chain` — Hell Runner — пройти адскую цепочку
+- `894` `village_runner_chain` — Village Runner — пройти деревенскую цепочку
+- `895` `sleep_cycle_chain` — Circadian Rhythm — чередовать сон и активность
+- `896` `all_moon_phases` — Moon Archivist — застать все лунные фазы
+- `897` `all_weather_states` — Weather Archivist — пережить все состояния погоды
+- `898` `all_session_types` — Session Archivist — закрыть все типы session-ачивок
+- `899` `clockwork_soul` — Clockwork Soul — много времени играть по циклам
+- `900` `time_lord` — Time Lord — закрыть всю time/weather линию
+
+## Weird And Funny
+
+- `901` `punch_tree_1` — Primitive — ударить дерево рукой
+- `902` `punch_pig` — Why Pig? — ударить свинью
+- `903` `punch_golem` — Bad Idea — ударить железного голема
+- `904` `sleep_in_nether_attempt` — Explosive Nap — попытаться поспать в аду
+- `905` `sleep_in_end_attempt` — Void Nap — попытаться поспать в энде
+- `906` `eat_spider_eye` — Truly Hungry — съесть паучий глаз
+- `907` `eat_rotten_flesh` — Street Food — съесть гнилую плоть
+- `908` `eat_pufferfish` — That's Poison — съесть иглобрюха
+- `909` `jump_100` — Restless Legs — прыгнуть `100` раз
+- `910` `jump_1000` — Rabbit Soul — прыгнуть `1000` раз
+- `911` `die_to_chicken` — Humiliating — умереть от курицы или рядом с ней
+- `912` `die_to_fall_while_elytra` — Wings Failed — разбиться с элитрами
+- `913` `die_with_totem_in_inventory` — You Forgot — умереть, имея тотем в инвентаре
+- `914` `walk_into_cactus` — Self Damage — повредиться об кактус
+- `915` `walk_into_berry` — Thorn Lesson — повредиться о ягоды
+- `916` `bell_spam` — Ring Ring Ring — много раз позвонить в колокол
+- `917` `boat_on_land` — That's Not Water — ехать в лодке по суше
+- `918` `minecart_in_water` — Wrong Track — ехать на вагонетке в воде
+- `919` `wear_pumpkin` — Hidden Face — надеть тыкву на голову
+- `920` `wear_mob_head` — Costume Party — надеть голову моба
+- `921` `rename_hoe` — Farmer Humor — назвать мотыгу
+- `922` `rename_sword` — Edge Of Comedy — назвать меч
+- `923` `name_tag_chicken` — Personal Chicken — назвать курицу
+- `924` `name_tag_villager` — Local Celebrity — назвать жителя
+- `925` `goat_launch` — Flying By Goat — получить удар от козы
+- `926` `shulker_launch` — Sky By Shulker — левитировать от шалкера
+- `927` `dolphin_bully` — Mean Swimmer — ударить дельфина
+- `928` `llama_spit` — Gross — получить плевок ламы
+- `929` `panda_sneeze` — Bless You — увидеть чих панды
+- `930` `fox_sleep` — Nap Watcher — увидеть спящую лису
+- `931` `cat_gift` — Cat Tax — получить подарок от кошки
+- `932` `parrot_dance` — Music Bird — заставить попугая танцевать
+- `933` `piglin_anger` — Gold Problem — разозлить пиглинов
+- `934` `enderman_anger` — Looked Too Long — разозлить эндермена
+- `935` `warden_anger` — Loud Mistake — разозлить вардена
+- `936` `villager_angry` — Bad Customer — ударить жителя
+- `937` `fall_into_powder_snow` — Disappeared — провалиться в рыхлый снег
+- `938` `chorus_random` — Where Am I — телепортироваться chorus fruit
+- `939` `ride_pig` — Classic Joke — покататься на свинье
+- `940` `ride_strider_snowman` — Wrong Climate — привести страйдера в снег
+- `941` `catch_salmon_bucket` — Pocket Fish — поймать рыбу в ведро
+- `942` `catch_tropical_bucket` — Tropical Pocket — поймать тропическую рыбу в ведро
+- `943` `milk_after_potion` — Cleansed — выпить молоко после эффекта
+- `944` `explode_self_tnt` — Bad Distance — подорваться своим TNT
+- `945` `bed_trap_self` — Self Bed Trap — взорвать себя кроватью
+- `946` `dripstone_fall` — Sharp Landing — упасть на капельник
+- `947` `powder_snow_freeze` — Ice Cube — почти замерзнуть
+- `948` `beehive_anger` — Sweet Mistake — разозлить пчел
+- `949` `laughable_legend` — Comedy Gold — выполнить серию смешных ачивок
+- `950` `absolute_goblin` — Absolute Goblin — закрыть весь weird-блок
+
+## Mega Chains
+
+- `951` `chain_wood_to_iron` — From Sticks To Steel — дерево, камень, железо
+- `952` `chain_iron_to_diamond` — Blue Ambition — железо, алмаз, зачарование
+- `953` `chain_diamond_to_nether` — Heat Upgrade — алмазы, портал, ад
+- `954` `chain_nether_to_bastion` — Fire And Gold — ад, бастион, обмен
+- `955` `chain_nether_to_fortress` — Fire And Bone — ад, крепость, blaze rod
+- `956` `chain_fortress_to_wither` — Black Ritual — blaze, skulls, визер
+- `957` `chain_stronghold_to_dragon` — Final Eyes — крепость, энд, дракон
+- `958` `chain_dragon_to_elytra` — Wings Of Victory — дракон, город, элитры
+- `959` `chain_village_growth` — Rising Settlement — деревня, трейды, рейд
+- `960` `chain_farm_growth` — Full Harvest — поля, животные, еда
+- `961` `chain_miner_growth` — Deep Prospector — камень, железо, алмаз, древние обломки
+- `962` `chain_ocean_growth` — Ocean Story — лодка, рыбалка, клад, проводник
+- `963` `chain_redstone_growth` — Circuit Story — редстоун, механизмы, автоферма
+- `964` `chain_builder_growth` — Builder Story — дом, база, хаб, мегапроект
+- `965` `chain_survival_growth` — Survival Story — ночь, пещера, ад, энд
+- `966` `chain_magic_growth` — Arcane Story — зачарование, зелья, эффекты
+- `967` `chain_trade_growth` — Merchant Story — деревня, профессии, мастер-уровни
+- `968` `chain_animal_growth` — Creature Story — приручение, разведение, редкие мобы
+- `969` `chain_explorer_growth` — Explorer Story — биомы, структуры, измерения
+- `970` `chain_boss_growth` — Slayer Story — рейд, древний страж, визер, дракон
+- `971` `chain_no_death_1` — Perfect Start — ранняя цепочка без смерти
+- `972` `chain_no_death_2` — Perfect Midgame — средняя цепочка без смерти
+- `973` `chain_no_death_3` — Perfect Endgame — поздняя цепочка без смерти
+- `974` `chain_no_teleport_1` — No Shortcuts I — ранняя цепочка без телепорта
+- `975` `chain_no_teleport_2` — No Shortcuts II — средняя цепочка без телепорта
+- `976` `chain_no_teleport_3` — No Shortcuts III — поздняя цепочка без телепорта
+- `977` `chain_speed_1` — Quick Start — быстрая ранняя цепочка
+- `978` `chain_speed_2` — Quick Midgame — быстрая средняя цепочка
+- `979` `chain_speed_3` — Quick Endgame — быстрая поздняя цепочка
+- `980` `chain_weather_1` — Storm Route — пройти цепочку в дождь
+- `981` `chain_weather_2` — Thunder Route — пройти цепочку в грозу
+- `982` `chain_time_1` — Night Route — пройти цепочку ночью
+- `983` `chain_time_2` — Dawn Route — пройти цепочку на рассвете
+- `984` `chain_time_3` — Moon Route — пройти цепочку при нужной луне
+- `985` `chain_dimension_1` — Two Worlds — перейти между измерениями и выполнить задачу
+- `986` `chain_dimension_2` — Three Worlds — пройти цепочку через все измерения
+- `987` `chain_biome_1` — Climate Runner — пройти цепочку по биомам
+- `988` `chain_structure_1` — Ruin Runner — пройти цепочку по структурам
+- `989` `chain_food_1` — Gourmet Run — приготовить и съесть серию блюд
+- `990` `chain_potion_1` — Alchemy Run — сварить и применить серию зелий
+- `991` `chain_trade_1` — Market Run — серия трейдов по профессиям
+- `992` `chain_rail_1` — Infrastructure Run — рельсы, станция, маршрут
+- `993` `chain_ocean_1` — Deep Route — серия морских целей
+- `994` `chain_end_1` — Void Route — серия end целей
+- `995` `chain_nether_1` — Hell Route — серия nether целей
+- `996` `chain_boss_1` — Major Threats — серия боссов
+- `997` `chain_world_mastery` — World Mastery — огромная общая цепочка прогрессии
+- `998` `chain_completionist` — Completionist Path — серия на добивание веток
+- `999` `chain_almost_everything` — Almost Everything — закрыть почти весь пак
+- `1000` `chain_true_legend` — True Legend — финальная мета-ачивка за полный прогресс
+
+## Suggested Rewards
+
+Награды лучше выдавать не на все ачивки подряд, а:
+
+- на первые шаги
+- на заметные milestone-ачивки
+- на сложные challenge/boss/chain-ачивки
+- на финальные мета-ачивки
+
+Ниже идеи наград в разумных пределах.
+
+### Early Game
+
+- `001` `mine_stone_16` — `16` факелов
+- `011` `mine_iron_16` — `3` угля и `2` железных слитка
+- `018` `mine_diamond_1` — `3` опыта уровня
+- `051` `craft_planks_64` — `16` палок
+- `053` `craft_table` — `8` хлеба
+- `064` `craft_furnace` — `16` угля
+- `075` `craft_bread_16` — `1` золотая морковь
+- `101` `smelt_iron_16` — `2` железных слитка
+- `111` `brew_awkward` — `2` бутылочки опыта или `8` стеклянных бутылок
+- `151` `harvest_wheat_64` — `12` костной муки
+- `168` `breed_cows_10` — `8` сена
+- `179` `tame_horse` — `1` седло
+- `201` `kill_zombie_1` — `16` тухлого мяса не надо, лучше `2` хлеба
+- `204` `kill_skeleton_1` — `8` стрел
+- `221` `kill_elder_guardian` — `6` призмарина
+- `301` `enter_overworld` — без награды
+- `303` `enter_end` — `8` жареной говядины
+- `321` `discover_village` — `5` изумрудов
+- `351` `sleep_once` — без награды
+- `401` `place_blocks_256` — `16` каменных кирпичей
+- `451` `craft_redstone` — `8` редстоуна
+- `501` `meet_villager` — `2` изумруда
+- `551` `boat_first` — `1` удочка
+- `601` `portal_build` — `4` золотых моркови
+- `651` `find_stronghold` — `2` эндер-жемчуга
+- `701` `wolf_tame` — `8` костей
+- `751` `wood_stack` — без награды
+- `801` `eat_apple` — без награды
+- `851` `play_1_hour` — `250` валюты
+- `901` `punch_tree_1` — без награды
+
+### Mid Game
+
+- `019` `mine_diamond_16` — `5` уровней опыта
+- `024` `mine_nether_quartz_64` — `16` редстоуна
+- `027` `mine_ancient_debris_8` — `1` шаблон кузнечного улучшения или `4` золота
+- `068` `craft_enchanting_table` — `12` лазурита
+- `071` `craft_shulker_box` — `1` шалкер-фрагмент или `2` сундука
+- `087` `craft_crossbow` — `16` стрел
+- `095` `craft_glass_64` — `16` песка
+- `106` `smelt_food_32` — `4` угля блока или `1` сушеный блок ламинарии
+- `118` `brew_slow_falling` — `2` фантомные мембраны
+- `123` `brew_weakness_stack` — `8` паучьих глаз
+- `157` `harvest_melon_64` — `8` золотых самородков
+- `162` `harvest_nether_wart_64` — `1` blaze powder
+- `176` `breed_foxes_1` — `3` сладкие ягоды
+- `177` `breed_bees_4` — `4` соты
+- `205` `kill_skeleton_50` — `1` улучшенный лук или `32` стрел
+- `206` `kill_creeper_1` — `4` пороха
+- `209` `kill_enderman_10` — `2` эндер-жемчуга
+- `213` `kill_blaze_25` — `3` blaze rod
+- `220` `kill_guardian_10` — `8` призмарина
+- `225` `kill_pillager_25` — `5` изумрудов
+- `227` `kill_phantom_25` — `2` фантомные мембраны
+- `235` `projectile_kill_skeleton` — `16` стрел спектральных или обычных
+- `248` `shield_block_50` — `1` железный щит-ремкомплект: `4` железа
+- `251` `raid_win_1` — `8` изумрудов
+- `257` `raid_kill_ravager` — `1` тотем, если не слишком жирно, иначе `2` изумруда блока
+- `265` `dragon_kill` — `10` уровней опыта дополнительно или `1` незеритовый слиток не давать, лучше декоративный трофей
+- `277` `guardian_monument` — `8` prismarine bricks
+- `282` `bastion_enter` — `4` золотых слитка
+- `283` `bastion_loot` — `8` золотых моркови
+- `286` `ancient_city_enter` — `1` эхолокатор не давать, лучше `3` свечи души
+- `288` `trial_chambers_enter` — `5` изумрудов
+- `323` `discover_shipwreck` — `1` карта сокровищ или `3` изумруда
+- `330` `discover_woodland_mansion` — `8` стрел и `3` изумруда
+- `340` `boat_distance_1000` — `1` рыбачья лодка декоративно: `8` досок или `1` удочка
+- `343` `elytra_distance_5000` — `8` фейерверков
+- `358` `lava_survive` — `1` огнестойкость
+- `374` `underwater_survive_60s` — `1` дыхание водой
+- `383` `warden_escape` — `6` свечей души или `2` echo shard
+- `418` `place_full_house` — `500` валюты
+- `424` `place_conduit_active` — `1` сердце моря не давать, лучше `8` prismarine
+- `431` `place_storage_room` — `2` бочки
+- `445` `place_village_style` — `10` изумрудов
+- `474` `item_sorter` — `6` воронок
+- `486` `smelter_array` — `16` угля блока
+- `504` `trade_100` — `12` изумрудов
+- `518` `trade_master_any` — `1` изумрудный блок
+- `523` `breed_villagers_2` — `4` хлеба
+- `527` `iron_golem_built` — `1` колокол или `8` железа
+- `533` `one_profession_level5` — `10` изумрудов
+- `566` `collect_heart_of_sea` — `4` nautilus shell
+- `573` `dolphin_grace` — `1` водное дыхание
+- `587` `trident_obtain` — `8` prismarine shards
+- `617` `collect_blaze_rods_16` — `4` blaze powder
+- `621` `barter_ender_pearls` — `2` золота блока не надо, лучше `4` золотых слитка
+- `627` `strider_1000` — `1` warped fungus on a stick
+- `633` `brew_fire_res_potion` — `1` extra огнестойкость
+- `658` `loot_end_city` — `5` фейерверков
+- `666` `collect_shulker_shells_32` — `1` шалкер-бокс
+- `671` `end_stone_512` — `16` пурпурных блоков
+- `682` `end_farm` — `10` уровней опыта
+- `704` `cat_variants_5` — `1` name tag
+- `716` `bee_breed` — `4` соты
+- `725` `frog_variants_3` — `3` froglight
+- `740` `trader_llama_encounter` — без награды
+- `781` `music_disc_collection` — `1` jukebox, если еще нет
+- `783` `armor_set_diamond` — `5` уровней опыта
+- `791` `shulker_full` — `250` валюты
+- `828` `eat_during_raid` — `2` golden apple
+- `858` `thunder_60` — `1` lightning rod
+- `880` `glide_session` — `16` фейерверков
+- `894` `village_runner_chain` — `1` изумрудный блок
+- `917` `boat_on_land` — без награды
+- `925` `goat_launch` — `1` козий рог случайного типа
+
+### Late Game
+
+- `020` `mine_diamond_64` — `1` алмазный блок
+- `026` `mine_ancient_debris_1` — `4` золотых слитка
+- `050` `mine_every_dimension_ore` — `1000` валюты
+- `058` `craft_pickaxe_netherite` — `8` уровней опыта
+- `072` `craft_beacon` — `1` изумрудный блок или `1` алмазный блок
+- `090` `craft_firework` — `16` фейерверков
+- `124` `brew_every_positive` — `6` glowstone dust + `6` redstone dust
+- `125` `brew_every_negative` — `6` fermented spider eye
+- `149` `cake_party` — `500` валюты
+- `200` `apiary_master` — `1` пчелиный улей и `8` сот
+- `203` `kill_zombie_250` — `750` валюты
+- `214` `kill_ghast_10` — `2` ghast tear
+- `228` `kill_wither_skeleton_25` — `1` череп не давать, лучше `8` coal block
+- `232` `kill_warden` — `1` echo shard или `12` sculk catalyst
+- `233` `kill_wither` — `1` nether star не давать, лучше `1` beacon block set: `16` glass, `16` obsidian
+- `234` `kill_dragon` — `1500` валюты + `10` фейерверков
+- `250` `totem_use_5` — `1` тотем можно, но лучше `500` валюты
+- `263` `wither_no_death` — `1` trophy item / `1` beacon decorative token
+- `266` `dragon_kill` — `1500` валюты
+- `271` `dragon_respawn` — `4` end crystal materials
+- `275` `warden_kill` — `2000` валюты
+- `280` `ocean_conduit` — `1` decorative sea trophy
+- `289` `trial_ominous` — `750` валюты
+- `292` `boss_chain` — `1` алмазный блок + `1000` валюты
+- `298` `all_major_bosses` — `1` незеритовый слиток или `2500` валюты
+- `300` `boss_collector` — косметическая награда, не ресурсы
+- `343` `elytra_distance_5000` — `32` фейерверка
+- `349` `all_main_biomes` — `1000` валюты
+- `350` `true_explorer` — `1` decorative compass trophy
+- `390` `early_nether` — `4` golden carrot
+- `399` `return_alive` — `500` валюты
+- `400` `ultimate_survivor` — `1500` валюты + `1` trophy
+- `446` `place_mega_build` — `2000` валюты
+- `499` `automation_master` — `1000` валюты
+- `500` `redstone_architect` — `1` декоративный механизм-трофей
+- `518` `trade_master_any` — `1` emerald block
+- `535` `all_professions_level5` — `1500` валюты
+- `549` `economy_engine` — `1` decorative merchant trophy
+- `550` `village_tycoon` — `2000` валюты
+- `567` `conduit_active` — `1` decorative ocean badge
+- `589` `channeling_strike` — `1` lightning rod + `300` валюты
+- `599` `ocean_master` — `1200` валюты
+- `600` `sea_emperor` — косметическая морская корона / title
+- `635` `netherite_ingot` — `500` валюты
+- `637` `upgrade_full_netherite` — `1` decorative blacksmith trophy
+- `649` `hell_conqueror` — `1200` валюты
+- `650` `nether_emperor` — косметическая адская награда
+- `660` `elytra_get` — `16` фейерверков
+- `673` `kill_dragon_twice` — `1000` валюты
+- `689` `end_master` — `1200` валюты
+- `690` `void_emperor` — косметическая пустотная награда
+- `747` `all_passive_animals` — `500` валюты
+- `750` `creature_master` — `1` name tag bundle или `500` валюты
+- `784` `armor_set_netherite` — `1000` валюты
+- `790` `max_enchanted_item` — `8` опыта бутылок
+- `799` `hoarder` — `1000` валюты
+- `800` `museum_owner` — косметическая витринная награда
+- `824` `eat_all_basic_foods` — `250` валюты
+- `841` `chef_master` — `1` decorative chef hat item
+- `850` `master_of_taste` — `500` валюты
+- `853` `play_100_hours` — `1000` валюты
+- `854` `play_500_hours` — `2500` валюты + cosmetic
+- `885` `chain_no_death` — `500` валюты
+- `886` `chain_no_teleport` — `500` валюты
+- `887` `chain_speedrun` — `750` валюты
+- `898` `all_session_types` — `1000` валюты
+- `900` `time_lord` — косметический префикс/значок
+- `949` `laughable_legend` — `250` валюты
+- `950` `absolute_goblin` — косметическая смешная награда
+- `957` `chain_stronghold_to_dragon` — `1000` валюты
+- `958` `chain_dragon_to_elytra` — `16` фейерверков + `750` валюты
+- `964` `chain_builder_growth` — `1500` валюты
+- `965` `chain_survival_growth` — `1500` валюты
+- `968` `chain_animal_growth` — `1000` валюты
+- `969` `chain_explorer_growth` — `1500` валюты
+- `970` `chain_boss_growth` — `2000` валюты
+- `997` `chain_world_mastery` — `2500` валюты + cosmetic
+- `998` `chain_completionist` — `3000` валюты + title
+- `999` `chain_almost_everything` — `4000` валюты + cosmetic
+- `1000` `chain_true_legend` — финальная косметическая награда, префикс, статуэтка, title, `5000` валюты
+
+### Reward Rules
+
+- не выдавать незерит, звезду визера, яйцо дракона и другие слишком ломающие экономику предметы за рядовые ачивки
+- для обычных ачивок держать награду в районе:
+  - `100-500` валюты
+  - немного опыта
+  - полезные расходники
+- для сильных challenge и chain:
+  - `500-2000` валюты
+  - косметика
+  - декоративные трофеи
+- для финальных мета-ачивок:
+  - лучше косметические награды, префиксы, звания, коллекционные предметы
+  - а не сырые ресурсы, ломающие баланс

@@ -60,7 +60,8 @@ public final class AchievementRewardService {
     private String resolveRewardMessage(Player player, AchievementRewards rewards, Map<String, String> replacements) {
         if (rewards.getMessageKey() != null && !rewards.getMessageKey().trim().isEmpty()) {
             String keyMessage = plugin.getMessageService().resolve(player, rewards.getMessageKey(), replacements);
-            if (!keyMessage.equals(rewards.getMessageKey()) || rewards.getMessageKey().indexOf('%') < 0) {
+            if ((!keyMessage.equals(rewards.getMessageKey()) || rewards.getMessageKey().indexOf('%') < 0)
+                    && !looksLikeMissingLocale(keyMessage)) {
                 return keyMessage;
             }
             if (rewards.getMessageFallback() != null && !rewards.getMessageFallback().trim().isEmpty()) {
@@ -71,6 +72,13 @@ public final class AchievementRewardService {
             return plugin.getMessageService().resolve(player, rewards.getMessageFallback(), replacements);
         }
         return plugin.getMessageService().resolve(player, rewards.getMessage(), replacements);
+    }
+
+    private boolean looksLikeMissingLocale(String value) {
+        if (value == null) {
+            return true;
+        }
+        return value.toUpperCase(java.util.Locale.ROOT).contains("MISSING MESSAGE");
     }
 
     private Map<String, String> replacements(Player player, AchievementDefinition definition) {
